@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Servly-app</string>
+
+
+    <string name="offers">Oferty</string>
+    <string name="offers_info_box">Wybierz usługę której potrzebujesz i skontaktuj się z fachowcem!</string>
+
+    <string name="cat_electrician">Elektryk</string>
+    <string name="cat_plumber">Hydraulik</string>
+    <string name="cat_painter">Malarz</string>
+    <string name="cat_cleaning">Sprzątanie</string>
+    <string name="cat_mechanic">Mechanik</string>
+    <string name="cat_installations">Montaże</string>
+    <string name="cat_repairs">Naprawy</string>
+    <string name="cat_others">Inne</string>
+
+    <string name="requests">Zapytania</string>
+
+    <string name="profile">Profil</string>
+
+    <string name="schedule">Terminarz</string>
+
+    <string name="settings">Ustawienia</string>
+
+</resources>

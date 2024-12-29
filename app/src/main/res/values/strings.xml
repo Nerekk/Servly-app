@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Servly-app</string>
+
+
+    <string name="offers">Offers</string>
+    <string name="offers_info_box">Choose the service you need and contact a specialist!</string>
+
+    <string name="cat_electrician">Electrician</string>
+    <string name="cat_plumber">Plumber</string>
+    <string name="cat_painter">Painter</string>
+    <string name="cat_cleaning">Cleaning</string>
+    <string name="cat_mechanic">Mechanic</string>
+    <string name="cat_installations">Installations</string>
+    <string name="cat_repairs">Repairs</string>
+    <string name="cat_others">Others</string>
+
+    <string name="requests">Requests</string>
+
+    <string name="profile">Profile</string>
+
+    <string name="schedule">Schedule</string>
+
+    <string name="settings">Settings</string>
+
 </resources>
