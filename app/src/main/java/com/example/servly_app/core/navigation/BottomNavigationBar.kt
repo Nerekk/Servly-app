@@ -3,6 +3,7 @@ package com.example.servly_app.core.navigation
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
@@ -11,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 
 @Composable
@@ -24,6 +26,7 @@ fun BottomNavigationBar(navController: NavController) {
     )
 
     var selectedItemIndex by rememberSaveable { mutableStateOf(0) }
+    val context = LocalContext.current
 
     NavigationBar {
         items.forEachIndexed { index, item ->
@@ -34,7 +37,10 @@ fun BottomNavigationBar(navController: NavController) {
                     navController.navigate(item.route)
                           },
                 label = {
-                    Text(text = item.title)
+                    Text(
+                        text = item.getTitle(context),
+                        style = MaterialTheme.typography.labelSmall
+                    )
                 },
                 icon = {
                     BadgedBox(
@@ -52,7 +58,7 @@ fun BottomNavigationBar(navController: NavController) {
                             imageVector = if (index == selectedItemIndex) {
                                 item.selectedIcon
                             } else item.unselectedIcon,
-                            contentDescription = item.title
+                            contentDescription = item.route
                         )
                     }
                 }

@@ -12,20 +12,29 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.servly_app.R
 
 sealed class BottomNavItem(
     val route: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
-    val title: String,
     val hasNews: Boolean,
     val badgeCount: Int? = null
 ) {
+    fun getTitle(context: android.content.Context): String {
+        return when (this) {
+            is Offers -> context.getString(R.string.offers)
+            is Requests -> context.getString(R.string.requests)
+            is Profile -> context.getString(R.string.profile)
+            is Schedule -> context.getString(R.string.schedule)
+            is Settings -> context.getString(R.string.settings)
+        }
+    }
+
     object Offers : BottomNavItem(
         "offers",
         Icons.Filled.Home,
         Icons.Outlined.Home,
-        "Offers",
         false
     )
 
@@ -33,7 +42,6 @@ sealed class BottomNavItem(
         "requests",
         Icons.Filled.Email,
         Icons.Outlined.Email,
-        "Requests",
         false
     )
 
@@ -41,7 +49,6 @@ sealed class BottomNavItem(
         "profile",
         Icons.Filled.Person,
         Icons.Outlined.Person,
-        "Profile",
         false
     )
 
@@ -49,7 +56,6 @@ sealed class BottomNavItem(
         "schedule",
         Icons.Filled.DateRange,
         Icons.Outlined.DateRange,
-        "Schedule",
         false
     )
 
@@ -57,7 +63,6 @@ sealed class BottomNavItem(
         "settings",
         Icons.Filled.Settings,
         Icons.Outlined.Settings,
-        "Settings",
         false
     )
 }
