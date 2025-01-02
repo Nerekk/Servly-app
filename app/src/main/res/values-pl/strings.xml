@@ -16,6 +16,8 @@
     <string name="cat_others">Inne</string>
 
     <string name="requests">Zapytania</string>
+    <string name="tab_active">Aktywne</string>
+    <string name="tab_ended">Zakończone</string>
 
     <string name="profile">Profil</string>
     <string name="profile_customer">Klient</string>
