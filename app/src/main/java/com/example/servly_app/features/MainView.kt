@@ -1,7 +1,6 @@
 package com.example.servly_app.features
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
@@ -30,7 +28,7 @@ import com.example.servly_app.core.navigation.BottomNavigationBar
 import com.example.servly_app.core.theme.AppTheme
 import com.example.servly_app.features.offers.OffersView
 import com.example.servly_app.features.profile.ProfileView
-import com.example.servly_app.features.requests.RequestsView
+import com.example.servly_app.features.requests.main_view.RequestsView
 import com.example.servly_app.features.schedule.ScheduleView
 import com.example.servly_app.features.settings.SettingsView
 

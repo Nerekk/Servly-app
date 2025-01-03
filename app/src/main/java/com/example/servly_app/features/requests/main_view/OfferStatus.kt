@@ -1,4 +1,4 @@
-package com.example.servly_app.features.requests
+package com.example.servly_app.features.requests.main_view
 
 enum class OfferStatus {
     ACTIVE,

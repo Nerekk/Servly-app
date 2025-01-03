@@ -1,4 +1,4 @@
-package com.example.servly_app.features.requests
+package com.example.servly_app.features.requests.main_view
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
