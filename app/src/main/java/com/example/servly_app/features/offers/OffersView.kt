@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.core.theme.AppTheme
+import com.example.servly_app.utils.ScreenContainer
 
 @Preview(
     showBackground = true,
@@ -38,19 +39,11 @@ fun PreviewMainView() {
 
 @Composable
 fun OffersView() {
-    Box(
-        contentAlignment = Alignment.TopCenter,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
-            .padding(16.dp)
-    ) {
-        Column {
-            OffersInfoCard()
+    ScreenContainer {
+        OffersInfoCard()
 
-            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
-            OffersServiceList()
-        }
+        OffersServiceList()
     }
 }

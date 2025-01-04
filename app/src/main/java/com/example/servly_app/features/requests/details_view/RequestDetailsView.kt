@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.theme.AppTheme
+import com.example.servly_app.utils.ScreenContainer
 
 
 @Preview(
@@ -47,18 +48,11 @@ fun RequestDetailsView() {
         Pair(painterResource(R.drawable.test_square_image_large), "Zofia")
     )
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
-            .padding(16.dp)
-    ) {
-        Column {
-            InterestedProviders(avatars)
+    ScreenContainer {
+        InterestedProviders(avatars)
 
-            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
-            
-            DetailsCard()
-        }
+        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+
+        DetailsCard()
     }
 }
