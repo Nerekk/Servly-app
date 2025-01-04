@@ -16,11 +16,17 @@
     <string name="cat_others">Inne</string>
 
     <string name="requests">Zapytania</string>
+
     <string name="tab_active">Aktywne</string>
     <string name="tab_ended">Zakończone</string>
+    <string name="providers">Zainteresowani usługodawcy</string>
+    <string name="no_providers">Brak zainteresowanych usługodawców</string>
+
 
     <string name="profile">Profil</string>
+
     <string name="profile_customer">Klient</string>
+
 
     <string name="schedule">Terminarz</string>
 
