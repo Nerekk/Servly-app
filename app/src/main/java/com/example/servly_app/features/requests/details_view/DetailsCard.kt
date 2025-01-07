@@ -81,14 +81,14 @@ fun DetailsCard() {
 }
 
 @Composable
-private fun HeaderSection(
+fun HeaderSection(
     title: String,
     location: String,
     person: String
 ) {
     Text(
         text = title,
-        style = MaterialTheme.typography.titleMedium,
+        style = MaterialTheme.typography.headlineMedium,
         color = MaterialTheme.colorScheme.onSurface
     )
 
