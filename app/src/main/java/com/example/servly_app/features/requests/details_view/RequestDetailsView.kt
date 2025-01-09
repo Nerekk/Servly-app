@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
-import com.example.servly_app.features.util.ScreenContainer
+import com.example.servly_app.features.util.BasicScreenLayout
 
 
 @Preview(
@@ -44,7 +44,7 @@ fun RequestDetailsView() {
         Pair(painterResource(R.drawable.test_square_image_large), "Zofia")
     )
 
-    ScreenContainer {
+    BasicScreenLayout {
         Column {
             InterestedProviders(avatars)
 

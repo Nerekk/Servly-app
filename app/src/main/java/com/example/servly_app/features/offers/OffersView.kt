@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.core.ui.theme.AppTheme
-import com.example.servly_app.features.util.ScreenContainer
+import com.example.servly_app.features.util.BasicScreenLayout
 
 @Preview(
     showBackground = true,
@@ -32,7 +32,7 @@ fun PreviewOffersView() {
 
 @Composable
 fun OffersView() {
-    ScreenContainer {
+    BasicScreenLayout {
         Column {
             OffersInfoCard()
 

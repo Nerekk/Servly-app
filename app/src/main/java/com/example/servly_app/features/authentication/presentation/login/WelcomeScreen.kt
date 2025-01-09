@@ -22,7 +22,7 @@ import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
 import com.example.servly_app.features.util.ArrangedColumn
-import com.example.servly_app.features.util.ScreenContainer
+import com.example.servly_app.features.util.BasicScreenLayout
 
 @Preview(
     showBackground = true,
@@ -46,7 +46,7 @@ fun PreviewWelcomeScreen() {
 
 @Composable
 fun WelcomeScreen(navController: NavHostController) {
-    ScreenContainer {
+    BasicScreenLayout {
         ArrangedColumn {
             WelcomeHeader()
             WelcomeButton(navController)
