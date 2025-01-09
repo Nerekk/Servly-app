@@ -16,9 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
-import com.example.servly_app.features.authentication.presentation.HeaderTitle
+import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
+import com.example.servly_app.features.authentication.presentation.util.HeaderTitle
 import com.example.servly_app.features.util.ArrangedColumn
 import com.example.servly_app.features.util.PhoneNumberInput
 import com.example.servly_app.features.util.ScreenContainer
@@ -37,13 +40,14 @@ import com.example.servly_app.features.util.ScreenContainer
 )
 @Composable
 fun PreviewLoginView() {
+    val navController = rememberNavController()
     AppTheme {
-        LoginView()
+        LoginView(navController)
     }
 }
 
 @Composable
-fun LoginView() {
+fun LoginView(navController: NavHostController) {
     var phoneNumber by remember { mutableStateOf("") }
     var isValid by remember { mutableStateOf(true) }
 
@@ -59,10 +63,13 @@ fun LoginView() {
                 )
             }
 
-            Column {
+            Column(
+                modifier = Modifier.padding(bottom = 24.dp)
+            ) {
                 Button(
                     onClick = {
-                        isValid = verifyPhoneNumber(phoneNumber)
+                        navController.navigate(AuthNavItem.Verification.route)
+//                        isValid = verifyPhoneNumber(phoneNumber)
                     },
                     modifier = Modifier
                         .fillMaxWidth()

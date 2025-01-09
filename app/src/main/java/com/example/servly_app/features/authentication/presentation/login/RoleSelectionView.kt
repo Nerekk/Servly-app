@@ -17,9 +17,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
-import com.example.servly_app.features.authentication.presentation.HeaderTitle
+import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
+import com.example.servly_app.features.authentication.presentation.util.HeaderTitle
 import com.example.servly_app.features.util.ArrangedColumn
 import com.example.servly_app.features.util.ScreenContainer
 
@@ -38,13 +41,14 @@ import com.example.servly_app.features.util.ScreenContainer
 )
 @Composable
 fun PreviewRoleSelectionView() {
+    val navController = rememberNavController()
     AppTheme {
-        RoleSelectionView()
+        RoleSelectionView(navController)
     }
 }
 
 @Composable
-fun RoleSelectionView() {
+fun RoleSelectionView(navController: NavHostController) {
     ScreenContainer {
         ArrangedColumn {
             Column(
@@ -68,10 +72,13 @@ fun RoleSelectionView() {
             }
 
             Column(
+                modifier = Modifier.padding(bottom = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(AuthNavItem.CustomerData.route)
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
@@ -83,7 +90,9 @@ fun RoleSelectionView() {
                 }
 
                 OutlinedButton(
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(AuthNavItem.ProviderData.route)
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {

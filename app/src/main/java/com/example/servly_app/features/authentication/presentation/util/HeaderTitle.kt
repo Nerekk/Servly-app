@@ -1,4 +1,4 @@
-package com.example.servly_app.features.authentication.presentation
+package com.example.servly_app.features.authentication.presentation.util
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
