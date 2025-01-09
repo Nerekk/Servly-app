@@ -1,4 +1,4 @@
-package com.example.servly_app.core.theme
+package com.example.servly_app.core.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

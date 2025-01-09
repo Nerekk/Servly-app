@@ -23,9 +23,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.servly_app.R
-import com.example.servly_app.core.navigation.BottomNavItem
-import com.example.servly_app.core.navigation.BottomNavigationBar
-import com.example.servly_app.core.theme.AppTheme
+import com.example.servly_app.core.ui.navigation.BottomNavItem
+import com.example.servly_app.core.ui.navigation.BottomNavigationBar
+import com.example.servly_app.core.ui.theme.AppTheme
 import com.example.servly_app.features.offers.OffersView
 import com.example.servly_app.features.profile.ProfileView
 import com.example.servly_app.features.requests.main_view.RequestsView

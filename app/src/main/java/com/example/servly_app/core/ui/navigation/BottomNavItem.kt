@@ -1,4 +1,4 @@
-package com.example.servly_app.core.navigation
+package com.example.servly_app.core.ui.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange

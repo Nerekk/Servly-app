@@ -18,13 +18,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
-import com.example.servly_app.core.theme.AppTheme
-import com.example.servly_app.core.theme.Typography
+import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.core.ui.theme.Typography
 
 @Preview(
     showBackground = true,

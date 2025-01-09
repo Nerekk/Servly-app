@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.servly_app.core.theme.AppTheme
+import com.example.servly_app.core.ui.theme.AppTheme
 
 @Preview(
     showBackground = true,

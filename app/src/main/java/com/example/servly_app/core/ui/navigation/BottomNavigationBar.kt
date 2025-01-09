@@ -1,4 +1,4 @@
-package com.example.servly_app.core.navigation
+package com.example.servly_app.core.ui.navigation
 
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox

@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.servly_app.R
-import com.example.servly_app.core.theme.AppTheme
+import com.example.servly_app.core.ui.theme.AppTheme
 
 @Preview(
     showBackground = true,

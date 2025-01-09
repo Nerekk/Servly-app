@@ -1,4 +1,4 @@
-package com.example.servly_app.core.theme
+package com.example.servly_app.core.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

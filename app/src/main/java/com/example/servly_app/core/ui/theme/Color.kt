@@ -1,4 +1,4 @@
-package com.example.servly_app.core.theme
+package com.example.servly_app.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
