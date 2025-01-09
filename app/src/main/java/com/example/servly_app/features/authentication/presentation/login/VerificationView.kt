@@ -1,13 +1,16 @@
 package com.example.servly_app.features.authentication.presentation.login
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -21,8 +24,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,8 +61,6 @@ fun PreviewVerificationView() {
 
 @Composable
 fun VerificationView(navController: NavHostController) {
-    var code by remember { mutableStateOf("") }
-
     ScaffoldAuthNavBar(navController) { initialPadding ->
         BasicScreenLayout(initialPadding) {
             ArrangedColumn {
@@ -74,13 +75,7 @@ fun VerificationView(navController: NavHostController) {
                         modifier = Modifier
                             .padding(bottom = 32.dp)
                     )
-                    VerificationCodeInput(
-                        code = code,
-                        onCodeChange = { newCode ->
-                            code = newCode
-                        },
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
+                    OtpTextField(Modifier.align(Alignment.CenterHorizontally))
                 }
 
                 Column(
@@ -106,71 +101,55 @@ fun VerificationView(navController: NavHostController) {
 }
 
 @Composable
-fun SingleDigitInput(
-    digit: String,
-    onDigitChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    onBackspace: () -> Unit
+fun OtpTextField(
+    modifier: Modifier
 ) {
-    TextField(
-        value = digit,
-        onValueChange = { newValue ->
-            if (newValue.length <= 1 && newValue.all { it.isDigit() }) {
-                onDigitChange(newValue)
+    var otpText by remember { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    BasicTextField(
+        value = otpText,
+        onValueChange = {
+            if (it.length <= 6 && (it.isEmpty() || it.toIntOrNull() != null)) {
+                otpText = it
+            }
+            if (it.length == 6) {
+                keyboardController?.hide()
+                // TODO: Wywolaj weryfikacje
             }
         },
-        singleLine = true,
-        modifier = modifier,
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number
         ),
-        keyboardActions = KeyboardActions(
-            onAny = {
-                if (digit.isEmpty()) {
-                    onBackspace()
-                }
-            }
-        )
-    )
-}
-
-@Composable
-fun VerificationCodeInput(
-    code: String,
-    onCodeChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val focusRequesters = List(6) { FocusRequester() }
-
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
     ) {
-        for (i in 0 until 6) {
-            SingleDigitInput(
-                digit = code.getOrNull(i)?.toString() ?: "",
-                onDigitChange = { newDigit ->
-                    val updatedCode = buildString {
-                        append(code.substring(0, i))
-                        append(newDigit.take(1))
-                        append(code.substring(i + 1).takeIf { it.length > 0 } ?: "")
-                    }
-                    onCodeChange(updatedCode.take(6))
-
-                    if (newDigit.isNotEmpty() && i < 5) {
-                        focusRequesters[i + 1].requestFocus()
-                    }
-                },
-                modifier = Modifier
-                    .width(48.dp)
-                    .height(56.dp)
-                    .focusRequester(focusRequesters[i]),
-                onBackspace = {
-                    if (i > 0 && code.getOrNull(i) == null) {
-                        focusRequesters[i - 1].requestFocus()
-                    }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            repeat(6) { index ->
+                val number = when {
+                    index >= otpText.length -> ""
+                    else -> otpText[index]
                 }
-            )
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = number.toString(),
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                    Box(
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(2.dp)
+                            .background(color = MaterialTheme.colorScheme.onBackground)
+                    )
+                }
+            }
         }
     }
 }
+
