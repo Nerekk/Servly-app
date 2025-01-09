@@ -2,9 +2,6 @@ package com.example.servly_app.features.offers
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import com.example.servly_app.R
 
 data class ServiceCategory(
