@@ -32,8 +32,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
+import com.example.servly_app.features.authentication.presentation.util.ScaffoldAuthNavBar
 import com.example.servly_app.features.util.ArrangedColumn
-import com.example.servly_app.features.util.ScreenContainer
+import com.example.servly_app.features.util.BasicScreenLayout
 
 @Preview(
     showBackground = true,
@@ -59,43 +60,45 @@ fun PreviewVerificationView() {
 fun VerificationView(navController: NavHostController) {
     var code by remember { mutableStateOf("") }
 
-    ScreenContainer {
-        ArrangedColumn {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = stringResource(R.string.login_code),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier
-                        .padding(bottom = 32.dp)
-                )
-                VerificationCodeInput(
-                    code = code,
-                    onCodeChange = { newCode ->
-                        code = newCode
-                    },
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
-
-            Column(
-                modifier = Modifier.padding(bottom = 24.dp)
-            ) {
-                Button(
-                    onClick = {
-                        navController.navigate(AuthNavItem.RoleSelection.route)
-                    },
+    ScaffoldAuthNavBar(navController) { initialPadding ->
+        BasicScreenLayout(initialPadding) {
+            ArrangedColumn {
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = stringResource(R.string.login_code_verify),
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(vertical = 4.dp)
+                        text = stringResource(R.string.login_code),
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier
+                            .padding(bottom = 32.dp)
                     )
+                    VerificationCodeInput(
+                        code = code,
+                        onCodeChange = { newCode ->
+                            code = newCode
+                        },
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                }
+
+                Column(
+                    modifier = Modifier.padding(bottom = 24.dp)
+                ) {
+                    Button(
+                        onClick = {
+                            navController.navigate(AuthNavItem.RoleSelection.route)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = stringResource(R.string.login_code_verify),
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(vertical = 4.dp)
+                        )
+                    }
                 }
             }
         }

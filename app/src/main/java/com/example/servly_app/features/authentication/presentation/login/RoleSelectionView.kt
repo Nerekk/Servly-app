@@ -23,8 +23,9 @@ import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
 import com.example.servly_app.features.authentication.presentation.util.HeaderTitle
+import com.example.servly_app.features.authentication.presentation.util.ScaffoldAuthNavBar
 import com.example.servly_app.features.util.ArrangedColumn
-import com.example.servly_app.features.util.ScreenContainer
+import com.example.servly_app.features.util.BasicScreenLayout
 
 
 @Preview(
@@ -49,58 +50,60 @@ fun PreviewRoleSelectionView() {
 
 @Composable
 fun RoleSelectionView(navController: NavHostController) {
-    ScreenContainer {
-        ArrangedColumn {
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                HeaderTitle(stringResource(R.string.role_question))
-
-                Image(
-                    painter = painterResource(R.drawable.test_square_image_large),
-                    contentDescription = "some image",
-                    modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 16.dp)
-                )
-
-                Text(
-                    text = stringResource(R.string.role_description),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier
-                        .padding(top = 32.dp)
-                )
-            }
-
-            Column(
-                modifier = Modifier.padding(bottom = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Button(
-                    onClick = {
-                        navController.navigate(AuthNavItem.CustomerData.route)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
+    ScaffoldAuthNavBar(navController) { initialPadding ->
+        BasicScreenLayout(initialPadding) {
+            ArrangedColumn {
+                Column(
+                    modifier = Modifier.fillMaxWidth()
                 ) {
+                    HeaderTitle(stringResource(R.string.role_question))
+
+                    Image(
+                        painter = painterResource(R.drawable.test_square_image_large),
+                        contentDescription = "some image",
+                        modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 16.dp)
+                    )
+
                     Text(
-                        text = stringResource(R.string.role_customer),
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(vertical = 8.dp)
+                        text = stringResource(R.string.role_description),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier
+                            .padding(top = 32.dp)
                     )
                 }
 
-                OutlinedButton(
-                    onClick = {
-                        navController.navigate(AuthNavItem.ProviderData.route)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
+                Column(
+                    modifier = Modifier.padding(bottom = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text(
-                        text = stringResource(R.string.role_service),
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(vertical = 8.dp)
-                    )
+                    Button(
+                        onClick = {
+                            navController.navigate(AuthNavItem.CustomerData.route)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = stringResource(R.string.role_customer),
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+                    }
+
+                    OutlinedButton(
+                        onClick = {
+                            navController.navigate(AuthNavItem.ProviderData.route)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = stringResource(R.string.role_service),
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+                    }
                 }
             }
         }

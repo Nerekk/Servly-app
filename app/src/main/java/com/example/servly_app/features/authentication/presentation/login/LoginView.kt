@@ -22,9 +22,10 @@ import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
 import com.example.servly_app.features.authentication.presentation.util.HeaderTitle
+import com.example.servly_app.features.authentication.presentation.util.ScaffoldAuthNavBar
 import com.example.servly_app.features.util.ArrangedColumn
 import com.example.servly_app.features.util.PhoneNumberInput
-import com.example.servly_app.features.util.ScreenContainer
+import com.example.servly_app.features.util.BasicScreenLayout
 
 @Preview(
     showBackground = true,
@@ -51,34 +52,36 @@ fun LoginView(navController: NavHostController) {
     var phoneNumber by remember { mutableStateOf("") }
     var isValid by remember { mutableStateOf(true) }
 
-    ScreenContainer {
-        ArrangedColumn {
-            Column {
-                HeaderTitle(stringResource(R.string.login_number))
+    ScaffoldAuthNavBar(navController) { initialPadding ->
+        BasicScreenLayout(initialPadding) {
+            ArrangedColumn {
+                Column {
+                    HeaderTitle(stringResource(R.string.login_number))
 
-                PhoneNumberInput(
-                    phoneNumber = phoneNumber,
-                    onPhoneNumberChange = { phoneNumber = it },
-                    isValid = isValid
-                )
-            }
-
-            Column(
-                modifier = Modifier.padding(bottom = 24.dp)
-            ) {
-                Button(
-                    onClick = {
-                        navController.navigate(AuthNavItem.Verification.route)
-//                        isValid = verifyPhoneNumber(phoneNumber)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = stringResource(R.string.login_number_send),
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(vertical = 4.dp)
+                    PhoneNumberInput(
+                        phoneNumber = phoneNumber,
+                        onPhoneNumberChange = { phoneNumber = it },
+                        isValid = isValid
                     )
+                }
+
+                Column(
+                    modifier = Modifier.padding(bottom = 24.dp)
+                ) {
+                    Button(
+                        onClick = {
+                            navController.navigate(AuthNavItem.Verification.route)
+//                        isValid = verifyPhoneNumber(phoneNumber)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = stringResource(R.string.login_number_send),
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(vertical = 4.dp)
+                        )
+                    }
                 }
             }
         }
