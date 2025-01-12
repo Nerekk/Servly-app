@@ -67,10 +67,14 @@ dependencies {
 
 //    FIREBASE
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
 
 //    DAGGER HILT
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
