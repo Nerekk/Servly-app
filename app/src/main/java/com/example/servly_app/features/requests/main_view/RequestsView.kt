@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.servly_app.R
+import com.example.servly_app.core.components.BasicScreenLayout
 import com.example.servly_app.core.ui.theme.AppTheme
 
 @Preview(
@@ -47,10 +48,7 @@ fun RequestsView() {
     )
     var selectedTabIndex by remember { mutableStateOf(0) }
 
-    Box(
-        modifier = Modifier
-            .background(color = MaterialTheme.colorScheme.background)
-    ) {
+    BasicScreenLayout {
         Column(modifier = Modifier.fillMaxSize()) {
             TabRow(selectedTabIndex = selectedTabIndex) {
                 categories.forEachIndexed { index, title ->
