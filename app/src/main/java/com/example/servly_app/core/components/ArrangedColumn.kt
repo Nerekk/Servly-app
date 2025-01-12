@@ -1,4 +1,4 @@
-package com.example.servly_app.features.util
+package com.example.servly_app.core.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

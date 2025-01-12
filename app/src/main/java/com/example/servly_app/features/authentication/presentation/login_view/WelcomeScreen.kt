@@ -1,4 +1,4 @@
-package com.example.servly_app.features.authentication.presentation.login
+package com.example.servly_app.features.authentication.presentation.login_view
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -21,8 +21,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
-import com.example.servly_app.features.util.ArrangedColumn
-import com.example.servly_app.features.util.BasicScreenLayout
+import com.example.servly_app.core.components.ArrangedColumn
+import com.example.servly_app.core.components.BasicScreenLayout
 
 @Preview(
     showBackground = true,

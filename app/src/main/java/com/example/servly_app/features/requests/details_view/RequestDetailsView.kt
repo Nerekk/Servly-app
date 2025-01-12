@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
-import com.example.servly_app.features.util.BasicScreenLayout
+import com.example.servly_app.core.components.BasicScreenLayout
 
 
 @Preview(

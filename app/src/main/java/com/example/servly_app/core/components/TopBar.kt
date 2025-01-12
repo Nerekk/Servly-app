@@ -1,4 +1,4 @@
-package com.example.servly_app.features.authentication.presentation.util
+package com.example.servly_app.core.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
