@@ -1,5 +1,6 @@
-package com.example.servly_app.features.authentication.presentation.login
+package com.example.servly_app.features.authentication.presentation.login_view
 
+import android.app.Activity
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,24 +9,23 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.features.authentication.presentation.AuthViewModel
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
-import com.example.servly_app.features.authentication.presentation.util.HeaderTitle
-import com.example.servly_app.features.authentication.presentation.util.ScaffoldAuthNavBar
-import com.example.servly_app.features.util.ArrangedColumn
-import com.example.servly_app.features.util.PhoneNumberInput
-import com.example.servly_app.features.util.BasicScreenLayout
+import com.example.servly_app.core.components.HeaderTitle
+import com.example.servly_app.core.components.ScaffoldAuthNavBar
+import com.example.servly_app.core.components.ArrangedColumn
+import com.example.servly_app.core.components.PhoneNumberInput
+import com.example.servly_app.core.components.BasicScreenLayout
 
 @Preview(
     showBackground = true,
@@ -48,9 +48,8 @@ fun PreviewLoginView() {
 }
 
 @Composable
-fun LoginView(navController: NavHostController) {
-    var phoneNumber by remember { mutableStateOf("") }
-    var isValid by remember { mutableStateOf(true) }
+fun LoginView(navController: NavHostController, authViewModel: AuthViewModel = hiltViewModel()) {
+    val activity = LocalContext.current as Activity
 
     ScaffoldAuthNavBar(navController) { initialPadding ->
         BasicScreenLayout(initialPadding) {
@@ -59,9 +58,9 @@ fun LoginView(navController: NavHostController) {
                     HeaderTitle(stringResource(R.string.login_number))
 
                     PhoneNumberInput(
-                        phoneNumber = phoneNumber,
-                        onPhoneNumberChange = { phoneNumber = it },
-                        isValid = isValid
+                        phoneNumber = authViewModel.phoneNumber,
+                        onPhoneNumberChange = { authViewModel.updatePhoneNumber(it) },
+                        isValid = authViewModel.isValid
                     )
                 }
 
@@ -70,8 +69,10 @@ fun LoginView(navController: NavHostController) {
                 ) {
                     Button(
                         onClick = {
-                            navController.navigate(AuthNavItem.Verification.route)
-//                        isValid = verifyPhoneNumber(phoneNumber)
+                            if (authViewModel.isPhoneNumberValid()) {
+                                authViewModel.sendVerificationCode(activity)
+                                navController.navigate(AuthNavItem.Verification.route)
+                            }
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -88,6 +89,3 @@ fun LoginView(navController: NavHostController) {
     }
 }
 
-private fun verifyPhoneNumber(phoneNumber: String): Boolean {
-    return phoneNumber.startsWith("+") && phoneNumber.length >= 9
-}
