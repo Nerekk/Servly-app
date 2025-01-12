@@ -47,13 +47,13 @@ import com.example.servly_app.features.settings.SettingsView
 @Composable
 fun PreviewMainView() {
     AppTheme {
-        MainView()
+        MainAppView()
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainView() {
+fun MainAppView() {
     val navController = rememberNavController()
     var appBarTitle by remember { mutableStateOf("") }
 
