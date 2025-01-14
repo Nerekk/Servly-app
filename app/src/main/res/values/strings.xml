@@ -1,12 +1,20 @@
 <resources>
     <string name="app_name">Servly</string>
     <string name="app_description">There will be a short description of my application and its functionalities</string>
-    <string name="app_login">Login via phone number</string>
+    <string name="app_login_google">Sign in with Google</string>
+    <string name="app_login">Sign in with Email</string>
+    <string name="app_or">or</string>
+    <string name="app_register">Create an account</string>
 
-    <string name="login_number">Enter your phone number</string>
-    <string name="login_number_send">Send verification code</string>
-    <string name="login_code">Enter the verification code</string>
-    <string name="login_code_verify">Verify code</string>
+    <string name="auth_bar">Authentication</string>
+    <string name="auth_password">Password (minimum 6 characters)</string>
+    <string name="auth_password_repeat">Repeat password</string>
+    <string name="login_title">Signing in</string>
+    <string name="login_button">Sign in</string>
+    <string name="register_title">Create an account</string>
+    <string name="register_button">Sign up</string>
+    <string name="google_error1">Invalid credential type</string>
+    <string name="google_error2">No Google account found</string>
 
     <string name="role_question">Who are you?</string>
     <string name="role_description">Customer and service provider description to help in role selection</string>
