@@ -1,58 +1,38 @@
 package com.example.servly_app.features.authentication.domain.repository
 
-import android.app.Activity
 import com.example.servly_app.features.authentication.data.AuthRepository
-import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthOptions
-import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
-import java.util.concurrent.TimeUnit
 
 class AuthRepositoryImpl(
     private val firebaseAuth: FirebaseAuth
 ) : AuthRepository {
 
-    override suspend fun sendVerificationCode(
-        activity: Activity,
-        phoneNumber: String,
-        onCodeSent: (String) -> Unit
-    ): Result<Unit> {
+    override suspend fun signInWithEmail(email: String, password: String): Result<FirebaseUser?> {
         return try {
-            val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                    // Logika automatycznego logowania
-                }
-
-                override fun onVerificationFailed(e: FirebaseException) {
-                    throw e
-                }
-
-                override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
-                    onCodeSent(verificationId)
-                }
-            }
-
-            val options = PhoneAuthOptions.newBuilder(firebaseAuth)
-                .setPhoneNumber(phoneNumber)
-                .setTimeout(60L, TimeUnit.SECONDS)
-                .setActivity(activity)
-                .setCallbacks(callbacks)
-                .build()
-
-            PhoneAuthProvider.verifyPhoneNumber(options)
-            Result.success(Unit)
+            val authResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
+            Result.success(authResult.user)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    override suspend fun verifyCode(verificationId: String, code: String): Result<Unit> {
+    override suspend fun signUpWithEmail(email: String, password: String): Result<FirebaseUser?> {
         return try {
-            val credential = PhoneAuthProvider.getCredential(verificationId, code)
-            firebaseAuth.signInWithCredential(credential).await()
-            Result.success(Unit)
+            val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+            Result.success(authResult.user)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun signInWithGoogle(idToken: String): Result<FirebaseUser?> {
+        return try {
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            val authResult = firebaseAuth.signInWithCredential(credential).await()
+            Result.success(authResult.user)
         } catch (e: Exception) {
             Result.failure(e)
         }

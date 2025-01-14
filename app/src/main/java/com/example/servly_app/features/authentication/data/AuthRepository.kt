@@ -1,10 +1,11 @@
 package com.example.servly_app.features.authentication.data
 
-import android.app.Activity
+import com.google.firebase.auth.FirebaseUser
 
 interface AuthRepository {
-    suspend fun sendVerificationCode(activity: Activity, phoneNumber: String, onCodeSent: (String) -> Unit): Result<Unit>
-    suspend fun verifyCode(verificationId: String, code: String): Result<Unit>
+    suspend fun signInWithEmail(email: String, password: String): Result<FirebaseUser?>
+    suspend fun signUpWithEmail(email: String, password: String): Result<FirebaseUser?>
+    suspend fun signInWithGoogle(idToken: String): Result<FirebaseUser?>
     fun isUserLoggedIn(): Boolean
     fun logout()
 }

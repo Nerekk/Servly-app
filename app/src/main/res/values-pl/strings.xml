@@ -2,12 +2,20 @@
 <resources>
     <string name="app_name">Servly</string>
     <string name="app_description">Tu bedzie krotki opis mojej aplikacji oraz jej funkcjonalnosci</string>
-    <string name="app_login">Zaloguj się przez numer telefonu</string>
+    <string name="app_login_google">Zaloguj się za pomocą Google</string>
+    <string name="app_login">Zaloguj się przez Email</string>
+    <string name="app_or">lub</string>
+    <string name="app_register">Załóż konto</string>
 
-    <string name="login_number">Wprowadź numer telefonu</string>
-    <string name="login_number_send">Wyślij kod weryfikacyjny</string>
-    <string name="login_code">Wprowadź kod weryfikacyjny</string>
-    <string name="login_code_verify">Zweryfikuj kod</string>
+    <string name="auth_bar">Uwierzytelnianie</string>
+    <string name="auth_password">Hasło (minimum 6 znaków)</string>
+    <string name="auth_password_repeat">Powtórz hasło</string>
+    <string name="login_title">Logowanie</string>
+    <string name="login_button">Zaloguj się</string>
+    <string name="register_title">Tworzenie konta</string>
+    <string name="register_button">Utwórz konto</string>
+    <string name="google_error1">Nieprawidłowy typ uwierzytelniania</string>
+    <string name="google_error2">Nie znaleziono konta Google</string>
 
     <string name="role_question">Kim jestes?</string>
     <string name="role_description">Opis klienta i usługodawcy pomagający wybrać rolę</string>

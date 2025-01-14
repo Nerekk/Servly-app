@@ -5,8 +5,9 @@ import com.example.servly_app.features.authentication.domain.repository.AuthRepo
 import com.example.servly_app.features.authentication.domain.usecase.AuthUseCases
 import com.example.servly_app.features.authentication.domain.usecase.CheckUserLoggedIn
 import com.example.servly_app.features.authentication.domain.usecase.Logout
-import com.example.servly_app.features.authentication.domain.usecase.SendVerificationCode
-import com.example.servly_app.features.authentication.domain.usecase.VerifyCode
+import com.example.servly_app.features.authentication.domain.usecase.SignInWithEmail
+import com.example.servly_app.features.authentication.domain.usecase.SignInWithGoogle
+import com.example.servly_app.features.authentication.domain.usecase.SignUpWithEmail
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -29,8 +30,9 @@ object AppModule {
     fun provideAuthUseCases(repository: AuthRepository) : AuthUseCases {
         return AuthUseCases(
             checkUserLoggedIn = CheckUserLoggedIn(repository),
-            sendVerificationCode = SendVerificationCode(repository),
-            verifyCode = VerifyCode(repository),
+            signInWithEmail = SignInWithEmail(repository),
+            signUpWithEmail = SignUpWithEmail(repository),
+            signInWithGoogle = SignInWithGoogle(repository),
             logout = Logout(repository)
         )
     }

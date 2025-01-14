@@ -27,6 +27,7 @@ android {
         properties.load(project.rootProject.file("local.properties").inputStream())
 
         buildConfigField(type = "String", name = "API_KEY", value = "\"${properties.getProperty("API_KEY")}\"")
+        buildConfigField(type = "String", name = "DEFAULT_WEB_CLIENT_ID", value = "\"${properties.getProperty("DEFAULT_WEB_CLIENT_ID")}\"")
     }
 
     buildTypes {
@@ -67,7 +68,13 @@ dependencies {
 
 //    FIREBASE
     implementation(platform(libs.firebase.bom))
+
+//    AUTH AND CREDENTIALS
     implementation(libs.firebase.auth)
+    implementation(libs.play.services.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 
 //    DAGGER HILT
     implementation(libs.hilt.android)

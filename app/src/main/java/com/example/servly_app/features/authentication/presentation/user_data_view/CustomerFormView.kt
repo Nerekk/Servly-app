@@ -72,11 +72,7 @@ private fun CustomerButton(navController: NavHostController) {
         modifier = Modifier.padding(bottom = 24.dp)
     ) {
         Button(
-            onClick = {
-                navController.navigate(AuthNavItem.CustomerMain.route) {
-                    popUpTo(AuthNavItem.Welcome.route) { inclusive = true }
-                }
-            },
+            onClick = {},
             modifier = Modifier
                 .fillMaxWidth()
         ) {

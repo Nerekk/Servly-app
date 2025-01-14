@@ -14,6 +14,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -34,8 +35,14 @@ fun BottomNavigationBar(navController: NavController) {
                 selected = index == selectedItemIndex,
                 onClick = {
                     selectedItemIndex = index
-                    navController.navigate(item.route)
-                          },
+                    navController.navigate(item.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
                 label = {
                     Text(
                         text = item.getTitle(context),

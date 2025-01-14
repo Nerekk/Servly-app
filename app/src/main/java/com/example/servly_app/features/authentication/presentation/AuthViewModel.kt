@@ -1,98 +1,191 @@
 package com.example.servly_app.features.authentication.presentation
 
-import android.app.Activity
+import android.content.Context
+import android.credentials.GetCredentialException.TYPE_NO_CREDENTIAL
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
+import android.widget.Toast
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialCancellationException
+import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.servly_app.BuildConfig
+import com.example.servly_app.R
 import com.example.servly_app.features.authentication.domain.usecase.AuthUseCases
+import com.example.servly_app.features.authentication.presentation.login_view.AuthType
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+data class AuthState(
+    val email: String = "",
+    val password: String = "",
+    val confirmPassword: String = "",
+
+    val isValid: Boolean = true,
+    val emailError: String? = null,
+    val passwordError: String? = null,
+    val confirmPasswordError: String? = null,
+
+    val isLoading: Boolean = false,
+    val isUserLoggedIn: Boolean = false,
+    val errorMessage: String? = null
+)
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authUseCases: AuthUseCases
 ) : ViewModel() {
-    var phoneNumber by mutableStateOf("")
-        private set
 
-    var verificationCode by mutableStateOf("")
-        private set
-
-    var isValid by mutableStateOf(true)
-        private set
-
-    var isLoading by mutableStateOf(false)
-        private set
-
-    var isUserLoggedIn by mutableStateOf(false)
-        private set
-
-    var verificationId by mutableStateOf<String?>(null)
-    var errorMessage by mutableStateOf<String?>(null)
+    private val _authState = MutableStateFlow(AuthState())
+    val authState: StateFlow<AuthState> = _authState
 
     init {
-        isUserLoggedIn = authUseCases.checkUserLoggedIn.invoke()
+        _authState.update { it.copy(isUserLoggedIn = authUseCases.checkUserLoggedIn.invoke()) }
     }
 
-    fun updatePhoneNumber(newPhoneNumber: String) {
-        phoneNumber = newPhoneNumber
+    fun updateEmail(email: String) {
+        _authState.update { it.copy(email = email) }
     }
 
-    fun updateVerificationCode(newVerificationCode: String) {
-        if (isCodeInputValid(newVerificationCode))
-            verificationCode = newVerificationCode
+    fun updatePassword(password: String) {
+        _authState.update { it.copy(password = password) }
     }
 
-    fun isPhoneNumberValid() : Boolean {
-        isValid = phoneNumber.startsWith("+") && phoneNumber.length >= 9
+    fun updateConfirmPassword(confirmPassword: String) {
+        _authState.update { it.copy(confirmPassword = confirmPassword) }
+    }
+
+    fun clearErrorMessage() {
+        _authState.update { it.copy(errorMessage = null) }
+    }
+
+    fun validateInputs(isRegister: Boolean? = false): Boolean {
+        val state = _authState.value
+        var isValid = true
+
+        val emailError = if (state.email.isEmpty()) {
+            isValid = false
+            "Email cannot be empty"
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(state.email).matches()) {
+            isValid = false
+            "Invalid email address"
+        } else null
+
+        val passwordError = if (state.password.length < 6) {
+            isValid = false
+            "Password must be at least 6 characters long"
+        } else null
+
+        val confirmPasswordError = if (isRegister == true && state.confirmPassword != state.password) {
+            isValid = false
+            "Passwords do not match"
+        } else null
+
+        _authState.update {
+            it.copy(
+                isValid = isValid,
+                emailError = emailError,
+                passwordError = passwordError,
+                confirmPasswordError = confirmPasswordError
+            )
+        }
+
         return isValid
     }
 
-    fun isCodeInputValid(code: String) : Boolean {
-        return code.length <= 6 && (code.isEmpty() || code.toIntOrNull() != null)
-    }
-
-
-    fun sendVerificationCode(activity: Activity) {
-        isLoading = true
+    fun signInWithEmail(email: String, password: String) {
+        if (!validateInputs()) return
         viewModelScope.launch {
-            val result = authUseCases.sendVerificationCode.invoke(activity, phoneNumber) { id ->
-                verificationId = id
-            }
-            Log.i("SEND-VERIFY", "RESULT: ${result} VERIFICATION-ID: ${verificationId}")
-            isLoading = false
-            if (result.isFailure) {
-                errorMessage = result.exceptionOrNull()?.localizedMessage
-                Log.i("SEND-VERIFY", "ERROR: ${errorMessage} VERIFICATION-ID: ${verificationId}")
+            _authState.update { it.copy(isLoading = true, errorMessage = null) }
+            val result = authUseCases.signInWithEmail(email, password)
+            result.onSuccess {
+                Log.i("SIGN-IN", "SUCCESS")
+                _authState.update { it.copy(isUserLoggedIn = true, isLoading = false) }
+            }.onFailure { exception ->
+                Log.i("SIGN-IN", "FAIL $exception")
+                _authState.update { it.copy(isLoading = false, errorMessage = exception.message) }
             }
         }
     }
 
-    fun verifyCode() {
-        val id = verificationId ?: return
-        isLoading = true
+    fun signUpWithEmail(email: String, password: String) {
+        if (!validateInputs(isRegister = true)) return
         viewModelScope.launch {
-            val result = authUseCases.verifyCode.invoke(id, verificationCode)
-            isLoading = false
-            Log.i("VERIFY", "RESULT: ${result} VERIFICATION-ID: ${verificationId}")
-            if (result.isSuccess) {
-                isUserLoggedIn = true
-            } else {
-                errorMessage = result.exceptionOrNull()?.localizedMessage
-                Log.i("VERIFY", "ERROR: ${errorMessage} VERIFICATION-ID: ${verificationId}")
-
+            _authState.update { it.copy(isLoading = true, errorMessage = null) }
+            val result = authUseCases.signUpWithEmail(email, password)
+            result.onSuccess {
+                Log.i("SIGN-UP", "SUCCESS")
+                _authState.update { it.copy(isUserLoggedIn = true, isLoading = false) }
+            }.onFailure { exception ->
+                Log.i("SIGN-UP", "FAIL $exception")
+                _authState.update { it.copy(isLoading = false, errorMessage = exception.message) }
             }
         }
     }
 
-    fun logout() {
-        authUseCases.logout.invoke()
-        isUserLoggedIn = false
+    fun initGoogleDialog(context: Context) {
+        viewModelScope.launch {
+            _authState.update { it.copy(isLoading = true, errorMessage = null) }
+
+            val credentialManager = CredentialManager.create(context = context)
+            val googleIdOption = GetGoogleIdOption.Builder()
+                .setFilterByAuthorizedAccounts(false)
+                .setServerClientId(BuildConfig.DEFAULT_WEB_CLIENT_ID)
+                .build()
+
+            val request = GetCredentialRequest.Builder()
+                .addCredentialOption(googleIdOption)
+                .build()
+
+            try {
+                val result = credentialManager.getCredential(
+                    request = request,
+                    context = context
+                )
+
+                if (result.credential is CustomCredential && result.credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                    val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(result.credential.data)
+                    signInWithGoogle(googleIdTokenCredential.idToken)
+                } else {
+                    _authState.update { it.copy(isLoading = false, errorMessage = context.getString(R.string.google_error1)) }
+                }
+            } catch (e: Exception) {
+                when (e) {
+                    is GetCredentialCancellationException -> _authState.update { it.copy(isLoading = false) }
+                    is GetCredentialException -> {
+                        if (e.type == TYPE_NO_CREDENTIAL) {
+                            _authState.update { it.copy(isLoading = false, errorMessage = context.getString(R.string.google_error2)) }
+                        }
+                    }
+                    else -> {
+                        _authState.update { it.copy(isLoading = false, errorMessage = e.message) }
+                    }
+                }
+                e.printStackTrace()
+            }
+        }
     }
 
+    fun signInWithGoogle(idToken: String) {
+        viewModelScope.launch {
+            _authState.update { it.copy(isLoading = true, errorMessage = null) }
+            val result = authUseCases.signInWithGoogle(idToken)
+            result.onSuccess {
+                Log.i("GOOGLE", "SUCCESS")
+                _authState.update { it.copy(isUserLoggedIn = true, isLoading = false) }
+            }.onFailure { exception ->
+                Log.i("GOOGLE", "FAIL $exception")
+                _authState.update { it.copy(isLoading = false, errorMessage = exception.message) }
+            }
+        }
+    }
 }
