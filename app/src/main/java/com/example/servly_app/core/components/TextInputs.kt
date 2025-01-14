@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 
 @Composable
 fun PhoneNumberInput(
@@ -49,4 +50,57 @@ fun PhoneNumberInput(
     )
 }
 
+@Composable
+fun EmailTextField(
+    email: String,
+    updateEmail: (String) -> Unit,
+    errorMessage: String?
+) {
+    OutlinedTextField(
+        value = email,
+        onValueChange = { updateEmail(it) },
+        label = { Text("Email") },
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true,
+        isError = errorMessage != null,
+        supportingText = {
+            errorMessage?.let {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
+    )
+}
+
+@Composable
+fun PasswordTextField(
+    password: String,
+    updatePassword: (String) -> Unit,
+    label: String,
+    errorMessage: String?
+) {
+    OutlinedTextField(
+        value = password,
+        onValueChange = { updatePassword(it) },
+        label = { Text(label) },
+        visualTransformation = PasswordVisualTransformation(),
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true,
+        isError = errorMessage != null,
+        supportingText = {
+            errorMessage?.let {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
+    )
+}
 
