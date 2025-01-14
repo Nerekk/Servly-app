@@ -5,6 +5,7 @@ sealed class AuthNavItem(
 ) {
     object Welcome: AuthNavItem("auth_welcome")
     object Login: AuthNavItem("auth_login")
+    object Register: AuthNavItem("auth_register")
     object Verification: AuthNavItem("auth_verification")
     object RoleSelection: AuthNavItem("auth_role")
     object CustomerData: AuthNavItem("auth_customer")
