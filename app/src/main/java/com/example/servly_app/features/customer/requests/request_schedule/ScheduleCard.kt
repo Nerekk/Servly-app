@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.core.ui.theme.AppTheme
-import com.example.servly_app.features.requests.details_view.HeaderSection
+import com.example.servly_app.features.customer.requests.details_view.HeaderSection
 import java.time.LocalDate
 
 @Preview(
