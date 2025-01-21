@@ -25,9 +25,9 @@ android {
 
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
-
-        buildConfigField(type = "String", name = "API_KEY", value = "\"${properties.getProperty("API_KEY")}\"")
+        
         buildConfigField(type = "String", name = "DEFAULT_WEB_CLIENT_ID", value = "\"${properties.getProperty("DEFAULT_WEB_CLIENT_ID")}\"")
+        buildConfigField(type = "String", name = "SERVER_URL", value = "\"${properties.getProperty("SERVER_URL")}\"")
     }
 
     buildTypes {
@@ -62,6 +62,13 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+//    COMMUNICATION RETROFIT
+    implementation(libs.retrofit)
+
+//    GSON CONVERTER
+    implementation(libs.gson)
+    implementation(libs.retrofit2.converter.gson)
 
 //    NAVIGATION
     implementation(libs.androidx.navigation.compose)
