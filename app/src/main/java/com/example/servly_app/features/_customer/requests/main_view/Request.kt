@@ -1,4 +1,4 @@
-package com.example.servly_app.features.customer.requests.main_view
+package com.example.servly_app.features._customer.requests.main_view
 
 // Przykładowe dane
 data class Request(val title: String, val location: String, val person: String, val status: OfferStatus)

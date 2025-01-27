@@ -1,4 +1,4 @@
-package com.example.servly_app.features.customer.offers
+package com.example.servly_app.features._customer.offers
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image

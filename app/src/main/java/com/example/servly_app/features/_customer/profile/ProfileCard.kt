@@ -1,4 +1,4 @@
-package com.example.servly_app.features.customer.profile
+package com.example.servly_app.features._customer.profile
 
 import android.content.res.Configuration
 import android.telephony.PhoneNumberUtils

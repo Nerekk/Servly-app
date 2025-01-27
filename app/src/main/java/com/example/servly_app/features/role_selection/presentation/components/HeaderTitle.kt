@@ -1,4 +1,4 @@
-package com.example.servly_app.core.components
+package com.example.servly_app.features.role_selection.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -14,6 +14,6 @@ fun HeaderTitle(stringResource: String) {
         style = MaterialTheme.typography.titleLarge,
         color = MaterialTheme.colorScheme.onBackground,
         modifier = Modifier
-            .padding(bottom = 8.dp)
+            .padding(bottom = 16.dp)
     )
 }

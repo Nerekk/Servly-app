@@ -1,4 +1,4 @@
-package com.example.servly_app.features.customer.offers
+package com.example.servly_app.features._customer.offers
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
