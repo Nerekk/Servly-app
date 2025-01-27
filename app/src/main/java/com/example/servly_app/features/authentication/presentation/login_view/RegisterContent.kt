@@ -17,7 +17,7 @@ import com.example.servly_app.R
 import com.example.servly_app.core.components.ArrangedColumn
 import com.example.servly_app.core.components.BasicScreenLayout
 import com.example.servly_app.core.components.EmailTextField
-import com.example.servly_app.core.components.HeaderTitle
+import com.example.servly_app.features.role_selection.presentation.components.HeaderTitle
 import com.example.servly_app.core.components.PasswordTextField
 import com.example.servly_app.core.components.ScaffoldAuthNavBar
 import com.example.servly_app.features.authentication.presentation.AuthState

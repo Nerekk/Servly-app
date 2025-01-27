@@ -22,9 +22,18 @@
     <string name="role_customer">Klient</string>
     <string name="role_service">Usługodawca</string>
 
-    <string name="customer_title">Wprowadź dane osobiste</string>
-    <string name="customer_field_name">Imie i nazwisko</string>
+    <string name="role_form_title">Wprowadź dane osobiste</string>
+    <string name="role_form_basic_info">Podstawowe informacje</string>
+    <string name="role_form_field_name">Imie i nazwisko</string>
+    <string name="role_form_field_phone_number">Numer telefonu</string>
     <string name="customer_field_address">Adres</string>
+    <string name="customer_field_city">Miasto</string>
+    <string name="customer_field_street">Ulica</string>
+    <string name="customer_field_house_number">Numer mieszkania (opcjonalnie)</string>
+    <string name="provider_field_address">Miasto pracy</string>
+    <string name="provider_field_area">Obszar działania: do </string>
+    <string name="field_error_empty">Wypełnij to pole</string>
+    <string name="field_error_format">Nieprawidłowy format</string>
 
     <string name="role_save">Zapisz</string>
 

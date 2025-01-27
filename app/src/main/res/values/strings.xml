@@ -21,9 +21,18 @@
     <string name="role_customer">Customer</string>
     <string name="role_service">Service provider</string>
 
-    <string name="customer_title">Enter your personal data</string>
-    <string name="customer_field_name">Your name</string>
+    <string name="role_form_title">Enter your personal data</string>
+    <string name="role_form_basic_info">Basic informations</string>
+    <string name="role_form_field_name">Name and surname</string>
+    <string name="role_form_field_phone_number">Phone number</string>
     <string name="customer_field_address">Address</string>
+    <string name="customer_field_city">City</string>
+    <string name="customer_field_street">Street</string>
+    <string name="customer_field_house_number">House number (optional)</string>
+    <string name="provider_field_address">Work city</string>
+    <string name="provider_field_area">Work area: up to </string>
+    <string name="field_error_empty">Fill this field</string>
+    <string name="field_error_format">Incorrect format</string>
 
     <string name="role_save">Save</string>
 

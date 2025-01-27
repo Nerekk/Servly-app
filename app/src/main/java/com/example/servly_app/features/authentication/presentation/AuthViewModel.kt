@@ -21,6 +21,7 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Co
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,10 +47,10 @@ class AuthViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _authState = MutableStateFlow(AuthState())
-    val authState: StateFlow<AuthState> = _authState
+    val authState: StateFlow<AuthState> = _authState.asStateFlow()
 
     init {
-        _authState.update { it.copy(isUserLoggedIn = authUseCases.checkUserLoggedIn.invoke()) }
+        _authState.update { it.copy(isUserLoggedIn = authUseCases.checkUserLoggedIn()) }
     }
 
     fun updateEmail(email: String) {
@@ -175,7 +176,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun signInWithGoogle(idToken: String) {
+    private fun signInWithGoogle(idToken: String) {
         viewModelScope.launch {
             _authState.update { it.copy(isLoading = true, errorMessage = null) }
             val result = authUseCases.signInWithGoogle(idToken)
