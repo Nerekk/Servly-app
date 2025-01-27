@@ -17,15 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
-    val items = listOf(
-        BottomNavItem.Offers,
-        BottomNavItem.Requests,
-        BottomNavItem.Profile,
-        BottomNavItem.Schedule,
-        BottomNavItem.Settings
-    )
-
+fun BottomNavigationBar(navController: NavController, items: List<NavItem>) {
     var selectedItemIndex by rememberSaveable { mutableStateOf(0) }
     val context = LocalContext.current
 
@@ -36,11 +28,10 @@ fun BottomNavigationBar(navController: NavController) {
                 onClick = {
                     selectedItemIndex = index
                     navController.navigate(item.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                        popUpTo(0) {
+                            inclusive = true
                         }
                         launchSingleTop = true
-                        restoreState = true
                     }
                 },
                 label = {
@@ -74,3 +65,19 @@ fun BottomNavigationBar(navController: NavController) {
         }
     }
 }
+
+val CUSTOMER_ITEMS = listOf(
+    NavItem.Customer.Offers,
+    NavItem.Customer.Requests,
+    NavItem.Customer.Profile,
+    NavItem.Customer.Schedule,
+    NavItem.Customer.Settings
+)
+
+val PROVIDER_ITEMS = listOf(
+    NavItem.Provider.Offers,
+    NavItem.Provider.Requests,
+    NavItem.Provider.Profile,
+    NavItem.Provider.Schedule,
+    NavItem.Provider.Settings
+)
