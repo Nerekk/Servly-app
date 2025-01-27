@@ -1,31 +1,36 @@
-package com.example.servly_app.features.authentication.presentation.login_view
+package com.example.servly_app.features.role_selection.presentation
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
-import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
-import com.example.servly_app.core.components.HeaderTitle
+import com.example.servly_app.features.role_selection.presentation.components.HeaderTitle
 import com.example.servly_app.core.components.ScaffoldAuthNavBar
 import com.example.servly_app.core.components.ArrangedColumn
 import com.example.servly_app.core.components.BasicScreenLayout
+import com.example.servly_app.core.data.util.Role
 
 
 @Preview(
@@ -44,12 +49,53 @@ import com.example.servly_app.core.components.BasicScreenLayout
 fun PreviewRoleSelectionView() {
     val navController = rememberNavController()
     AppTheme {
-        RoleSelectionView(navController)
+        RoleSelectionContent(
+            navController = navController,
+            onCustomerSelect = {},
+            onProviderSelect = {}
+        )
     }
 }
 
 @Composable
-fun RoleSelectionView(navController: NavHostController) {
+fun RoleSelectionView(
+    navController: NavHostController,
+    onCustomerSelect: (Role) -> Unit,
+    onProviderSelect: (Role) -> Unit
+) {
+    val viewModel: RoleSelectionViewModel = hiltViewModel()
+    val state = viewModel.roleState.collectAsStateWithLifecycle()
+
+    Log.i("Navigation", "RoleSelectionView")
+
+    if (state.value.role == null) {
+        CircularProgressIndicator()
+    } else {
+        when (state.value.role) {
+            Role.BOTH, Role.NONE -> {
+                RoleSelectionContent(
+                    navController = navController,
+                    onCustomerSelect = {
+                        onCustomerSelect(state.value.role!!)
+                    },
+                    onProviderSelect = {
+                        onProviderSelect(state.value.role!!)
+                    }
+                )
+            }
+            Role.CUSTOMER -> onCustomerSelect(state.value.role!!)
+            Role.PROVIDER -> onProviderSelect(state.value.role!!)
+            null -> {}
+        }
+    }
+}
+
+@Composable
+private fun RoleSelectionContent(
+    navController: NavHostController,
+    onCustomerSelect: () -> Unit,
+    onProviderSelect: () -> Unit
+) {
     ScaffoldAuthNavBar(navController) { initialPadding ->
         BasicScreenLayout(initialPadding) {
             ArrangedColumn {
@@ -61,7 +107,9 @@ fun RoleSelectionView(navController: NavHostController) {
                     Image(
                         painter = painterResource(R.drawable.test_square_image_large),
                         contentDescription = "some image",
-                        modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 16.dp)
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(top = 16.dp)
                     )
 
                     Text(
@@ -79,7 +127,7 @@ fun RoleSelectionView(navController: NavHostController) {
                 ) {
                     Button(
                         onClick = {
-                            navController.navigate(AuthNavItem.CustomerData.route)
+                            onCustomerSelect()
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -93,7 +141,7 @@ fun RoleSelectionView(navController: NavHostController) {
 
                     OutlinedButton(
                         onClick = {
-                            navController.navigate(AuthNavItem.ProviderData.route)
+                            onProviderSelect()
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -109,3 +157,5 @@ fun RoleSelectionView(navController: NavHostController) {
         }
     }
 }
+
+
