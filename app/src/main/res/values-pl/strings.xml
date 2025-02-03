@@ -38,7 +38,9 @@
     <string name="role_save">Zapisz</string>
 
 
-    <string name="offers">Oferty</string>
+    <string name="offers_customer">Usługi</string>
+    <string name="offers_provider">Oferty</string>
+
     <string name="offers_info_box">Wybierz usługę której potrzebujesz i skontaktuj się z fachowcem!</string>
 
     <string name="cat_electrician">Elektryk</string>
@@ -50,7 +52,16 @@
     <string name="cat_repairs">Naprawy</string>
     <string name="cat_others">Inne</string>
 
-    <string name="requests">Zapytania</string>
+    <string name="job_form_header">Tworzenie ogłoszenia</string>
+    <string name="job_form_title">Tytuł</string>
+    <string name="job_form_location">Miejsce zlecenia</string>
+    <string name="job_form_autofill">Wypełnij swoim adresem</string>
+    <string name="job_form_required">Wymagane informacje o zleceniu</string>
+    <string name="job_form_answer">Odpowiedź</string>
+    <string name="job_form_button">Utwórz zlecenie</string>
+
+    <string name="requests_customer">Zlecenia</string>
+    <string name="requests_provider">Zapytania</string>
 
     <string name="tab_active">Aktywne</string>
     <string name="tab_ended">Zakończone</string>
@@ -59,6 +70,7 @@
 
 
     <string name="profile">Profil</string>
+    <string name="profile_button_edit">Edytuj profil</string>
 
     <string name="profile_customer">Klient</string>
 
