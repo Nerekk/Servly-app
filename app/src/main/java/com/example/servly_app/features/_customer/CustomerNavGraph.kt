@@ -1,22 +1,28 @@
 package com.example.servly_app.features._customer
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,13 +32,30 @@ import com.example.servly_app.core.data.util.Role
 import com.example.servly_app.core.ui.navigation.BottomNavigationBar
 import com.example.servly_app.core.ui.navigation.CUSTOMER_ITEMS
 import com.example.servly_app.core.ui.navigation.NavItem
-import com.example.servly_app.features._customer.offers.OffersView
+import com.example.servly_app.features._customer._navigation.CustomerNavItem
+import com.example.servly_app.features._customer.job_create.presentation.job_form.JobFormView
+import com.example.servly_app.features._customer.job_create.presentation.main.JobCategoryView
+import com.example.servly_app.features._customer.job_create.presentation.main.components.JobCategory
 import com.example.servly_app.features._customer.profile.ProfileView
-import com.example.servly_app.features._customer.requests.main_view.RequestsView
+import com.example.servly_app.features._customer.job_list.presentation.main_view.OrderListView
 import com.example.servly_app.features._customer.schedule.ScheduleView
 import com.example.servly_app.features._customer.settings.SettingsView
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
+import com.example.servly_app.features.role_selection.presentation.user_data.CustomerFormView
 import com.example.servly_app.features.role_selection.presentation.user_data.ProviderFormView
+
+val topBarExcludedRoutes = listOf(
+    AuthNavItem.CustomerData.route
+)
+
+val bottomBarIncludedRoutes = listOf(
+    NavItem.Customer.Offers.route,
+    NavItem.Customer.Requests.route,
+    NavItem.Customer.Profile.route,
+    NavItem.Customer.Schedule.route,
+    NavItem.Customer.Settings.route
+)
+
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,38 +66,50 @@ fun CustomerNavGraph(
     checkUserStatus: () -> Unit,
     logout: () -> Unit
 ) {
-    val isVisible = remember { mutableStateOf(true) }
+    val isVisibleTop = remember { mutableStateOf(true) }
+    val isVisibleBottom = remember { mutableStateOf(true) }
+
+    val viewModel: CustomerNavViewModel = hiltViewModel()
+    val customerState = viewModel.customerState.collectAsState()
+
+    val context = LocalContext.current
 
     LaunchedEffect(navController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            isVisible.value = destination.route != AuthNavItem.ProviderData.route
+            isVisibleTop.value = destination.route !in topBarExcludedRoutes
+            isVisibleBottom.value = destination.route in bottomBarIncludedRoutes
         }
     }
 
     Scaffold(
         topBar = {
-            if (isVisible.value) {
+            if (isVisibleTop.value) {
                 TopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary
-                    ),
                     title = {
                         Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
+                            modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
                                 text = state.value.appBarTitle,
                                 style = MaterialTheme.typography.titleLarge
                             )
                         }
-                    }
+                    },
+                    navigationIcon = {
+                        if (navController.previousBackStackEntry != null) {
+                            IconButton(onClick = { navController.popBackStack() }) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                                    contentDescription = "Back"
+                                )
+                            }
+                        }
+                    },
                 )
             }
         },
         bottomBar = {
-            if (isVisible.value) {
+            if (isVisibleBottom.value) {
                 BottomNavigationBar(navController, CUSTOMER_ITEMS)
             }
         }
@@ -83,28 +118,58 @@ fun CustomerNavGraph(
         NavHost(
             navController = navController,
             startDestination = NavItem.Customer.Offers.route,
-            modifier = if (isVisible.value) Modifier.padding(innerPadding) else Modifier
+            modifier = if (isVisibleBottom.value || isVisibleTop.value) Modifier.padding(innerPadding) else Modifier
         ) {
-            composable(AuthNavItem.ProviderData.route) {
-                ProviderFormView(
-                    navController,
-                    onSuccess = { checkUserStatus() }
+
+            composable(NavItem.Customer.Offers.route) {
+                setAppBarTitle(stringResource(R.string.offers_customer))
+                JobCategoryView(
+                    onCategorySelect = { category ->
+                        navController.currentBackStackEntry?.savedStateHandle?.set("serviceCategory", category)
+                        navController.navigate(CustomerNavItem.JobFormView.route)
+                    }
+                )
+            }
+            composable(CustomerNavItem.JobFormView.route) {
+                val jobCategory: JobCategory? = navController.previousBackStackEntry?.savedStateHandle?.get("serviceCategory")
+                jobCategory?.name?.let { setAppBarTitle(it) }
+                JobFormView(
+                    jobCategory,
+                    customerState,
+                    onSuccess = {
+                        navController.popBackStack()
+                        Toast.makeText(context, "Create job success", Toast.LENGTH_SHORT).show()
+                    }
                 )
             }
 
 
-            composable(NavItem.Customer.Offers.route) {
-                setAppBarTitle(stringResource(R.string.offers))
-                OffersView()
-            }
             composable(NavItem.Customer.Requests.route) {
-                setAppBarTitle(stringResource(R.string.requests))
-                RequestsView()
+                setAppBarTitle(stringResource(R.string.requests_customer))
+                OrderListView()
             }
+
             composable(NavItem.Customer.Profile.route) {
                 setAppBarTitle(stringResource(R.string.profile))
-                ProfileView()
+                ProfileView(
+                    customerState,
+                    onEditClick = {
+                        navController.navigate(AuthNavItem.CustomerData.route)
+                    }
+                )
             }
+            composable(AuthNavItem.CustomerData.route) {
+                CustomerFormView(
+                    navController,
+                    customerState.value.toCustomerInfo(),
+                    onSuccess = {
+                        navController.popBackStack()
+                        Toast.makeText(context, "Update profile success", Toast.LENGTH_SHORT).show()
+                        viewModel.loadCustomer()
+                    }
+                )
+            }
+
             composable(NavItem.Customer.Schedule.route) {
                 setAppBarTitle(stringResource(R.string.schedule))
                 ScheduleView()
@@ -116,11 +181,16 @@ fun CustomerNavGraph(
                         if (state.value.userRole == Role.BOTH) {
                             checkUserStatus()
                         } else {
-                            // TUTAJ USTAWIAM isVisible na false
                             navController.navigate(AuthNavItem.ProviderData.route)
                         }
                     },
                     onLogout = { logout() }
+                )
+            }
+            composable(AuthNavItem.ProviderData.route) {
+                ProviderFormView(
+                    navController,
+                    onSuccess = { checkUserStatus() }
                 )
             }
         }
