@@ -1,4 +1,4 @@
-package com.example.servly_app.features._customer.offers
+package com.example.servly_app.features._customer.job_create.presentation.main.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -36,12 +36,12 @@ import com.example.servly_app.core.ui.theme.AppTheme
 @Composable
 fun PreviewInfoCard() {
     AppTheme {
-        OffersInfoCard()
+        JobCreateInfoCard()
     }
 }
 
 @Composable
-fun OffersInfoCard() {
+fun JobCreateInfoCard() {
     Box(
         modifier = Modifier
             .fillMaxWidth()

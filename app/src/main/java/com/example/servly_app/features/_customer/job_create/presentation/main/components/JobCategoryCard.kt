@@ -1,8 +1,9 @@
-package com.example.servly_app.features._customer.offers
+package com.example.servly_app.features._customer.job_create.presentation.main.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,19 +41,21 @@ import com.example.servly_app.core.ui.theme.Typography
 @Composable
 fun PreviewServiceCard() {
     AppTheme {
-        OfficeCategoryCard(
+        JobCategoryCard(
             categoryImage = painterResource(R.drawable.test_square_image),
-            categoryName = "Category"
-            )
+            categoryName = "Category",
+            onClick = { }
+        )
     }
 }
 
 @Composable
-fun OfficeCategoryCard(categoryImage: Painter, categoryName: String) {
+fun JobCategoryCard(categoryImage: Painter, categoryName: String, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(1f / 1.1f)
+            .clickable { onClick() }
             .background(
                 color = MaterialTheme.colorScheme.surfaceContainer,
                 shape = RoundedCornerShape(32.dp)
