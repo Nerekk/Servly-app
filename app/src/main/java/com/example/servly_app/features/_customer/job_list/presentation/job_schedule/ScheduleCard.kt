@@ -1,4 +1,4 @@
-package com.example.servly_app.features._customer.requests.request_schedule
+package com.example.servly_app.features._customer.job_list.presentation.job_schedule
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.core.ui.theme.AppTheme
-import com.example.servly_app.features._customer.requests.details_view.HeaderSection
+import com.example.servly_app.features._customer.job_list.presentation.details_view.HeaderSection
 import java.time.LocalDate
 
 @Preview(

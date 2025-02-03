@@ -1,4 +1,4 @@
-package com.example.servly_app.features._customer.requests.request_schedule
+package com.example.servly_app.features._customer.job_list.presentation.job_schedule
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
