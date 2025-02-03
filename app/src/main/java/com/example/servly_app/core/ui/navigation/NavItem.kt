@@ -1,11 +1,16 @@
 package com.example.servly_app.core.ui.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.automirrored.outlined.List
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Home
@@ -23,8 +28,10 @@ sealed class NavItem(
 ) {
     fun getTitle(context: android.content.Context): String {
         return when (this) {
-            is Customer.Offers, Provider.Offers -> context.getString(R.string.offers)
-            is Customer.Requests, Provider.Requests -> context.getString(R.string.requests)
+            is Customer.Offers -> context.getString(R.string.offers_customer)
+            is Provider.Offers -> context.getString(R.string.offers_provider)
+            is Customer.Requests -> context.getString(R.string.requests_customer)
+            is Provider.Requests -> context.getString(R.string.requests_provider)
             is Customer.Profile, Provider.Profile -> context.getString(R.string.profile)
             is Customer.Schedule, Provider.Schedule -> context.getString(R.string.schedule)
             is Customer.Settings, Provider.Settings -> context.getString(R.string.settings)
@@ -34,15 +41,15 @@ sealed class NavItem(
     object Customer {
         object Offers : NavItem(
             "customer_offers",
-            Icons.Filled.Home,
-            Icons.Outlined.Home,
+            Icons.Filled.AddCircle,
+            Icons.Outlined.AddCircle,
             false
         )
 
         object Requests : NavItem(
             "customer_requests",
-            Icons.Filled.Email,
-            Icons.Outlined.Email,
+            Icons.AutoMirrored.Filled.List,
+            Icons.AutoMirrored.Outlined.List,
             false
         )
 
@@ -71,8 +78,8 @@ sealed class NavItem(
     object Provider {
         object Offers : NavItem(
             "provider_offers",
-            Icons.Filled.Home,
-            Icons.Outlined.Home,
+            Icons.AutoMirrored.Filled.List,
+            Icons.AutoMirrored.Outlined.List,
             false
         )
 
