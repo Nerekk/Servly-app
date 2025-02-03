@@ -95,11 +95,11 @@ fun ProviderNavGraph(
             }
 
             composable(NavItem.Provider.Offers.route) {
-                setAppBarTitle(stringResource(R.string.offers))
+                setAppBarTitle(stringResource(R.string.offers_provider))
                 ProviderOffersView()
             }
             composable(NavItem.Provider.Requests.route) {
-                setAppBarTitle(stringResource(R.string.requests))
+                setAppBarTitle(stringResource(R.string.requests_provider))
                 ProviderRequestsView()
             }
             composable(NavItem.Provider.Profile.route) {
