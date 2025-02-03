@@ -14,9 +14,11 @@ import com.example.servly_app.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(navController: NavController) {
+fun TopBar(navController: NavController, title: String?) {
     TopAppBar(
-        title = { Text(stringResource(R.string.auth_bar)) },
+        title = { Text(
+            text = title ?: stringResource(R.string.auth_bar)
+        ) },
         navigationIcon = {
             if (navController.previousBackStackEntry != null) {
                 IconButton(onClick = { navController.popBackStack() }) {
