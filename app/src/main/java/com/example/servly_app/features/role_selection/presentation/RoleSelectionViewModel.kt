@@ -31,7 +31,7 @@ class RoleSelectionViewModel @Inject constructor(
 
     private fun getUserRole() {
         viewModelScope.launch {
-            Log.i("RSLAUNCH", "Getuserrole")
+            Log.i("RoleSelectionLAUNCH", "Getuserrole")
             val result = getUserRoles()
             result.fold(
                 onSuccess = { userRole -> _roleState.update { it.copy(role = userRole) } },
@@ -39,7 +39,7 @@ class RoleSelectionViewModel @Inject constructor(
                     Log.i("RSLAUNCH", "FAIL")
                 }
             )
-            Log.i("RSLAUNCH", "${_roleState.value.role}")
+            Log.i("RoleSelectionLAUNCH", "${_roleState.value.role}")
         }
     }
 }
