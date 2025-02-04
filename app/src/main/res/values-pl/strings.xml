@@ -68,6 +68,8 @@
     <string name="providers">Zainteresowani usługodawcy</string>
     <string name="no_providers">Brak zainteresowanych usługodawców</string>
 
+    <string name="order_details">Szczegóły</string>
+
 
     <string name="profile">Profil</string>
     <string name="profile_button_edit">Edytuj profil</string>

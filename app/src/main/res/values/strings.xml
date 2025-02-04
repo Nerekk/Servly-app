@@ -67,6 +67,8 @@
     <string name="providers">Interested service providers</string>
     <string name="no_providers">No interested providers yet</string>
 
+    <string name="order_details">Details</string>
+
 
     <string name="profile">Profile</string>
     <string name="profile_button_edit">Edit profile</string>
