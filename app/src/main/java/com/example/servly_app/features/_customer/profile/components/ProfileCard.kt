@@ -56,8 +56,8 @@ fun PreviewProfileCard() {
 fun ProfileCard(
     customerAvatar: Painter,
     customerName: String,
-    customerAddress: String,
-    customerPhoneNumber: String
+    customerAddress: String? = null,
+    customerPhoneNumber: String? = null
 ) {
     Box(
         modifier = Modifier
@@ -89,28 +89,32 @@ fun ProfileCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Row {
-                Icon(
-                    imageVector = Icons.Filled.Place,
-                    contentDescription = "icon"
-                )
+            customerAddress?.let {
+                Row {
+                    Icon(
+                        imageVector = Icons.Filled.Place,
+                        contentDescription = "icon"
+                    )
 
-                Text(
-                    text = customerAddress,
-                    style = Typography.bodyMedium
-                )
+                    Text(
+                        text = customerAddress,
+                        style = Typography.bodyMedium
+                    )
+                }
             }
 
-            Row {
-                Icon(
-                    imageVector = Icons.Filled.Phone,
-                    contentDescription = "icon"
-                )
+            customerPhoneNumber?.let {
+                Row {
+                    Icon(
+                        imageVector = Icons.Filled.Phone,
+                        contentDescription = "icon"
+                    )
 
-                Text(
-                    text = PhoneNumberUtils.formatNumber(customerPhoneNumber, "pl"),
-                    style = Typography.bodyMedium
-                )
+                    Text(
+                        text = PhoneNumberUtils.formatNumber(customerPhoneNumber, "pl"),
+                        style = Typography.bodyMedium
+                    )
+                }
             }
         }
     }
