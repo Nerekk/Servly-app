@@ -1,5 +1,6 @@
 package com.example.servly_app.features._customer
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,9 +34,11 @@ import com.example.servly_app.core.ui.navigation.BottomNavigationBar
 import com.example.servly_app.core.ui.navigation.CUSTOMER_ITEMS
 import com.example.servly_app.core.ui.navigation.NavItem
 import com.example.servly_app.features._customer._navigation.CustomerNavItem
+import com.example.servly_app.features._customer.job_create.data.dtos.JobPostingInfo
 import com.example.servly_app.features._customer.job_create.presentation.job_form.JobFormView
 import com.example.servly_app.features._customer.job_create.presentation.main.JobCategoryView
 import com.example.servly_app.features._customer.job_create.presentation.main.components.JobCategory
+import com.example.servly_app.features._customer.job_list.presentation.details_view.OrderDetailsView
 import com.example.servly_app.features._customer.profile.ProfileView
 import com.example.servly_app.features._customer.job_list.presentation.main_view.OrderListView
 import com.example.servly_app.features._customer.schedule.ScheduleView
@@ -146,8 +149,24 @@ fun CustomerNavGraph(
 
             composable(NavItem.Customer.Requests.route) {
                 setAppBarTitle(stringResource(R.string.requests_customer))
-                OrderListView()
+                OrderListView(
+                    onClickShowDetails = { order ->
+                        navController.currentBackStackEntry?.savedStateHandle?.set("orderDetails", order)
+                        navController.navigate(CustomerNavItem.OrderDetailsView.route)
+                    }
+                )
             }
+            composable(CustomerNavItem.OrderDetailsView.route) {
+                val order: JobPostingInfo? = navController.previousBackStackEntry?.savedStateHandle?.get("orderDetails")
+
+                setAppBarTitle(stringResource(R.string.order_details))
+                Log.i("OrderDetailsView", "Composition")
+
+                if (order != null) {
+                    OrderDetailsView(order)
+                }
+            }
+
 
             composable(NavItem.Customer.Profile.route) {
                 setAppBarTitle(stringResource(R.string.profile))

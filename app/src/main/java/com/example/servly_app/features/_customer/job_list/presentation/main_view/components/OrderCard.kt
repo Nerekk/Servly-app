@@ -2,6 +2,7 @@ package com.example.servly_app.features._customer.job_list.presentation.main_vie
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -43,15 +44,25 @@ import com.example.servly_app.core.ui.theme.AppTheme
 @Composable
 fun PreviewOfferCard() {
     AppTheme {
-        OrderCard(Order("Zapytanie 2", "Łódź, Polesie", "Tomasz", JobStatus.ACTIVE))
+        OrderCard(
+            Order(
+                1, "Zapytanie 2", "Łódź, Polesie", "Tomasz", JobStatus.ACTIVE
+            ),
+            onClick = {},
+        )
     }
 }
 
 @Composable
-fun OrderCard(order: Order, modifier: Modifier = Modifier) {
+fun OrderCard(
+    order: Order,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Card(
         modifier = modifier
             .fillMaxWidth()
+            .clickable { onClick() }
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {

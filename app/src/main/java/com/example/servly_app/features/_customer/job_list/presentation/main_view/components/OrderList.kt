@@ -33,7 +33,12 @@ import com.example.servly_app.core.ui.theme.AppTheme
 @Composable
 fun PreviewRequestList() {
     AppTheme {
-        OrderList(getInProgressRequests(), false, {}, false)
+        OrderList(
+            getInProgressRequests(), false,
+            loadOrders = {},
+            onClickCard = {},
+            isActive = false
+        )
     }
 }
 
@@ -42,6 +47,7 @@ fun OrderList(
     orders: List<Order>,
     isLoading: Boolean,
     loadOrders: () -> Unit,
+    onClickCard: (Order) -> Unit,
     isActive: Boolean
 ) {
     val listState = rememberLazyListState()
@@ -68,8 +74,11 @@ fun OrderList(
         }
 
         if (orders.isNotEmpty()) {
-            items(orders) { request ->
-                OrderCard(request)
+            items(orders) { order ->
+                OrderCard(
+                    order,
+                    onClick = { onClickCard(order) },
+                )
             }
 
             if (isLoading) {
