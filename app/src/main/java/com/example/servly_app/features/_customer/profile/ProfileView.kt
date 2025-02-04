@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
 import com.example.servly_app.features._customer.CustomerState
+import com.example.servly_app.features._customer.profile.components.ProfileCard
 
 @Preview(
     showBackground = true,
