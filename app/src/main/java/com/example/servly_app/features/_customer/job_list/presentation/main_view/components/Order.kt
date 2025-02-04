@@ -1,4 +1,4 @@
-package com.example.servly_app.features._customer.job_list.presentation.main_view
+package com.example.servly_app.features._customer.job_list.presentation.main_view.components
 
 import com.example.servly_app.core.data.util.JobStatus
 

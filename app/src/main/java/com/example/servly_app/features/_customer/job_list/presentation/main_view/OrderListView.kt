@@ -26,6 +26,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.servly_app.R
 import com.example.servly_app.core.components.BasicScreenLayout
 import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.features._customer.job_list.presentation.main_view.components.Order
+import com.example.servly_app.features._customer.job_list.presentation.main_view.components.OrderList
 
 @Preview(
     showBackground = true,
