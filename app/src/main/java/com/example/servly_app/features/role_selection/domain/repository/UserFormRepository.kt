@@ -1,10 +1,10 @@
 package com.example.servly_app.features.role_selection.domain.repository
 
-import com.example.servly_app.core.data.RoleDataService
+import com.example.servly_app.core.data.RoleService
 import com.example.servly_app.features.role_selection.data.CustomerInfo
 import com.example.servly_app.features.role_selection.data.ProviderInfo
 
-class UserFormRepository(private val service: RoleDataService) {
+class UserFormRepository(private val service: RoleService) {
     suspend fun createCustomer(customerInfo: CustomerInfo): Result<Unit> {
         return try {
             val response = service.createCustomer(customerInfo)

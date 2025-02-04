@@ -8,10 +8,11 @@ import androidx.navigation.NavController
 @Composable
 fun ScaffoldAuthNavBar(
     navController: NavController,
+    title: String? = null,
     content: @Composable (padding: PaddingValues) -> Unit
 ) {
     Scaffold(
-        topBar = { TopBar(navController) }
+        topBar = { TopBar(navController, title) }
     ) { initialPadding ->
         content(initialPadding)
     }

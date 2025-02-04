@@ -32,6 +32,7 @@ import com.example.servly_app.core.components.ArrangedColumn
 import com.example.servly_app.core.components.BasicScreenLayout
 import com.example.servly_app.core.components.ScaffoldAuthNavBar
 import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.features.role_selection.data.CustomerInfo
 import com.example.servly_app.features.role_selection.presentation.components.FormHeader
 import com.example.servly_app.features.role_selection.presentation.components.HeaderTitle
 
@@ -66,8 +67,9 @@ fun PreviewCustomerFormView() {
 }
 
 @Composable
-fun CustomerFormView(navController: NavHostController, onSuccess: () -> Unit) {
+fun CustomerFormView(navController: NavHostController, customerInfo: CustomerInfo? = null, onSuccess: () -> Unit) {
     val viewModel: CustomerFormViewModel = hiltViewModel()
+    customerInfo?.let { viewModel.setEditData(it) }
     val customerState = viewModel.customerState.collectAsState()
 
     val context = LocalContext.current
@@ -81,9 +83,9 @@ fun CustomerFormView(navController: NavHostController, onSuccess: () -> Unit) {
         updateStreet = viewModel::updateStreet,
         updateHouseNumber = viewModel::updateHouseNumber,
         onSaveButton = {
-            viewModel.createCustomer(
+            viewModel.handleCustomer(
                 onSuccess = { onSuccess() },
-                onFailure = { Toast.makeText(context, "Create customer fail", Toast.LENGTH_SHORT).show() }
+                onFailure = { Toast.makeText(context, "Customer fail", Toast.LENGTH_SHORT).show() }
             )
         }
     )
@@ -100,7 +102,10 @@ private fun CustomerFormContent(
     updateHouseNumber: (String) -> Unit,
     onSaveButton: () -> Unit
 ) {
-    ScaffoldAuthNavBar(navController) { initialPadding ->
+    ScaffoldAuthNavBar(
+        navController,
+        title = if (state.value.isEditForm) "Profile editing" else null
+    ) { initialPadding ->
         BasicScreenLayout(initialPadding) {
             ArrangedColumn {
                 Column {
@@ -203,7 +208,7 @@ private fun CustomerFormContent(
                     )
                 }
 
-                CustomerButton(onSaveButton, state.value.isLoading)
+                CustomerButton(onSaveButton, state.value.isLoading, state.value.isButtonEnabled)
             }
         }
     }
@@ -212,7 +217,8 @@ private fun CustomerFormContent(
 @Composable
 private fun CustomerButton(
     onSaveButton: () -> Unit,
-    isLoading: Boolean
+    isLoading: Boolean,
+    isEnabled: Boolean
 ) {
     Column(
         modifier = Modifier.padding(bottom = 24.dp),
@@ -223,6 +229,7 @@ private fun CustomerButton(
         } else {
             Button(
                 onClick = { onSaveButton() },
+                enabled = isEnabled,
                 modifier = Modifier
                     .fillMaxWidth()
             ) {

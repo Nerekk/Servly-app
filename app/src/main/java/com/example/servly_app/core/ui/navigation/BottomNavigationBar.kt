@@ -15,18 +15,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun BottomNavigationBar(navController: NavController, items: List<NavItem>) {
-    var selectedItemIndex by rememberSaveable { mutableStateOf(0) }
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route
+
     val context = LocalContext.current
 
     NavigationBar {
-        items.forEachIndexed { index, item ->
+        items.forEachIndexed { _, item ->
             NavigationBarItem(
-                selected = index == selectedItemIndex,
+                selected = item.route == currentRoute,
                 onClick = {
-                    selectedItemIndex = index
                     navController.navigate(item.route) {
                         popUpTo(0) {
                             inclusive = true
@@ -53,7 +55,7 @@ fun BottomNavigationBar(navController: NavController, items: List<NavItem>) {
                         }
                     ) {
                         Icon(
-                            imageVector = if (index == selectedItemIndex) {
+                            imageVector = if (item.route == currentRoute) {
                                 item.selectedIcon
                             } else item.unselectedIcon,
                             contentDescription = item.route
