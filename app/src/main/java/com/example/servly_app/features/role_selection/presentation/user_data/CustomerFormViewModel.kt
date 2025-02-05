@@ -62,28 +62,28 @@ class CustomerFormViewModel @Inject constructor(
     private var customerInfoCopy: CustomerInfo? = null
 
     fun updateName(name: String) {
-        compareInputs()
         _customerState.update { it.copy(name = name) }
+        compareInputs()
     }
 
     fun updatePhoneNumber(phoneNumber: String) {
-        compareInputs()
         _customerState.update { it.copy(phoneNumber = phoneNumber) }
+        compareInputs()
     }
 
     fun updateCity(city: String) {
-        compareInputs()
         _customerState.update { it.copy(city = city) }
+        compareInputs()
     }
 
     fun updateStreet(street: String) {
-        compareInputs()
         _customerState.update { it.copy(street = street) }
+        compareInputs()
     }
 
     fun updateHouseNumber(houseNumber: String) {
-        compareInputs()
         _customerState.update { it.copy(houseNumber = houseNumber) }
+        compareInputs()
     }
 
     fun setEditData(customerInfo: CustomerInfo) {
