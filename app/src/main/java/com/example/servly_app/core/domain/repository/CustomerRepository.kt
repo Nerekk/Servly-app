@@ -16,17 +16,4 @@ class CustomerRepository(private val roleService: RoleService) {
             Result.failure(e)
         }
     }
-
-    suspend fun updateCustomer(customerInfo: CustomerInfo): Result<Unit> {
-        return try {
-            val response = roleService.updateCustomer(customerInfo)
-            if (response.isSuccessful) {
-                Result.success(Unit)
-            } else {
-                throw Exception("Error updating customer info: ${response.errorBody()?.string()}")
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
 }
