@@ -73,8 +73,18 @@
 
     <string name="profile">Profil</string>
     <string name="profile_button_edit">Edytuj profil</string>
+    <string name="profile_editing">Edytowanie profilu</string>
+
 
     <string name="profile_customer">Klient</string>
+    <string name="profile_provider">Usługodawca</string>
+    <string name="profile_contact">Dane kontaktowe</string>
+    <string name="profile_aboutme">O mnie</string>
+    <string name="profile_services">Oferowane usługi</string>
+    <string name="profile_reviews">Opinie</string>
+    <string name="profile_workingarea">Miejsce pracy</string>
+    <string name="profile_phone">Nr Tel.</string>
+
 
 
     <string name="schedule">Terminarz</string>

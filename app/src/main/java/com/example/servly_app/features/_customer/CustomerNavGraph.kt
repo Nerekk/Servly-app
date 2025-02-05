@@ -47,11 +47,11 @@ import com.example.servly_app.features.authentication.presentation.navigation.Au
 import com.example.servly_app.features.role_selection.presentation.user_data.CustomerFormView
 import com.example.servly_app.features.role_selection.presentation.user_data.ProviderFormView
 
-val topBarExcludedRoutes = listOf(
+private val topBarExcludedRoutes = listOf(
     AuthNavItem.CustomerData.route
 )
 
-val bottomBarIncludedRoutes = listOf(
+private val bottomBarIncludedRoutes = listOf(
     NavItem.Customer.Offers.route,
     NavItem.Customer.Requests.route,
     NavItem.Customer.Profile.route,
@@ -107,7 +107,7 @@ fun CustomerNavGraph(
                                 )
                             }
                         }
-                    },
+                    }
                 )
             }
         },

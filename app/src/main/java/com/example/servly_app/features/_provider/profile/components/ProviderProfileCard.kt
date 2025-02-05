@@ -1,7 +1,6 @@
-package com.example.servly_app.features._customer.profile.components
+package com.example.servly_app.features._provider.profile.components
 
 import android.content.res.Configuration
-import android.telephony.PhoneNumberUtils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,16 +11,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
@@ -40,25 +41,23 @@ import com.example.servly_app.core.ui.theme.AppTheme
     name = "DefaultPreviewDarkPL"
 )
 @Composable
-fun PreviewProfileCard() {
+fun PreviewProviderProfileCard() {
     AppTheme {
-        ProfileCard(
+        ProviderProfileCard(
             title = "Customer",
-            customerAvatar = painterResource(R.drawable.test_square_image_large),
-            customerName = "Jan Kowalski",
-            customerAddress = "Łódź, Górna",
-            customerPhoneNumber = "325532643"
+            providerAvatar = painterResource(R.drawable.test_square_image_large),
+            providerName = "Jan Kowalski",
+            providerRating = 4.9
         )
     }
 }
 
 @Composable
-fun ProfileCard(
+fun ProviderProfileCard(
     title: String,
-    customerAvatar: Painter,
-    customerName: String,
-    customerAddress: String? = null,
-    customerPhoneNumber: String? = null
+    providerAvatar: Painter,
+    providerName: String,
+    providerRating: Double? = null,
 ) {
     Box(
         modifier = Modifier
@@ -66,7 +65,7 @@ fun ProfileCard(
         contentAlignment = Alignment.TopCenter
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(16.dp, 16.dp, 16.dp, bottom = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -80,46 +79,53 @@ fun ProfileCard(
                 modifier = Modifier
                     .size(150.dp)
                     .padding(16.dp),
-                painter = customerAvatar,
+                painter = providerAvatar,
                 contentDescription = "avatar"
             )
 
             Text(
-                text = customerName,
+                text = providerName,
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
 
-            customerAddress?.let {
-                Row {
-                    Icon(
-                        imageVector = Icons.Filled.Place,
-                        contentDescription = "icon"
-                    )
 
+            Spacer(modifier = Modifier.height(4.dp))
+
+            providerRating?.let {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
-                        text = customerAddress,
-                        style = MaterialTheme.typography.bodyMedium,
+                        text = "$providerRating",
+                        style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onBackground
                     )
-                }
-            }
-
-            customerPhoneNumber?.let {
-                Row {
                     Icon(
-                        imageVector = Icons.Filled.Phone,
-                        contentDescription = "icon"
+                        imageVector = Icons.Filled.Star,
+                        contentDescription = "icon",
+                        tint = Color(0xFFFFD700),
+                        modifier = Modifier.padding(end = 8.dp).size(24.dp)
                     )
 
-                    Text(
-                        text = PhoneNumberUtils.formatNumber(customerPhoneNumber, "pl"),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onBackground
+                    AssistChip(
+                        onClick = {},
+                        label = {
+                            Text(
+                                text = stringResource(R.string.profile_reviews),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onBackground,
+                            )
+                        }
                     )
                 }
+            } ?: run {
+                Text(
+                    text = "No reviews yet",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
             }
         }
     }

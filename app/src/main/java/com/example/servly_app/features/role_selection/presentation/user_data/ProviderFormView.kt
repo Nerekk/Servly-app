@@ -36,6 +36,7 @@ import com.example.servly_app.features.authentication.presentation.navigation.Au
 import com.example.servly_app.core.components.ScaffoldAuthNavBar
 import com.example.servly_app.core.components.ArrangedColumn
 import com.example.servly_app.core.components.BasicScreenLayout
+import com.example.servly_app.features.role_selection.data.ProviderInfo
 import com.example.servly_app.features.role_selection.presentation.components.FormHeader
 import com.example.servly_app.features.role_selection.presentation.components.HeaderTitle
 
@@ -71,8 +72,9 @@ fun PreviewProviderFormView() {
 
 
 @Composable
-fun ProviderFormView(navController: NavHostController, onSuccess: () -> Unit) {
+fun ProviderFormView(navController: NavHostController, providerInfo: ProviderInfo? = null, onSuccess: () -> Unit) {
     val viewModel: ProviderFormViewModel = hiltViewModel()
+    providerInfo?.let { viewModel.setEditData(it) }
     val state = viewModel.providerState.collectAsState()
 
     val context = LocalContext.current
@@ -85,7 +87,7 @@ fun ProviderFormView(navController: NavHostController, onSuccess: () -> Unit) {
         updateCity = viewModel::updateCity,
         updateRange = viewModel::updateRange,
         onSaveButton = {
-            viewModel.createProvider(
+            viewModel.handleProvider(
                 onSuccess = { onSuccess() },
                 onFailure = { Toast.makeText(context, "Create customer fail", Toast.LENGTH_SHORT).show() }
             )
@@ -104,7 +106,10 @@ private fun ProviderFormContent(
     onSaveButton: () -> Unit
 ) {
 
-    ScaffoldAuthNavBar(navController) { initialPadding ->
+    ScaffoldAuthNavBar(
+        navController,
+        title = if (state.value.isEditForm) stringResource(R.string.profile_editing) else null
+    ) { initialPadding ->
         BasicScreenLayout(initialPadding) {
             ArrangedColumn {
                 Column {
@@ -189,7 +194,7 @@ private fun ProviderFormContent(
                     )
                 }
 
-                ProviderButton(onSaveButton, state.value.isLoading)
+                ProviderButton(onSaveButton, state.value.isLoading, state.value.isButtonEnabled)
             }
         }
     }
@@ -199,7 +204,8 @@ private fun ProviderFormContent(
 @Composable
 private fun ProviderButton(
     onSaveButton: () -> Unit,
-    isLoading: Boolean
+    isLoading: Boolean,
+    isEnabled: Boolean
 ) {
     Column(
         modifier = Modifier.padding(bottom = 24.dp),
@@ -210,6 +216,7 @@ private fun ProviderButton(
         } else {
             Button(
                 onClick = { onSaveButton() },
+                enabled = isEnabled,
                 modifier = Modifier
                     .fillMaxWidth()
             ) {

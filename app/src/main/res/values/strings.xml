@@ -72,8 +72,17 @@
 
     <string name="profile">Profile</string>
     <string name="profile_button_edit">Edit profile</string>
+    <string name="profile_editing">Profile editing</string>
+
 
     <string name="profile_customer">Customer</string>
+    <string name="profile_provider">Service provider</string>
+    <string name="profile_contact">Contact details</string>
+    <string name="profile_aboutme">About me</string>
+    <string name="profile_services">Offered services</string>
+    <string name="profile_reviews">Reviews</string>
+    <string name="profile_workingarea">Working area</string>
+    <string name="profile_phone">Phone No.</string>
 
 
     <string name="schedule">Schedule</string>
