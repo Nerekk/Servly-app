@@ -6,14 +6,11 @@ import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,8 +25,8 @@ sealed class NavItem(
 ) {
     fun getTitle(context: android.content.Context): String {
         return when (this) {
-            is Customer.Offers -> context.getString(R.string.offers_customer)
-            is Provider.Offers -> context.getString(R.string.offers_provider)
+            is Customer.Services -> context.getString(R.string.offers_customer)
+            is Provider.Jobs -> context.getString(R.string.offers_provider)
             is Customer.Requests -> context.getString(R.string.requests_customer)
             is Provider.Requests -> context.getString(R.string.requests_provider)
             is Customer.Profile, Provider.Profile -> context.getString(R.string.profile)
@@ -39,7 +36,7 @@ sealed class NavItem(
     }
 
     object Customer {
-        object Offers : NavItem(
+        object Services : NavItem(
             "customer_offers",
             Icons.Filled.AddCircle,
             Icons.Outlined.AddCircle,
@@ -76,7 +73,7 @@ sealed class NavItem(
     }
 
     object Provider {
-        object Offers : NavItem(
+        object Jobs : NavItem(
             "provider_offers",
             Icons.AutoMirrored.Filled.List,
             Icons.AutoMirrored.Outlined.List,

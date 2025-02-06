@@ -52,7 +52,7 @@ private val topBarExcludedRoutes = listOf(
 )
 
 private val bottomBarIncludedRoutes = listOf(
-    NavItem.Customer.Offers.route,
+    NavItem.Customer.Services.route,
     NavItem.Customer.Requests.route,
     NavItem.Customer.Profile.route,
     NavItem.Customer.Schedule.route,
@@ -120,11 +120,11 @@ fun CustomerNavGraph(
 
         NavHost(
             navController = navController,
-            startDestination = NavItem.Customer.Offers.route,
+            startDestination = NavItem.Customer.Services.route,
             modifier = if (isVisibleBottom.value || isVisibleTop.value) Modifier.padding(innerPadding) else Modifier
         ) {
 
-            composable(NavItem.Customer.Offers.route) {
+            composable(NavItem.Customer.Services.route) {
                 setAppBarTitle(stringResource(R.string.offers_customer))
                 JobCategoryView(
                     onCategorySelect = { category ->
