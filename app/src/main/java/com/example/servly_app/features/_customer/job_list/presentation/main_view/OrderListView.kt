@@ -89,7 +89,7 @@ private fun OrderListContent(
         }
     }
 
-    BasicScreenLayout {
+    BasicScreenLayout(isListInContent = true) {
         Column(modifier = Modifier.fillMaxSize()) {
             TabRow(
                 selectedTabIndex = state.value.selectedTabIndex,
