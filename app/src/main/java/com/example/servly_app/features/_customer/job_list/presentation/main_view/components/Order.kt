@@ -3,18 +3,18 @@ package com.example.servly_app.features._customer.job_list.presentation.main_vie
 import com.example.servly_app.core.data.util.JobStatus
 import com.example.servly_app.core.data.util.JobStatus.DONE
 
-// Przykładowe dane
 data class Order(
     val id: Long,
     val title: String,
     val location: String,
     val category: String,
-    val status: JobStatus
+    val status: JobStatus,
+    val person: String? = null
 )
 
 fun getInProgressRequests() = listOf(
-    Order(1, "Zapytanie 1", "Łódź, Górna", "Jan", JobStatus.ACTIVE),
-    Order(2, "Zapytanie 2", "Łódź, Polesie", "Tomasz", JobStatus.ACTIVE),
+    Order(1, "Zapytanie 1", "Łódź, Górna", "Mechanik", JobStatus.ACTIVE, "Tomasz"),
+    Order(2, "Zapytanie 2", "Łódź, Polesie", "Elektryk", JobStatus.ACTIVE, "Jan"),
 )
 
 fun getFinishedRequests() = listOf(
