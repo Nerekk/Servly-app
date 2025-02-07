@@ -26,7 +26,10 @@ data class ProviderState(
     val phoneError: String? = null,
     val cityError: String? = null,
 
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+
+    val isEditForm: Boolean = false,
+    val isButtonEnabled: Boolean = true
 ) {
     fun toProviderInfo(): ProviderInfo {
         return ProviderInfo(
@@ -35,6 +38,13 @@ data class ProviderState(
             city,
             rangeInKm
         )
+    }
+
+    fun isEqualToCustomerInfo(providerInfo: ProviderInfo): Boolean {
+        return name == providerInfo.name &&
+                phoneNumber == providerInfo.phoneNumber &&
+                city == providerInfo.city &&
+                rangeInKm == providerInfo.rangeInKm
     }
 }
 
@@ -45,23 +55,52 @@ class ProviderFormViewModel @Inject constructor(
     private val _providerState = MutableStateFlow(ProviderState())
     val providerState: StateFlow<ProviderState> = _providerState.asStateFlow()
 
+    private var providerInfoCopy: ProviderInfo? = null
+
     fun updateName(name: String) {
         _providerState.update { it.copy(name = name) }
+        compareInputs()
     }
 
     fun updatePhoneNumber(phoneNumber: String) {
         _providerState.update { it.copy(phoneNumber = phoneNumber) }
+        compareInputs()
     }
 
     fun updateCity(city: String) {
         _providerState.update { it.copy(city = city) }
+        compareInputs()
     }
 
     fun updateRange(rangeInKm: Double) {
+        Log.i("SLIDER RANGE", "${_providerState.value.rangeInKm} == ${providerInfoCopy?.rangeInKm}")
         _providerState.update { it.copy(rangeInKm = rangeInKm) }
+        compareInputs()
     }
 
+    fun setEditData(providerInfo: ProviderInfo) {
+        _providerState.update {
+            it.copy(
+                name = providerInfo.name,
+                phoneNumber = providerInfo.phoneNumber,
+                city = providerInfo.city,
+                rangeInKm = providerInfo.rangeInKm,
+                isEditForm = true,
+                isButtonEnabled = false
+            )
+        }
+        providerInfoCopy = providerInfo
+    }
 
+    private fun compareInputs() {
+        providerInfoCopy?.let { copy ->
+            _providerState.update {
+                it.copy(
+                    isButtonEnabled = !it.isEqualToCustomerInfo(copy)
+                )
+            }
+        }
+    }
 
     private fun validateInputs(): Boolean {
         val state = _providerState.value
@@ -100,6 +139,14 @@ class ProviderFormViewModel @Inject constructor(
         return isValid
     }
 
+    fun handleProvider(onSuccess: () -> Unit, onFailure: () -> Unit) {
+        if (_providerState.value.isEditForm) {
+            updateProvider(onSuccess, onFailure)
+        } else {
+            createProvider(onSuccess, onFailure)
+        }
+    }
+
     fun createProvider(onSuccess: () -> Unit, onFailure: () -> Unit) {
         Log.i("createProvider", "Before validate")
         if (!validateInputs()) return
@@ -113,6 +160,22 @@ class ProviderFormViewModel @Inject constructor(
                 onSuccess = { onSuccess() },
                 onFailure = { onFailure() }
             )
+        }
+    }
+
+    fun updateProvider(onSuccess: () -> Unit, onFailure: () -> Unit) {
+        if (!validateInputs()) return
+
+        viewModelScope.launch {
+            _providerState.update { it.copy(isLoading = true) }
+            val result = providerFormUseCases.updateProvider(_providerState.value.toProviderInfo())
+
+            result.fold(
+                onSuccess = { onSuccess() },
+                onFailure = { onFailure() }
+            )
+
+            _providerState.update { it.copy(isLoading = false) }
         }
     }
 }

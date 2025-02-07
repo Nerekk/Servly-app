@@ -1,6 +1,7 @@
 package com.example.servly_app.features._customer.profile
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
 import com.example.servly_app.features._customer.CustomerState
+import com.example.servly_app.features._customer.profile.components.ProfileCard
 
 @Preview(
     showBackground = true,
@@ -45,8 +48,16 @@ fun PreviewProfileView() {
 
 @Composable
 fun ProfileView(customerState: State<CustomerState>, onEditClick: () -> Unit) {
-    Box(contentAlignment = Alignment.TopCenter, modifier = Modifier.fillMaxSize()) {
+    Box(
+        contentAlignment = Alignment.TopCenter,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding()
+            .padding(16.dp)
+    ) {
         ProfileCard(
+            title = stringResource(R.string.profile_customer),
             customerAvatar = painterResource(R.drawable.test_square_image_large),
             customerName = customerState.value.name,
             customerAddress = if (customerState.value.houseNumber != null) {

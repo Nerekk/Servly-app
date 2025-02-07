@@ -29,8 +29,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.servly_app.core.data.util.JobStatus
 import com.example.servly_app.core.ui.theme.AppTheme
-import com.example.servly_app.features._customer.job_list.presentation.details_view.HeaderSection
+import com.example.servly_app.features._customer.job_list.presentation.details_view.components.HeaderSection
 import java.time.LocalDate
 
 @Preview(
@@ -92,7 +93,8 @@ fun ScheduleCard(schedule: Schedule) {
             HeaderSection(
                 title = "Budowa domu",
                 location = "Łódź, Polesie",
-                person = "Jan"
+                person = "Jan",
+                status = JobStatus.ACTIVE
             )
 
             ScheduleList(schedule = schedule, isExpandedList = true)

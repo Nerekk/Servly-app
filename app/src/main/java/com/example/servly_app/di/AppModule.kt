@@ -6,6 +6,7 @@ import com.example.servly_app.core.data.RetrofitInstance
 import com.example.servly_app.core.data.RoleService
 import com.example.servly_app.core.domain.repository.CustomerRepository
 import com.example.servly_app.core.domain.repository.JobPostingRepository
+import com.example.servly_app.core.domain.repository.ProviderRepository
 import com.example.servly_app.features.authentication.data.AuthRepository
 import com.example.servly_app.features.authentication.domain.repository.AuthRepositoryImpl
 import com.example.servly_app.features.authentication.domain.usecase.AuthUseCases
@@ -17,7 +18,9 @@ import com.example.servly_app.features.authentication.domain.usecase.SignUpWithE
 import com.example.servly_app.core.domain.repository.RoleRepository
 import com.example.servly_app.core.domain.usecase.CustomerUseCases
 import com.example.servly_app.core.domain.usecase.GetCustomer
+import com.example.servly_app.core.domain.usecase.GetProvider
 import com.example.servly_app.core.domain.usecase.GetUserRoles
+import com.example.servly_app.core.domain.usecase.ProviderUseCases
 import com.example.servly_app.features._customer.job_create.data.source.CategoryService
 import com.example.servly_app.features._customer.job_create.domain.repository.CategoryRepository
 import com.example.servly_app.features._customer.job_create.domain.usecase.CategoryUseCases
@@ -26,6 +29,9 @@ import com.example.servly_app.features._customer.job_create.domain.usecase.GetCa
 import com.example.servly_app.features._customer.job_create.domain.usecase.GetQuestions
 import com.example.servly_app.features._customer.job_list.domain.usecase.GetUserJobPostings
 import com.example.servly_app.features._customer.job_list.domain.usecase.RequestUseCases
+import com.example.servly_app.features._provider.job_list.domain.repository.ProviderJobListRepository
+import com.example.servly_app.features._provider.job_list.domain.usecase.GetFilteredActiveJobs
+import com.example.servly_app.features._provider.job_list.domain.usecase.ProviderJobListUseCases
 import com.example.servly_app.features.role_selection.domain.repository.UserFormRepository
 import com.example.servly_app.features.role_selection.domain.usecase.CreateCustomer
 import com.example.servly_app.features.role_selection.domain.usecase.CreateProvider
@@ -173,5 +179,31 @@ object AppModule {
         return RequestUseCases(
             getUserJobPostings = GetUserJobPostings(jobPostingRepository)
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideProviderRepository(roleService: RoleService) : ProviderRepository {
+        return ProviderRepository(roleService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProviderUseCases(providerRepository: ProviderRepository) : ProviderUseCases {
+        return ProviderUseCases(
+            GetProvider(providerRepository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideProviderJobListRepository(jobPostingService: JobPostingService) : ProviderJobListRepository {
+        return ProviderJobListRepository(jobPostingService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProviderJobListUseCases(providerJobListRepository: ProviderJobListRepository) : ProviderJobListUseCases {
+        return ProviderJobListUseCases(GetFilteredActiveJobs(providerJobListRepository))
     }
 }

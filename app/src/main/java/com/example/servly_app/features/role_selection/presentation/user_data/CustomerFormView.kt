@@ -104,7 +104,7 @@ private fun CustomerFormContent(
 ) {
     ScaffoldAuthNavBar(
         navController,
-        title = if (state.value.isEditForm) "Profile editing" else null
+        title = if (state.value.isEditForm) stringResource(R.string.profile_editing) else null
     ) { initialPadding ->
         BasicScreenLayout(initialPadding) {
             ArrangedColumn {

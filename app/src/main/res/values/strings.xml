@@ -38,7 +38,7 @@
 
 
     <string name="offers_customer">Services</string>
-    <string name="offers_provider">Offers</string>
+    <string name="offers_provider">Jobs</string>
 
     <string name="offers_info_box">Choose the service you need and contact a specialist!</string>
 
@@ -59,6 +59,23 @@
     <string name="job_form_answer">Answer</string>
     <string name="job_form_button">Create job posting</string>
 
+
+    <string name="job_list_browse">Browse</string>
+    <string name="job_list_browse_found">Found</string>
+    <string name="job_list_search">Search jobs..</string>
+    <string name="job_list_sort">Sort</string>
+    <string name="job_list_sort_clear">Oldest first</string>
+    <string name="job_list_sort_newest">Newest first</string>
+    <string name="job_list_services">Services</string>
+    <string name="job_list_date">Date added</string>
+    <string name="job_list_date_1d">Last 24h</string>
+    <string name="job_list_date_3d">Last 3 days</string>
+    <string name="job_list_date_7d">Last week</string>
+    <string name="job_list_date_30d">Last month</string>
+    <string name="job_list_apply">Apply</string>
+
+
+
     <string name="requests_customer">Orders</string>
     <string name="requests_provider">Requests</string>
 
@@ -67,11 +84,22 @@
     <string name="providers">Interested service providers</string>
     <string name="no_providers">No interested providers yet</string>
 
+    <string name="order_details">Details</string>
+
 
     <string name="profile">Profile</string>
     <string name="profile_button_edit">Edit profile</string>
+    <string name="profile_editing">Profile editing</string>
+
 
     <string name="profile_customer">Customer</string>
+    <string name="profile_provider">Service provider</string>
+    <string name="profile_contact">Contact details</string>
+    <string name="profile_aboutme">About me</string>
+    <string name="profile_services">Offered services</string>
+    <string name="profile_reviews">Reviews</string>
+    <string name="profile_workingarea">Working area</string>
+    <string name="profile_phone">Phone No.</string>
 
 
     <string name="schedule">Schedule</string>

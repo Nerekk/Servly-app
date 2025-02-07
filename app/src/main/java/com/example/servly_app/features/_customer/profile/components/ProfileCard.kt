@@ -1,4 +1,4 @@
-package com.example.servly_app.features._customer.profile
+package com.example.servly_app.features._customer.profile.components
 
 import android.content.res.Configuration
 import android.telephony.PhoneNumberUtils
@@ -15,18 +15,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
-import com.example.servly_app.core.ui.theme.Typography
 
 @Preview(
     showBackground = true,
@@ -44,6 +43,7 @@ import com.example.servly_app.core.ui.theme.Typography
 fun PreviewProfileCard() {
     AppTheme {
         ProfileCard(
+            title = "Customer",
             customerAvatar = painterResource(R.drawable.test_square_image_large),
             customerName = "Jan Kowalski",
             customerAddress = "Łódź, Górna",
@@ -54,10 +54,11 @@ fun PreviewProfileCard() {
 
 @Composable
 fun ProfileCard(
+    title: String,
     customerAvatar: Painter,
     customerName: String,
-    customerAddress: String,
-    customerPhoneNumber: String
+    customerAddress: String? = null,
+    customerPhoneNumber: String? = null
 ) {
     Box(
         modifier = Modifier
@@ -69,8 +70,9 @@ fun ProfileCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.profile_customer),
-                style = Typography.headlineSmall
+                text = title,
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
 
@@ -84,33 +86,40 @@ fun ProfileCard(
 
             Text(
                 text = customerName,
-                style = Typography.bodyLarge
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Row {
-                Icon(
-                    imageVector = Icons.Filled.Place,
-                    contentDescription = "icon"
-                )
+            customerAddress?.let {
+                Row {
+                    Icon(
+                        imageVector = Icons.Filled.Place,
+                        contentDescription = "icon"
+                    )
 
-                Text(
-                    text = customerAddress,
-                    style = Typography.bodyMedium
-                )
+                    Text(
+                        text = customerAddress,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
             }
 
-            Row {
-                Icon(
-                    imageVector = Icons.Filled.Phone,
-                    contentDescription = "icon"
-                )
+            customerPhoneNumber?.let {
+                Row {
+                    Icon(
+                        imageVector = Icons.Filled.Phone,
+                        contentDescription = "icon"
+                    )
 
-                Text(
-                    text = PhoneNumberUtils.formatNumber(customerPhoneNumber, "pl"),
-                    style = Typography.bodyMedium
-                )
+                    Text(
+                        text = PhoneNumberUtils.formatNumber(customerPhoneNumber, "pl"),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
             }
         }
     }

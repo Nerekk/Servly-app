@@ -1,6 +1,7 @@
 package com.example.servly_app.features._customer.job_list.presentation.main_view
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -26,6 +29,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.servly_app.R
 import com.example.servly_app.core.components.BasicScreenLayout
 import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.features._customer.job_create.data.dtos.JobPostingInfo
+import com.example.servly_app.features._customer.job_list.presentation.main_view.components.Order
+import com.example.servly_app.features._customer.job_list.presentation.main_view.components.OrderList
 
 @Preview(
     showBackground = true,
@@ -42,19 +48,21 @@ import com.example.servly_app.core.ui.theme.AppTheme
 @Composable
 fun PreviewRequestView() {
     AppTheme {
-        OrderListView()
+        val state = remember { mutableStateOf(OrderListState()) }
+        OrderListContent(state, {}, {}, {})
     }
 }
 
 @Composable
-fun OrderListView() {
+fun OrderListView(onClickShowDetails: (JobPostingInfo) -> Unit) {
     val viewModel: OrderListViewModel = hiltViewModel()
     val state = viewModel.orderListState.collectAsState()
 
     OrderListContent(
         state,
         setTabIndex = viewModel::setTabIndex,
-        loadOrders = viewModel::loadOrders
+        loadOrders = viewModel::loadOrders,
+        onClickShowDetails = onClickShowDetails
     )
 }
 
@@ -62,7 +70,8 @@ fun OrderListView() {
 private fun OrderListContent(
     state: State<OrderListState>,
     setTabIndex: (Int) -> Unit,
-    loadOrders: () -> Unit
+    loadOrders: () -> Unit,
+    onClickShowDetails: (JobPostingInfo) -> Unit
 ) {
     val categories = listOf(
         stringResource(R.string.tab_active),
@@ -80,13 +89,13 @@ private fun OrderListContent(
         }
     }
 
-    BasicScreenLayout {
+    BasicScreenLayout(isListInContent = true) {
         Column(modifier = Modifier.fillMaxSize()) {
             TabRow(
                 selectedTabIndex = state.value.selectedTabIndex,
                 modifier = Modifier
                     .padding(vertical = 4.dp)
-                    .clip(RoundedCornerShape(50))
+                    .clip(RoundedCornerShape(30))
                     .background(
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -103,12 +112,12 @@ private fun OrderListContent(
                         modifier = if (selected) Modifier
                             .background(
                                 color = MaterialTheme.colorScheme.onPrimary,
-                                shape = RoundedCornerShape(50)
+                                shape = RoundedCornerShape(30)
                             )
                         else Modifier
                             .background(
                                 color = MaterialTheme.colorScheme.primary,
-                                shape = RoundedCornerShape(50)
+                                shape = RoundedCornerShape(30)
                             ),
 
                         text = {
@@ -130,30 +139,42 @@ private fun OrderListContent(
             ) { index ->
                 when (index) {
                     0 -> OrderList(
-                        orders = state.value.activeOrders.map {
+                        orders = state.value.activeOrders.map { jobPosting ->
                             Order(
-                                title = it.title,
-                                location = "${it.city}, ${it.street}",
-                                category = state.value.getCategoryName(it.categoryId),
-                                status = it.status
+                                id = jobPosting.id!!,
+                                title = jobPosting.title,
+                                location = "${jobPosting.city}, ${jobPosting.street}",
+                                category = state.value.getCategoryName(jobPosting.categoryId),
+                                status = jobPosting.status,
                             )
                         },
                         isLoading = state.value.isLoading,
                         loadOrders,
-                        isActive = state.value.selectedTabIndex == index
+                        isActive = state.value.selectedTabIndex == index,
+                        onClickCard = { order ->
+                            Log.i("OrderListView", "Click active id ${order.id}")
+                            val jobForDetails = state.value.activeOrders.find { order.id == it.id }
+                            onClickShowDetails(jobForDetails!!)
+                        }
                     )
                     1 -> OrderList(
-                        orders = state.value.endedOrders.map {
+                        orders = state.value.endedOrders.map { order ->
                             Order(
-                                title = it.title,
-                                location = "${it.city}, ${it.street}",
-                                category = state.value.getCategoryName(it.categoryId),
-                                status = it.status
+                                id = order.id!!,
+                                title = order.title,
+                                location = "${order.city}, ${order.street}",
+                                category = state.value.getCategoryName(order.categoryId),
+                                status = order.status,
                             )
                         },
                         isLoading = state.value.isLoading,
                         loadOrders,
-                        isActive = state.value.selectedTabIndex == index
+                        isActive = state.value.selectedTabIndex == index,
+                        onClickCard = { order ->
+                            Log.i("OrderListView", "Click ended id ${order.id}")
+                            val jobForDetails = state.value.endedOrders.find { order.id == it.id }
+                            onClickShowDetails(jobForDetails!!)
+                        }
                     )
                 }
             }

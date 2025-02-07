@@ -13,14 +13,23 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun BasicScreenLayout(
     padding: PaddingValues = PaddingValues(0.dp),
+    isListInContent: Boolean = false,
     content: @Composable () -> Unit
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
-            .padding(padding)
-            .padding(16.dp)
+        modifier = if (!isListInContent) {
+            Modifier
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(padding)
+                .padding(16.dp)
+        } else {
+            Modifier
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(padding)
+                .padding(horizontal = 16.dp)
+        }
     ) {
         content()
     }

@@ -4,4 +4,5 @@ sealed class CustomerNavItem(
     val route: String
 ) {
     object JobFormView: CustomerNavItem("jobformview")
+    object OrderDetailsView: CustomerNavItem("orderdetailsview")
 }

@@ -3,7 +3,6 @@ package com.example.servly_app.core
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavHostController
 import com.example.servly_app.core.data.util.Role
 import com.example.servly_app.core.ui.navigation.NavItem
 import com.example.servly_app.features.authentication.domain.usecase.AuthUseCases
@@ -65,8 +64,8 @@ class MainViewModel @Inject constructor(
                                 userRole = role,
                                 startDestination = when (role) {
                                     Role.BOTH, Role.NONE -> AuthNavItem.RoleSelection.route
-                                    Role.CUSTOMER -> NavItem.Customer.Offers.route
-                                    Role.PROVIDER -> NavItem.Provider.Offers.route
+                                    Role.CUSTOMER -> NavItem.Customer.Services.route
+                                    Role.PROVIDER -> NavItem.Provider.Jobs.route
                                 }
                             )
                         }
@@ -101,11 +100,11 @@ class MainViewModel @Inject constructor(
     }
 
     fun setDestinationCustomer() {
-        _mainState.update { it.copy(startDestination = NavItem.Customer.Offers.route) }
+        _mainState.update { it.copy(startDestination = NavItem.Customer.Services.route) }
     }
 
     fun setDestinationProvider() {
-        _mainState.update { it.copy(startDestination = NavItem.Provider.Offers.route) }
+        _mainState.update { it.copy(startDestination = NavItem.Provider.Jobs.route) }
     }
 
     fun logout() {

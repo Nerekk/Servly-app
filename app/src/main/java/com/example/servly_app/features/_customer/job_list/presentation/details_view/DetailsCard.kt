@@ -3,25 +3,20 @@ package com.example.servly_app.features._customer.job_list.presentation.details_
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.features._customer.job_list.presentation.details_view.components.HeaderSection
+import com.example.servly_app.features._customer.job_list.presentation.details_view.components.InfoSection
 
 
 @Preview(
@@ -39,12 +34,12 @@ import com.example.servly_app.core.ui.theme.AppTheme
 @Composable
 fun PreviewDetailsCard() {
     AppTheme {
-        DetailsCard()
+        DetailsCard(null)
     }
 }
 
 @Composable
-fun DetailsCard() {
+fun DetailsCard(state: State<OrderDetailsState>?) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,84 +51,19 @@ fun DetailsCard() {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             HeaderSection(
-                title = "Budowa domu",
-                location = "Łódź, Polesie",
-                person = "Jan"
+                title = state!!.value.order.title,
+                location = "${state.value.order.city}, ${state.value.order.street}",
+                status = state.value.order.status
             )
 
-            InfoSection(
-                title = "Opis",
-                body = "Tutaj będzie opis budowy"
-            )
+            state.value.questions.forEachIndexed { index, question ->
+                val matchingAnswer = state.value.order.answers.find { it.id == question.id }
 
-            InfoSection(
-                title = "Dodatkowe informacje",
-                body = "Tutaj beda dodatkowe informacje o budowie"
-            )
-
-            InfoSection(
-                title = "Oczekiwany termin wykonania",
-                body = "Tutaj beda dodatkowe informacje o oczekiwanym teminie wykonania"
-            )
+                InfoSection(
+                    title = "$index. ${question.text}",
+                    body = matchingAnswer?.answer ?: "Answer unknown"
+                )
+            }
         }
     }
-}
-
-@Composable
-fun HeaderSection(
-    title: String,
-    location: String,
-    person: String
-) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.headlineMedium,
-        color = MaterialTheme.colorScheme.onSurface
-    )
-
-    Spacer(modifier = Modifier.height(8.dp))
-
-    Row {
-        Icon(
-            imageVector = Icons.Outlined.LocationOn,
-            contentDescription = "location",
-            tint = MaterialTheme.colorScheme.onSurface
-        )
-        Text(
-            text = location,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-    }
-
-    Row {
-        Icon(
-            imageVector = Icons.Outlined.Person,
-            contentDescription = "person",
-            tint = MaterialTheme.colorScheme.onSurface
-        )
-        Text(
-            text = person,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-    }
-}
-
-@Composable
-private fun InfoSection(
-    title: String,
-    body: String
-) {
-    Spacer(modifier = Modifier.height(16.dp))
-    Text(
-        text = title,
-        style = MaterialTheme.typography.titleMedium,
-        color = MaterialTheme.colorScheme.onSurface
-    )
-    Text(
-        text = body,
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.onSurface
-    )
 }
