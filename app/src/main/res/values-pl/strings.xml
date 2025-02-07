@@ -39,7 +39,7 @@
 
 
     <string name="offers_customer">Usługi</string>
-    <string name="offers_provider">Oferty</string>
+    <string name="offers_provider">Zlecenia</string>
 
     <string name="offers_info_box">Wybierz usługę której potrzebujesz i skontaktuj się z fachowcem!</string>
 
@@ -59,6 +59,24 @@
     <string name="job_form_required">Wymagane informacje o zleceniu</string>
     <string name="job_form_answer">Odpowiedź</string>
     <string name="job_form_button">Utwórz zlecenie</string>
+
+
+    <string name="job_list_browse">Przeglądaj</string>
+    <string name="job_list_browse_found">Znaleziono</string>
+    <string name="job_list_search">Szukaj zleceń..</string>
+    <string name="job_list_sort">Sortuj</string>
+    <string name="job_list_sort_clear">Od najstarszych</string>
+    <string name="job_list_sort_newest">Od najnowszych</string>
+    <string name="job_list_services">Usługi</string>
+    <string name="job_list_date">Data dodania</string>
+    <string name="job_list_date_1d">Ostatnie 24h</string>
+    <string name="job_list_date_3d">Ostatnie 3 dni</string>
+    <string name="job_list_date_7d">Ostatni tydzień</string>
+    <string name="job_list_date_30d">Ostatni miesiąc</string>
+    <string name="job_list_apply">Zastosuj</string>
+
+
+
 
     <string name="requests_customer">Zlecenia</string>
     <string name="requests_provider">Zapytania</string>

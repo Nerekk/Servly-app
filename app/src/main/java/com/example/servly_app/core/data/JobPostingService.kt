@@ -29,4 +29,14 @@ interface JobPostingService {
         @Query("page") page: Int = 0,
         @Query("size") size: Int = 10
     ): Response<PagedResponse<JobPostingInfo>>
+
+    @GET("api/${ControllerMappings.JOB_POSTING}/global")
+    suspend fun getActiveJobPostings(
+        @Query("sortType") sortType: SortType = SortType.DESCENDING,
+        @Query("page") page: Int = 0,
+        @Query("size") size: Int = 10,
+        @Query("search") search: String? = null,
+        @Query("categories") categories: List<Long>? = null,
+        @Query("days") days: Long? = null
+    ): Response<PagedResponse<JobPostingInfo>>
 }

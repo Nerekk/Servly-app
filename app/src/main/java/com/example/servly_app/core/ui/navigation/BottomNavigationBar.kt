@@ -9,12 +9,8 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
@@ -69,7 +65,7 @@ fun BottomNavigationBar(navController: NavController, items: List<NavItem>) {
 }
 
 val CUSTOMER_ITEMS = listOf(
-    NavItem.Customer.Offers,
+    NavItem.Customer.Services,
     NavItem.Customer.Requests,
     NavItem.Customer.Profile,
     NavItem.Customer.Schedule,
@@ -77,7 +73,7 @@ val CUSTOMER_ITEMS = listOf(
 )
 
 val PROVIDER_ITEMS = listOf(
-    NavItem.Provider.Offers,
+    NavItem.Provider.Jobs,
     NavItem.Provider.Requests,
     NavItem.Provider.Profile,
     NavItem.Provider.Schedule,

@@ -29,6 +29,9 @@ import com.example.servly_app.features._customer.job_create.domain.usecase.GetCa
 import com.example.servly_app.features._customer.job_create.domain.usecase.GetQuestions
 import com.example.servly_app.features._customer.job_list.domain.usecase.GetUserJobPostings
 import com.example.servly_app.features._customer.job_list.domain.usecase.RequestUseCases
+import com.example.servly_app.features._provider.job_list.domain.repository.ProviderJobListRepository
+import com.example.servly_app.features._provider.job_list.domain.usecase.GetFilteredActiveJobs
+import com.example.servly_app.features._provider.job_list.domain.usecase.ProviderJobListUseCases
 import com.example.servly_app.features.role_selection.domain.repository.UserFormRepository
 import com.example.servly_app.features.role_selection.domain.usecase.CreateCustomer
 import com.example.servly_app.features.role_selection.domain.usecase.CreateProvider
@@ -190,5 +193,17 @@ object AppModule {
         return ProviderUseCases(
             GetProvider(providerRepository)
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideProviderJobListRepository(jobPostingService: JobPostingService) : ProviderJobListRepository {
+        return ProviderJobListRepository(jobPostingService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProviderJobListUseCases(providerJobListRepository: ProviderJobListRepository) : ProviderJobListUseCases {
+        return ProviderJobListUseCases(GetFilteredActiveJobs(providerJobListRepository))
     }
 }

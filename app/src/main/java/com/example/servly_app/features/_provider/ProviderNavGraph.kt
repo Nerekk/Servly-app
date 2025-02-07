@@ -1,5 +1,6 @@
 package com.example.servly_app.features._provider
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +20,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -33,7 +33,10 @@ import com.example.servly_app.core.data.util.Role
 import com.example.servly_app.core.ui.navigation.BottomNavigationBar
 import com.example.servly_app.core.ui.navigation.NavItem
 import com.example.servly_app.core.ui.navigation.PROVIDER_ITEMS
-import com.example.servly_app.features._provider.offers.ProviderOffersView
+import com.example.servly_app.features._customer._navigation.CustomerNavItem
+import com.example.servly_app.features._customer.job_create.data.dtos.JobPostingInfo
+import com.example.servly_app.features._customer.job_list.presentation.details_view.OrderDetailsView
+import com.example.servly_app.features._provider.job_list.presentation.ProviderJobListView
 import com.example.servly_app.features._provider.profile.ProviderProfileView
 import com.example.servly_app.features._provider.requests.ProviderRequestsView
 import com.example.servly_app.features._provider.schedule.ProviderScheduleView
@@ -48,7 +51,7 @@ private val topBarExcludedRoutes = listOf(
 )
 
 private val bottomBarIncludedRoutes = listOf(
-    NavItem.Provider.Offers.route,
+    NavItem.Provider.Jobs.route,
     NavItem.Provider.Requests.route,
     NavItem.Provider.Profile.route,
     NavItem.Provider.Schedule.route,
@@ -115,7 +118,7 @@ fun ProviderNavGraph(
 
         NavHost(
             navController = navController,
-            startDestination = NavItem.Provider.Offers.route,
+            startDestination = NavItem.Provider.Jobs.route,
             modifier = if (isVisibleBottom.value || isVisibleTop.value) Modifier.padding(innerPadding) else Modifier
         ) {
 
@@ -126,10 +129,26 @@ fun ProviderNavGraph(
                 )
             }
 
-            composable(NavItem.Provider.Offers.route) {
+            composable(NavItem.Provider.Jobs.route) {
                 setAppBarTitle(stringResource(R.string.offers_provider))
-                ProviderOffersView()
+                ProviderJobListView(
+                    onClickShowDetails = { order ->
+                        navController.currentBackStackEntry?.savedStateHandle?.set("orderDetails", order)
+                        navController.navigate(CustomerNavItem.OrderDetailsView.route)
+                    }
+                )
             }
+            composable(CustomerNavItem.OrderDetailsView.route) {
+                val order: JobPostingInfo? = navController.previousBackStackEntry?.savedStateHandle?.get("orderDetails")
+
+                setAppBarTitle(stringResource(R.string.order_details))
+                Log.i("OrderDetailsView", "Composition")
+
+                if (order != null) {
+                    OrderDetailsView(order)
+                }
+            }
+
             composable(NavItem.Provider.Requests.route) {
                 setAppBarTitle(stringResource(R.string.requests_provider))
                 ProviderRequestsView()

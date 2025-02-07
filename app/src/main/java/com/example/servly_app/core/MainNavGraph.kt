@@ -61,7 +61,7 @@ fun MainNavGraph(mainViewModel: MainViewModel = hiltViewModel()) {
                 }
             )
 
-            NavItem.Customer.Offers.route -> CustomerNavGraph(
+            NavItem.Customer.Services.route -> CustomerNavGraph(
                 state,
                 navController,
                 setAppBarTitle = { title -> mainViewModel.setAppBarTitle(title) },
@@ -69,7 +69,7 @@ fun MainNavGraph(mainViewModel: MainViewModel = hiltViewModel()) {
                 logout = { mainViewModel.logout() }
             )
 
-            NavItem.Provider.Offers.route -> ProviderNavGraph(
+            NavItem.Provider.Jobs.route -> ProviderNavGraph(
                 state,
                 navController,
                 setAppBarTitle = { title -> mainViewModel.setAppBarTitle(title) },
