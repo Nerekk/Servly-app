@@ -10,7 +10,8 @@ import com.example.servly_app.features._customer.job_create.data.dtos.JobPosting
 import com.example.servly_app.features._customer.job_create.data.dtos.QuestionAnswer
 import com.example.servly_app.features._customer.job_create.data.dtos.QuestionInfo
 import com.example.servly_app.features._customer.job_create.domain.usecase.CategoryUseCases
-import com.example.servly_app.features._customer.job_create.domain.usecase.CreateJobPosting
+import com.example.servly_app.core.domain.usecase.job_posting.CreateJobPosting
+import com.example.servly_app.core.domain.usecase.job_posting.JobPostingUseCases
 import com.example.servly_app.features._customer.job_create.presentation.job_form.JobFormState.Companion.MAX_ANSWER_SIZE
 import com.example.servly_app.features._customer.job_create.presentation.job_form.JobFormState.Companion.MAX_TITLE_SIZE
 import com.example.servly_app.features._customer.job_create.presentation.main.components.JobCategory
@@ -79,7 +80,7 @@ data class JobViewAnswer(
 @HiltViewModel(assistedFactory = JobFormViewModel.JobFormViewModelFactory::class)
 class JobFormViewModel @AssistedInject constructor(
     private val categoryUseCases: CategoryUseCases,
-    private val createJobPosting: CreateJobPosting,
+    private val jobPostingUseCases: JobPostingUseCases,
     @Assisted val jobCategory: JobCategory
 ): ViewModel() {
     @AssistedFactory
@@ -141,7 +142,7 @@ class JobFormViewModel @AssistedInject constructor(
         viewModelScope.launch {
             _jobFormState.update { it.copy(isLoadingButton = true) }
 
-            val result = createJobPosting(_jobFormState.value.toJobPostingInfo(jobCategory.id))
+            val result = jobPostingUseCases.createJobPosting(_jobFormState.value.toJobPostingInfo(jobCategory.id))
             result.fold(
                 onSuccess = {
                     onSuccess()

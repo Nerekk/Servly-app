@@ -25,8 +25,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.servly_app.R
 import com.example.servly_app.core.MainState
 import com.example.servly_app.core.data.util.Role
@@ -35,19 +37,23 @@ import com.example.servly_app.core.ui.navigation.NavItem
 import com.example.servly_app.core.ui.navigation.PROVIDER_ITEMS
 import com.example.servly_app.features._customer._navigation.CustomerNavItem
 import com.example.servly_app.features._customer.job_create.data.dtos.JobPostingInfo
-import com.example.servly_app.features._customer.job_list.presentation.details_view.OrderDetailsView
+import com.example.servly_app.features._customer.profile.ProfileView
+import com.example.servly_app.features._provider._navigation.ProviderNavItem
+import com.example.servly_app.features.job_details.presentation.JobDetailsView
 import com.example.servly_app.features._provider.job_list.presentation.ProviderJobListView
 import com.example.servly_app.features._provider.profile.ProviderProfileView
-import com.example.servly_app.features._provider.requests.ProviderRequestsView
+import com.example.servly_app.features._provider.job_request_list.JobRequestListView
 import com.example.servly_app.features._provider.schedule.ProviderScheduleView
 import com.example.servly_app.features._provider.settings.ProviderSettingsView
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
+import com.example.servly_app.features.chat.presentation.ChatView
 import com.example.servly_app.features.role_selection.presentation.user_data.CustomerFormView
 import com.example.servly_app.features.role_selection.presentation.user_data.ProviderFormView
 
 
 private val topBarExcludedRoutes = listOf(
-    AuthNavItem.ProviderData.route
+    AuthNavItem.ProviderData.route,
+    ProviderNavItem.Chat.route + "/{jobRequestId}"
 )
 
 private val bottomBarIncludedRoutes = listOf(
@@ -134,33 +140,94 @@ fun ProviderNavGraph(
                 ProviderJobListView(
                     onClickShowDetails = { order ->
                         navController.currentBackStackEntry?.savedStateHandle?.set("orderDetails", order)
-                        navController.navigate(CustomerNavItem.OrderDetailsView.route)
+                        navController.navigate(ProviderNavItem.JobPostingDetails.route)
                     }
                 )
             }
-            composable(CustomerNavItem.OrderDetailsView.route) {
+            composable(ProviderNavItem.JobPostingDetails.route) {
                 val order: JobPostingInfo? = navController.previousBackStackEntry?.savedStateHandle?.get("orderDetails")
 
                 setAppBarTitle(stringResource(R.string.order_details))
                 Log.i("OrderDetailsView", "Composition")
 
                 if (order != null) {
-                    OrderDetailsView(order)
+                    JobDetailsView(
+                        order,
+                        Role.PROVIDER,
+                        showProviderProfile = {},
+                        showCustomerProfile = { id ->
+                            navController.navigate(ProviderNavItem.ProfilePreview.route + "/$id")
+                        },
+                        openChat = { },
+                        providerId = providerState.value.providerId
+                    )
                 }
             }
 
             composable(NavItem.Provider.Requests.route) {
                 setAppBarTitle(stringResource(R.string.requests_provider))
-                ProviderRequestsView()
-            }
-            composable(NavItem.Provider.Profile.route) {
-                setAppBarTitle(stringResource(R.string.profile))
-                ProviderProfileView(
-                    providerState,
-                    onContactEdit = {
-                        navController.navigate(AuthNavItem.ProviderData.route)
+                JobRequestListView(
+                    onClickShowDetails = { jobPosting ->
+                        navController.currentBackStackEntry?.savedStateHandle?.set("orderDetails", jobPosting)
+                        navController.navigate(ProviderNavItem.JobDetailsView.route)
                     }
                 )
+            }
+            composable(ProviderNavItem.JobDetailsView.route) {
+                val order: JobPostingInfo? = navController.previousBackStackEntry?.savedStateHandle?.get("orderDetails")
+
+                setAppBarTitle(stringResource(R.string.order_details))
+                Log.i("OrderDetailsView", "Composition")
+
+                if (order != null) {
+                    JobDetailsView(
+                        order,
+                        Role.PROVIDER,
+                        showProviderProfile = {},
+                        showCustomerProfile = { id ->
+                            navController.navigate(ProviderNavItem.ProfilePreview.route + "/$id")
+                        },
+                        openChat = { id ->
+                            navController.navigate(ProviderNavItem.Chat.route + "/$id")
+                        },
+                        providerId = providerState.value.providerId
+                    )
+                }
+            }
+            composable(
+                ProviderNavItem.ProfilePreview.route + "/{customerId}",
+                arguments = listOf(navArgument("customerId") { type = NavType.LongType })
+            ) { backstack ->
+                val customerId = backstack.arguments?.getLong("customerId")
+                if (customerId != null) {
+                    ProfileView(customerId)
+                } else {
+                    Log.i("NAVIGATION", "CustomerId is null")
+                }
+            }
+            composable(
+                ProviderNavItem.Chat.route + "/{jobRequestId}",
+                arguments = listOf(navArgument("jobRequestId") { type = NavType.LongType })
+            ) { backstack ->
+                val jobRequestId = backstack.arguments?.getLong("jobRequestId")
+                if (jobRequestId != null) {
+                    ChatView(
+                        navController,
+                        jobRequestId
+                    )
+                }
+            }
+
+            composable(NavItem.Provider.Profile.route) {
+                setAppBarTitle(stringResource(R.string.profile))
+                if (providerState.value.providerId != null) {
+                    ProviderProfileView(
+                        providerState.value.providerId!!,
+                        onContactEdit = {
+                            navController.navigate(AuthNavItem.ProviderData.route)
+                        }
+                    )
+                }
             }
             composable(AuthNavItem.ProviderData.route) {
                 ProviderFormView(

@@ -14,18 +14,24 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.core.util.formatRating
 
 @Preview(
     showBackground = true,
@@ -47,7 +53,8 @@ fun PreviewProfileCard() {
             customerAvatar = painterResource(R.drawable.test_square_image_large),
             customerName = "Jan Kowalski",
             customerAddress = "Łódź, Górna",
-            customerPhoneNumber = "325532643"
+            customerPhoneNumber = "325532643",
+            null, false, {}
         )
     }
 }
@@ -58,7 +65,10 @@ fun ProfileCard(
     customerAvatar: Painter,
     customerName: String,
     customerAddress: String? = null,
-    customerPhoneNumber: String? = null
+    customerPhoneNumber: String? = null,
+    rating: Double? = null,
+    reviewsVisible: Boolean,
+    updateVisibility: (Boolean) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -75,14 +85,15 @@ fun ProfileCard(
                 color = MaterialTheme.colorScheme.onBackground
             )
 
-
-            Image(
-                modifier = Modifier
-                    .size(150.dp)
-                    .padding(16.dp),
-                painter = customerAvatar,
-                contentDescription = "avatar"
-            )
+            if (!reviewsVisible) {
+                Image(
+                    modifier = Modifier
+                        .size(150.dp)
+                        .padding(16.dp),
+                    painter = customerAvatar,
+                    contentDescription = "avatar"
+                )
+            }
 
             Text(
                 text = customerName,
@@ -90,36 +101,84 @@ fun ProfileCard(
                 color = MaterialTheme.colorScheme.onBackground
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            if (!reviewsVisible) {
+                Spacer(modifier = Modifier.height(8.dp))
 
-            customerAddress?.let {
-                Row {
-                    Icon(
-                        imageVector = Icons.Filled.Place,
-                        contentDescription = "icon"
-                    )
+                customerAddress?.let {
+                    Row {
+                        Icon(
+                            imageVector = Icons.Filled.Place,
+                            contentDescription = "icon"
+                        )
 
-                    Text(
-                        text = customerAddress,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+                        Text(
+                            text = customerAddress,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                }
+
+                customerPhoneNumber?.let {
+                    Row {
+                        Icon(
+                            imageVector = Icons.Filled.Phone,
+                            contentDescription = "icon"
+                        )
+
+                        Text(
+                            text = PhoneNumberUtils.formatNumber(customerPhoneNumber, "pl") ?: customerPhoneNumber,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
                 }
             }
 
-            customerPhoneNumber?.let {
-                Row {
-                    Icon(
-                        imageVector = Icons.Filled.Phone,
-                        contentDescription = "icon"
-                    )
-
+            rating?.let {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
-                        text = PhoneNumberUtils.formatNumber(customerPhoneNumber, "pl"),
-                        style = MaterialTheme.typography.bodyMedium,
+                        text = formatRating(it),
+                        style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onBackground
                     )
+                    Icon(
+                        imageVector = Icons.Filled.Star,
+                        contentDescription = "icon",
+                        tint = Color(0xFFFFD700),
+                        modifier = Modifier.padding(end = 8.dp).size(24.dp)
+                    )
+
+                    InputChip(
+                        selected = reviewsVisible,
+                        onClick = {
+                            if (reviewsVisible) {
+                                updateVisibility(false)
+                            } else {
+                                updateVisibility(true)
+                            }
+                        },
+                        label = {
+                            Text(
+                                text = stringResource(R.string.profile_reviews),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = if (!reviewsVisible) {
+                                    MaterialTheme.colorScheme.onBackground
+                                } else {
+                                    MaterialTheme.colorScheme.onPrimary
+                                },
+                            )
+                        }
+                    )
                 }
+            } ?: run {
+                Text(
+                    text = "No reviews yet",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
             }
         }
     }

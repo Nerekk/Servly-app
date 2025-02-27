@@ -30,6 +30,7 @@ import com.example.servly_app.features.role_selection.presentation.components.He
 import com.example.servly_app.core.components.ScaffoldAuthNavBar
 import com.example.servly_app.core.components.ArrangedColumn
 import com.example.servly_app.core.components.BasicScreenLayout
+import com.example.servly_app.core.components.LoadingScreen
 import com.example.servly_app.core.data.util.Role
 
 
@@ -69,7 +70,7 @@ fun RoleSelectionView(
     Log.i("Navigation", "RoleSelectionView")
 
     if (state.value.role == null) {
-        CircularProgressIndicator()
+        LoadingScreen()
     } else {
         when (state.value.role) {
             Role.BOTH, Role.NONE -> {

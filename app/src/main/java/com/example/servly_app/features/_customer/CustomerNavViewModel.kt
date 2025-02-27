@@ -12,25 +12,22 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class CustomerState(
+    val customerId: Long? = null,
     val name: String = "",
-
     val phoneNumber: String = "",
-
     val city: String = "",
-
     val street: String = "",
-
     val houseNumber: String? = null,
-
     val latitude: Double? = null,
-
     val longitude: Double? = null,
+    val rating: Double? = null,
 
     val isLoading: Boolean = false,
     val errorMessage: String? = null
 ) {
     fun toCustomerInfo(): CustomerInfo {
         return CustomerInfo(
+            customerId,
             name,
             phoneNumber,
             city,
@@ -62,13 +59,15 @@ class CustomerNavViewModel @Inject constructor(
             result.fold(
                 onSuccess = { customer ->
                     _customerState.update { it.copy(
+                        customerId = customer.customerId,
                         name = customer.name,
                         phoneNumber = customer.phoneNumber,
                         city = customer.city,
                         street = customer.street,
                         houseNumber = customer.houseNumber,
                         latitude = customer.latitude,
-                        longitude = customer.longitude
+                        longitude = customer.longitude,
+                        rating = customer.rating
                     ) }
                 },
                 onFailure = { e ->

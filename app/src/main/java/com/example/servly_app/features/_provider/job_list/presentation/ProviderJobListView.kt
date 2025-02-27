@@ -46,9 +46,9 @@ import com.example.servly_app.core.ui.theme.AppTheme
 import com.example.servly_app.features._customer.job_create.data.dtos.JobPostingInfo
 import com.example.servly_app.features._customer.job_list.presentation.main_view.components.Order
 import com.example.servly_app.features._customer.job_list.presentation.main_view.components.OrderList
-import com.example.servly_app.features._provider.profile.components.BottomSheetCategories
-import com.example.servly_app.features._provider.profile.components.BottomSheetDate
-import com.example.servly_app.features._provider.profile.components.BottomSheetSort
+import com.example.servly_app.features._provider.job_list.presentation.components.BottomSheetCategories
+import com.example.servly_app.features._provider.job_list.presentation.components.BottomSheetDate
+import com.example.servly_app.features._provider.job_list.presentation.components.BottomSheetSort
 
 @Preview(
     showBackground = true,

@@ -11,7 +11,17 @@ data class JobCategory(
     val imageName: String
 ): Parcelable {
     fun getImageResource(): Int {
-        return R.drawable.test_square_image
+        return when (imageName) {
+            "electrician" -> R.drawable.electrician
+            "plumber" -> R.drawable.plumber
+            "painter" -> R.drawable.dyer
+            "cleaning" -> R.drawable.maid
+            "mechanic" -> R.drawable.mechanic
+            "installations" -> R.drawable.carpenter
+            "repairs" -> R.drawable.technician
+            "others" -> R.drawable.secretary
+            else -> R.drawable.clown
+        }
     }
 }
 

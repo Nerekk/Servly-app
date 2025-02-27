@@ -16,4 +16,17 @@ class ProviderRepository(private val roleService: RoleService) {
             Result.failure(e)
         }
     }
+
+    suspend fun getProviderById(id: Long): Result<ProviderInfo> {
+        return try {
+            val response = roleService.getProviderById(id)
+            if (response.isSuccessful && response.body() != null) {
+                Result.success(response.body()!!)
+            } else {
+                throw Exception("Error fetching provider info: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

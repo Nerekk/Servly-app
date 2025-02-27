@@ -15,11 +15,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ProviderState(
+    val providerId: Long? = null,
+
     val name: String = "",
     val phoneNumber: String = "",
 
     val city: String = "",
     val rangeInKm: Double = 30.0,
+
+    val aboutMe: String = "",
 
     val isValid: Boolean = true,
     val nameError: String? = null,
@@ -33,10 +37,12 @@ data class ProviderState(
 ) {
     fun toProviderInfo(): ProviderInfo {
         return ProviderInfo(
+            providerId,
             name,
             phoneNumber,
             city,
-            rangeInKm
+            rangeInKm,
+            aboutMe = aboutMe
         )
     }
 
@@ -44,7 +50,8 @@ data class ProviderState(
         return name == providerInfo.name &&
                 phoneNumber == providerInfo.phoneNumber &&
                 city == providerInfo.city &&
-                rangeInKm == providerInfo.rangeInKm
+                rangeInKm == providerInfo.rangeInKm &&
+                aboutMe == providerInfo.aboutMe
     }
 }
 
@@ -78,13 +85,20 @@ class ProviderFormViewModel @Inject constructor(
         compareInputs()
     }
 
+    fun updateAboutMe(aboutMe: String) {
+        _providerState.update { it.copy(aboutMe = aboutMe) }
+        compareInputs()
+    }
+
     fun setEditData(providerInfo: ProviderInfo) {
         _providerState.update {
             it.copy(
+                providerId = providerInfo.providerId,
                 name = providerInfo.name,
                 phoneNumber = providerInfo.phoneNumber,
                 city = providerInfo.city,
                 rangeInKm = providerInfo.rangeInKm,
+                aboutMe = providerInfo.aboutMe,
                 isEditForm = true,
                 isButtonEnabled = false
             )

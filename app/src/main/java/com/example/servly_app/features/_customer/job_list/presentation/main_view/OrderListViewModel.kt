@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.servly_app.core.data.util.JobStatus
 import com.example.servly_app.core.data.util.SortType
+import com.example.servly_app.core.domain.usecase.job_posting.JobPostingUseCases
 import com.example.servly_app.features._customer.job_create.data.dtos.CategoryInfo
 import com.example.servly_app.features._customer.job_create.data.dtos.JobPostingInfo
 import com.example.servly_app.features._customer.job_create.domain.usecase.CategoryUseCases
-import com.example.servly_app.features._customer.job_list.domain.usecase.RequestUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,7 +42,7 @@ data class OrderListState(
 
 @HiltViewModel
 class OrderListViewModel @Inject constructor(
-    private val requestUseCases: RequestUseCases,
+    private val jobPostingUseCases: JobPostingUseCases,
     private val categoryUseCases: CategoryUseCases
 ): ViewModel() {
     private val _orderListState = MutableStateFlow(OrderListState())
@@ -93,8 +93,8 @@ class OrderListViewModel @Inject constructor(
             _orderListState.update { it.copy(isLoading = true) }
             delay(500)
 
-            val result = requestUseCases.getUserJobPostings(
-                status = JobStatus.ACTIVE,
+            val result = jobPostingUseCases.getUserJobPostings(
+                statuses = listOf(JobStatus.ACTIVE, JobStatus.IN_PROGRESS),
                 sortType = _orderListState.value.sortType,
                 page = _orderListState.value.activePage,
                 size = 7
@@ -129,8 +129,8 @@ class OrderListViewModel @Inject constructor(
         viewModelScope.launch {
             _orderListState.update { it.copy(isLoading = true) }
 
-            val result = requestUseCases.getUserJobPostings(
-                status = null,
+            val result = jobPostingUseCases.getUserJobPostings(
+                statuses = listOf(JobStatus.COMPLETED, JobStatus.CANCELED),
                 sortType = _orderListState.value.sortType,
                 page = _orderListState.value.endedPage,
                 size = 10

@@ -234,7 +234,7 @@ private fun CustomerButton(
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = stringResource(R.string.role_save),
+                    text = stringResource(R.string.save),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(vertical = 4.dp)
                 )

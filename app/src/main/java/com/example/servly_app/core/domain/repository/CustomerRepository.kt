@@ -16,4 +16,17 @@ class CustomerRepository(private val roleService: RoleService) {
             Result.failure(e)
         }
     }
+
+    suspend fun getCustomerById(id: Long): Result<CustomerInfo> {
+        return try {
+            val response = roleService.getCustomerById(id)
+            if (response.isSuccessful && response.body() != null) {
+                Result.success(response.body()!!)
+            } else {
+                throw Exception("Error fetching customer info: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

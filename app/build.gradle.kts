@@ -70,6 +70,7 @@ dependencies {
 //    GSON CONVERTER
     implementation(libs.gson)
     implementation(libs.retrofit2.converter.gson)
+    implementation(libs.okhttp)
 
 //    NAVIGATION
     implementation(libs.androidx.navigation.compose)

@@ -12,23 +12,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ProviderState(
+    val providerId: Long? = null,
     val name: String = "",
-
     val phoneNumber: String = "",
-
     val city: String = "",
-
     val rangeInKm: Double = 0.0,
-
     val latitude: Double? = null,
-
     val longitude: Double? = null,
+    val rating: Double? = null,
+    val aboutMe: String = "",
 
     val isLoading: Boolean = false,
     val errorMessage: String? = null
 ) {
     fun toProviderInfo() : ProviderInfo {
-        return ProviderInfo(name, phoneNumber, city, rangeInKm, latitude, longitude)
+        return ProviderInfo(providerId, name, phoneNumber, city, rangeInKm, latitude, longitude, aboutMe = aboutMe)
     }
 }
 
@@ -52,12 +50,14 @@ class ProviderNavViewModel @Inject constructor(
             result.fold(
                 onSuccess = { provider ->
                     _providerState.update { it.copy(
+                        providerId = provider.providerId,
                         name = provider.name,
                         phoneNumber = provider.phoneNumber,
                         city = provider.city,
                         rangeInKm = provider.rangeInKm,
                         latitude = provider.latitude,
-                        longitude = provider.longitude
+                        longitude = provider.longitude,
+                        aboutMe = provider.aboutMe
                     ) }
                 },
                 onFailure = { e ->

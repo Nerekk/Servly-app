@@ -25,8 +25,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.servly_app.R
 import com.example.servly_app.core.MainState
 import com.example.servly_app.core.data.util.Role
@@ -38,17 +40,20 @@ import com.example.servly_app.features._customer.job_create.data.dtos.JobPosting
 import com.example.servly_app.features._customer.job_create.presentation.job_form.JobFormView
 import com.example.servly_app.features._customer.job_create.presentation.main.JobCategoryView
 import com.example.servly_app.features._customer.job_create.presentation.main.components.JobCategory
-import com.example.servly_app.features._customer.job_list.presentation.details_view.OrderDetailsView
+import com.example.servly_app.features.job_details.presentation.JobDetailsView
 import com.example.servly_app.features._customer.profile.ProfileView
 import com.example.servly_app.features._customer.job_list.presentation.main_view.OrderListView
 import com.example.servly_app.features._customer.schedule.ScheduleView
 import com.example.servly_app.features._customer.settings.SettingsView
+import com.example.servly_app.features._provider.profile.ProviderProfileView
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
+import com.example.servly_app.features.chat.presentation.ChatView
 import com.example.servly_app.features.role_selection.presentation.user_data.CustomerFormView
 import com.example.servly_app.features.role_selection.presentation.user_data.ProviderFormView
 
 private val topBarExcludedRoutes = listOf(
-    AuthNavItem.CustomerData.route
+    AuthNavItem.CustomerData.route,
+    CustomerNavItem.Chat.route + "/{jobRequestId}"
 )
 
 private val bottomBarIncludedRoutes = listOf(
@@ -163,19 +168,53 @@ fun CustomerNavGraph(
                 Log.i("OrderDetailsView", "Composition")
 
                 if (order != null) {
-                    OrderDetailsView(order)
+                    JobDetailsView(
+                        order,
+                        showProviderProfile = { id ->
+                            navController.navigate(CustomerNavItem.ProfilePreview.route + "/$id")
+                        },
+                        showCustomerProfile = {},
+                        openChat = { id ->
+                            navController.navigate(CustomerNavItem.Chat.route + "/$id")
+                        }
+                    )
+                }
+            }
+            composable(
+                CustomerNavItem.ProfilePreview.route + "/{providerId}",
+                arguments = listOf(navArgument("providerId") { type = NavType.LongType })
+            ) { backstack ->
+                val providerId = backstack.arguments?.getLong("providerId")
+                if (providerId != null) {
+                    ProviderProfileView(providerId)
+                } else {
+                    Log.i("NAVIGATION", "ProviderId is null")
+                }
+            }
+            composable(
+                CustomerNavItem.Chat.route + "/{jobRequestId}",
+                arguments = listOf(navArgument("jobRequestId") { type = NavType.LongType })
+            ) { backstack ->
+                val jobRequestId = backstack.arguments?.getLong("jobRequestId")
+                if (jobRequestId != null) {
+                    ChatView(
+                        navController,
+                        jobRequestId
+                    )
                 }
             }
 
 
             composable(NavItem.Customer.Profile.route) {
                 setAppBarTitle(stringResource(R.string.profile))
-                ProfileView(
-                    customerState,
-                    onEditClick = {
-                        navController.navigate(AuthNavItem.CustomerData.route)
-                    }
-                )
+                if (customerState.value.customerId != null) {
+                    ProfileView(
+                        customerState.value.customerId!!,
+                        onEditClick = {
+                            navController.navigate(AuthNavItem.CustomerData.route)
+                        }
+                    )
+                }
             }
             composable(AuthNavItem.CustomerData.route) {
                 CustomerFormView(

@@ -20,10 +20,11 @@ class JobPostingRepository(private val jobPostingService: JobPostingService) {
         }
     }
 
-    suspend fun getJobPostings(status: JobStatus? = null, sortType: SortType, page: Int, size: Int): Result<PagedResponse<JobPostingInfo>> {
+    suspend fun getJobPostings(statuses: List<JobStatus>? = null, sortType: SortType, page: Int, size: Int): Result<PagedResponse<JobPostingInfo>> {
         return try {
-            val response = if (status != null) {
-                jobPostingService.getJobPostings(status, sortType, page, size)
+            val response = if (statuses != null) {
+                val stringStatuses = statuses.map { it.toString() }
+                jobPostingService.getJobPostings(stringStatuses, sortType, page, size)
             } else {
                 jobPostingService.getJobPostingsEnded(sortType, page, size)
             }
@@ -32,6 +33,19 @@ class JobPostingRepository(private val jobPostingService: JobPostingService) {
                 Result.success(response.body()!!)
             } else {
                 throw Exception("Error fetching jobs: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun updateJobStatus(jobPostingId: Long, status: JobStatus): Result<JobPostingInfo> {
+        return try {
+            val response = jobPostingService.updateJobStatus(jobPostingId, status)
+            if (response.isSuccessful && response.body() != null) {
+                Result.success(response.body()!!)
+            } else {
+                throw Exception("Error update job status: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
             Result.failure(e)

@@ -9,6 +9,8 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface JobPostingService {
@@ -17,7 +19,7 @@ interface JobPostingService {
 
     @GET("api/${ControllerMappings.JOB_POSTING}/user")
     suspend fun getJobPostings(
-        @Query("status") status: JobStatus? = null,
+        @Query("statuses") statuses: List<String>? = null,
         @Query("sortType") sortType: SortType = SortType.DESCENDING,
         @Query("page") page: Int = 0,
         @Query("size") size: Int = 10
@@ -39,4 +41,10 @@ interface JobPostingService {
         @Query("categories") categories: List<Long>? = null,
         @Query("days") days: Long? = null
     ): Response<PagedResponse<JobPostingInfo>>
+
+    @PUT("api/${ControllerMappings.JOB_POSTING}/{jobPostingId}/status")
+    suspend fun updateJobStatus(
+        @Path("jobPostingId") jobPostingId: Long,
+        @Query("status") status: JobStatus
+    ): Response<JobPostingInfo>
 }

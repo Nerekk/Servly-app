@@ -3,6 +3,7 @@ package com.example.servly_app.features._customer.job_list.presentation.main_vie
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Card
@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
@@ -31,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.core.data.util.JobStatus
 import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.features.job_details.data.JobRequestInfo
 
 @Preview(
     showBackground = true,
@@ -63,6 +65,7 @@ fun OrderCard(
     modifier: Modifier = Modifier,
     isVerticalLineEnabled: Boolean = true
 ) {
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -74,14 +77,41 @@ fun OrderCard(
             modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min)
         ) {
             Column(modifier = Modifier.padding(16.dp).weight(1f)) {
-                Text(
-                    modifier = Modifier
-                        .background(MaterialTheme.colorScheme.tertiaryContainer, shape = RoundedCornerShape(30))
-                        .padding(horizontal = 4.dp, vertical = 2.dp),
-                    text = order.category,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onTertiaryContainer
-                )
+                order.jobRequestInfo?.let {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .background(MaterialTheme.colorScheme.tertiaryContainer, shape = RoundedCornerShape(30))
+                                .padding(horizontal = 4.dp, vertical = 2.dp),
+                            text = order.category,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
+                        )
+
+                        Text(
+                            modifier = Modifier
+                                .background(MaterialTheme.colorScheme.primaryContainer, shape = RoundedCornerShape(30))
+                                .padding(horizontal = 4.dp, vertical = 2.dp),
+                            text = order.jobRequestInfo.jobRequestStatus.toString(),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
+                        )
+                    }
+
+                } ?: run {
+                    Text(
+                        modifier = Modifier
+                            .background(MaterialTheme.colorScheme.tertiaryContainer, shape = RoundedCornerShape(30))
+                            .padding(horizontal = 4.dp, vertical = 2.dp),
+                        text = order.category,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer
+                    )
+                }
 
                 Text(
                     modifier = Modifier.padding(top = 4.dp),
@@ -127,9 +157,10 @@ fun OrderCard(
                         .fillMaxHeight()
                         .background(
                             when (order.status) {
-                                JobStatus.DONE -> Color.Green
+                                JobStatus.COMPLETED -> Color.Green
                                 JobStatus.CANCELED -> MaterialTheme.colorScheme.errorContainer
                                 JobStatus.ACTIVE -> MaterialTheme.colorScheme.tertiaryContainer
+                                JobStatus.IN_PROGRESS -> MaterialTheme.colorScheme.tertiaryContainer
                             }
                         )
                 )

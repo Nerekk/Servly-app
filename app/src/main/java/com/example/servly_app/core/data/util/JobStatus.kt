@@ -2,6 +2,7 @@ package com.example.servly_app.core.data.util
 
 enum class JobStatus {
     ACTIVE,
-    DONE,
+    IN_PROGRESS,
+    COMPLETED,
     CANCELED
 }

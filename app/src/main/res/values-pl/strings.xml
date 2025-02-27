@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Servly</string>
-    <string name="app_description">Tu bedzie krotki opis mojej aplikacji oraz jej funkcjonalnosci</string>
+    <string name="app_description">Szybka pomoc, pewne rozwiązania</string>
     <string name="app_login_google">Zaloguj się za pomocą Google</string>
     <string name="app_login">Zaloguj się przez Email</string>
     <string name="app_or">lub</string>
@@ -32,10 +32,13 @@
     <string name="customer_field_house_number">Numer mieszkania (opcjonalnie)</string>
     <string name="provider_field_address">Miasto pracy</string>
     <string name="provider_field_area">Obszar działania: do </string>
+    <string name="provider_aboutme_section">Sekcja o mnie</string>
+    <string name="provider_field_aboutme">O mnie (opcjonalne)</string>
     <string name="field_error_empty">Wypełnij to pole</string>
     <string name="field_error_format">Nieprawidłowy format</string>
 
-    <string name="role_save">Zapisz</string>
+    <string name="save">Zapisz</string>
+    <string name="edit">Edytuj</string>
 
 
     <string name="offers_customer">Usługi</string>
@@ -83,7 +86,7 @@
 
     <string name="tab_active">Aktywne</string>
     <string name="tab_ended">Zakończone</string>
-    <string name="providers">Zainteresowani usługodawcy</string>
+    <string name="providers">Zapytania usługodawców</string>
     <string name="no_providers">Brak zainteresowanych usługodawców</string>
 
     <string name="order_details">Szczegóły</string>
@@ -108,5 +111,65 @@
     <string name="schedule">Terminarz</string>
 
     <string name="settings">Ustawienia</string>
+
+    <string name="enum_schedule_approved">Zaakceptowany</string>
+    <string name="enum_schedule_rejected">Odrzucony</string>
+    <string name="enum_schedule_waiting">Wymagana akcja</string>
+
+    <string name="enum_job_active">Aktywne</string>
+    <string name="enum_job_inprogress">W trakcie</string>
+    <string name="enum_job_canceled">Anulowane</string>
+    <string name="enum_job_completed">Ukończone</string>
+
+    <string name="enum_job_request_waiting">Wymagana akcja</string>
+    <string name="enum_job_request_withdrawn">Wycofane</string>
+    <string name="enum_job_request_rejected">Odrzucone</string>
+    <string name="enum_job_request_canceledby_provider">Anulowane przez wykonawce</string>
+    <string name="enum_job_request_canceledby_customer">Anulowane przez zlecającego</string>
+
+    <string name="info_job_provider_await_selection">Oczekiwanie na wybór przez zleceniodawce</string>
+    <string name="info_job_provider_selected">Zleceniodawca wybrał cię na wykonawcę!</string>
+    <string name="info_job_schedule_action">Harmonogram oczekuje na akceptację</string>
+
+    <string name="info_job_customer_finish">Klient chce zakończyć zlecenie</string>
+    <string name="info_job_provider_finish">Wykonawca chce zakończyć zlecenie</string>
+
+    <string name="details_show_profile">Profil</string>
+    <string name="details_job_status">Status ogłoszenia</string>
+    <string name="details_schedule">Harmonogram</string>
+    <string name="details_schedule_none">Brak</string>
+    <string name="details_job_request_status">Status zlecenia</string>
+
+    <string name="details_button_finish">Ukończ</string>
+    <string name="details_button_reject">Odrzuć</string>
+    <string name="details_button_schedule_show">Pokaż harmonogram</string>
+    <string name="details_button_schedule_create">Utwórz harmonogram</string>
+    <string name="details_button_job_cancel">Anuluj zlecenie</string>
+    <string name="details_button_job_finish_request">Poproś o ukończenie</string>
+    <string name="details_button_job_withdrawn">Wycofaj zapytanie</string>
+    <string name="details_button_job_accept">Zaakceptuj zlecenie</string>
+
+
+    <string name="schedule_old">Stary</string>
+    <string name="schedule_new">Nowy</string>
+    <string name="schedule_updatedat">Data aktualizacji</string>
+    <string name="schedule_date_start">Początek</string>
+    <string name="schedule_date_end">Koniec</string>
+    <string name="schedule_title">Tytuł zadania</string>
+    <string name="schedule_description">Opis zadania</string>
+    <string name="schedule_description_placeholder">Opis (opcjonalny)</string>
+    <string name="schedule_price">Cena za usługę (opcjonalna)</string>
+    <string name="schedule_approve">Zatwierdź</string>
+
+
+    <string name="review_job">Zlecenie</string>
+    <string name="review_rating">Ocena</string>
+    <string name="review_opinion">Opinia (opcjonalna)</string>
+    <string name="review_opinion_field">Twoje osobiste doświadczenie</string>
+    <string name="review_send">Wystaw opinię</string>
+
+    <string name="message">Wiadomość</string>
+
+    <string name="unknown">Nieznane</string>
 
 </resources>

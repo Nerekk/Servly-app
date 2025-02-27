@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.servly_app.core.components.LoadingScreen
 import com.example.servly_app.core.data.util.Role
 import com.example.servly_app.core.ui.navigation.NavItem
 import com.example.servly_app.core.ui.theme.AppTheme
@@ -41,7 +42,7 @@ fun MainNavGraph(mainViewModel: MainViewModel = hiltViewModel()) {
     val state = mainViewModel.mainState.collectAsState()
 
     if (state.value.isLoading) {
-        CircularProgressIndicator()
+        LoadingScreen()
     } else {
         when (state.value.startDestination) {
             AuthNavItem.Welcome.route -> AuthNavGraph(

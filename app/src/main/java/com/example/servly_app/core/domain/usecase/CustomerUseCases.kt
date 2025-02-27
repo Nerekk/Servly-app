@@ -1,5 +1,6 @@
 package com.example.servly_app.core.domain.usecase
 
 data class CustomerUseCases(
-    val getCustomer: GetCustomer
+    val getCustomer: GetCustomer,
+    val getCustomerById: GetCustomerById
 )

@@ -15,6 +15,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class CustomerState(
+    val customerId: Long? = null,
+
     val name: String = "",
     val phoneNumber: String = "",
 
@@ -35,6 +37,7 @@ data class CustomerState(
 ) {
     fun toCustomerInfo(): CustomerInfo {
         return CustomerInfo(
+            customerId,
             name,
             phoneNumber,
             city,
@@ -89,6 +92,7 @@ class CustomerFormViewModel @Inject constructor(
     fun setEditData(customerInfo: CustomerInfo) {
         _customerState.update {
             it.copy(
+                customerId = customerInfo.customerId,
                 name = customerInfo.name,
                 phoneNumber = customerInfo.phoneNumber,
                 city = customerInfo.city,
