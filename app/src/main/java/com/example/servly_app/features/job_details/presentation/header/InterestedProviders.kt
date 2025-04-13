@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.core.util.EnumUtils
 import com.example.servly_app.features.job_details.data.JobRequestInfo
 import com.example.servly_app.features.job_details.presentation.JobRequestDetailsState
 import com.example.servly_app.features.role_selection.data.ProviderInfo
@@ -95,7 +96,7 @@ private fun ProvidersList(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = jobRequestInfo.jobRequestStatus.toString(),
+                    text = stringResource(EnumUtils.getStatusString(jobRequestInfo.jobRequestStatus)),
                     style = MaterialTheme.typography.bodySmall,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.secondary

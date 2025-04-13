@@ -39,6 +39,7 @@ import com.example.servly_app.features._customer.job_create.data.source.Category
 import com.example.servly_app.features._customer.job_create.domain.repository.CategoryRepository
 import com.example.servly_app.features._customer.job_create.domain.usecase.CategoryUseCases
 import com.example.servly_app.core.domain.usecase.job_posting.CreateJobPosting
+import com.example.servly_app.core.domain.usecase.job_posting.GetJobPosting
 import com.example.servly_app.features._customer.job_create.domain.usecase.GetCategories
 import com.example.servly_app.features._customer.job_create.domain.usecase.GetQuestions
 import com.example.servly_app.core.domain.usecase.job_posting.GetUserJobPostings
@@ -54,6 +55,8 @@ import com.example.servly_app.core.domain.usecase.reviews.ReviewUseCases
 import com.example.servly_app.core.domain.usecase.schedule.ApproveScheduleAsCustomer
 import com.example.servly_app.core.domain.usecase.schedule.CreateScheduleForJob
 import com.example.servly_app.core.domain.usecase.schedule.GetScheduleForJob
+import com.example.servly_app.core.domain.usecase.schedule.GetScheduleSummaryForUser
+import com.example.servly_app.core.domain.usecase.schedule.GetSchedulesForDay
 import com.example.servly_app.core.domain.usecase.schedule.GetSchedulesForUser
 import com.example.servly_app.core.domain.usecase.schedule.RejectScheduleAsCustomer
 import com.example.servly_app.core.domain.usecase.schedule.ScheduleUseCases
@@ -207,7 +210,8 @@ object AppModule {
         return JobPostingUseCases(
             createJobPosting = CreateJobPosting(jobPostingRepository),
             getUserJobPostings = GetUserJobPostings(jobPostingRepository),
-            updateJobStatus = UpdateJobStatus(jobPostingRepository)
+            updateJobStatus = UpdateJobStatus(jobPostingRepository),
+            getJobPosting = GetJobPosting(jobPostingRepository)
         )
     }
 
@@ -284,7 +288,9 @@ object AppModule {
             createScheduleForJob = CreateScheduleForJob(scheduleRepository),
             updateScheduleForJob = UpdateScheduleForJob(scheduleRepository),
             approveScheduleAsCustomer = ApproveScheduleAsCustomer(scheduleRepository),
-            rejectScheduleAsCustomer = RejectScheduleAsCustomer(scheduleRepository)
+            rejectScheduleAsCustomer = RejectScheduleAsCustomer(scheduleRepository),
+            getSchedulesForDay = GetSchedulesForDay(scheduleRepository),
+            getScheduleSummaryForUser = GetScheduleSummaryForUser(scheduleRepository)
         )
     }
 

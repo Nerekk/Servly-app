@@ -42,8 +42,7 @@ fun PreviewDetailsCard() {
 
 data class JobDetails(
     val title: String = "",
-    val city: String = "",
-    val street: String = "",
+    val address: String = "",
     val status: JobStatus = JobStatus.ACTIVE,
     val questions: List<QuestionInfo> = emptyList(),
     val answers: List<QuestionAnswer> = emptyList()
@@ -63,7 +62,7 @@ fun JobDetailsCard(details: JobDetails) {
         Column(modifier = Modifier.padding(16.dp)) {
             JobDetailsHeaderSection(
                 title = details.title,
-                location = "${details.city}, ${details.street}"
+                location = details.address
             )
 
             details.questions.forEachIndexed { index, question ->

@@ -17,7 +17,7 @@
     <string name="google_error2">No Google account found</string>
 
     <string name="role_question">Who are you?</string>
-    <string name="role_description">Customer and service provider description to help in role selection</string>
+    <string name="role_description">Choose your role. Your role defines whether you want to request services or offer them. You can change it at any time.</string>
     <string name="role_customer">Customer</string>
     <string name="role_service">Service provider</string>
 
@@ -106,6 +106,7 @@
 
 
     <string name="schedule">Schedule</string>
+    <string name="timetable">Timetable</string>
 
     <string name="settings">Settings</string>
 
@@ -169,5 +170,41 @@
     <string name="message">Message</string>
 
     <string name="unknown">Unknown</string>
+
+    <string name="timetable_planned">Planned work</string>
+    <string name="timetable_plannedmonth">planned tasks in this month</string>
+    <string name="timetable_reminder">Set reminder</string>
+    <string name="timetable_noplans">No plans on this day</string>
+
+    <string name="settings_nightmode">Night mode</string>
+    <string name="settings_language">Change language</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_changerole">Change role</string>
+    <string name="settings_changepassword">Change password</string>
+    <string name="settings_logout">Logout</string>
+
+    <string name="set_location">Set location</string>
+    <string name="find_location">Find location</string>
+    <string name="write_address">Write address</string>
+    <string name="location">Location</string>
+    <string name="create_request">Create request</string>
+    <string name="rate_this_job">You can rate this job</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="send_link">Send link</string>
+    <string name="open_chat">Open chat</string>
+    <string name="select_provider">Select this provider</string>
+
+    <string name="toast_profil_update_success">Profile update success</string>
+    <string name="toast_profil_update_failed">Profile update failed</string>
+    <string name="toast_reset_link_success">Reset link sent to</string>
+    <string name="toast_reset_link_failed">Reset link sending failed</string>
+    <string name="toast_create_job_success">Create job success</string>
+    <string name="toast_create_job_failed">Create job failed</string>
+    <string name="toast_email_not_found">Email not found</string>
+    <string name="change">Change</string>
+    <string name="clear">Clear</string>
+    <string name="autofill">Autofill</string>
+    <string name="no_reviews">No reviews yet</string>
+    <string name="no_orders">No orders found</string>
 
 </resources>

@@ -14,8 +14,11 @@ class GetFilteredActiveJobs(
         size: Int,
         search: String? = null,
         categories: List<Long>? = null,
-        days: Long? = null
+        days: Long? = null,
+        latitude: Double? = null,
+        longitude: Double? = null,
+        distanceInKm: Double? = null
     ): Result<PagedResponse<JobPostingInfo>> {
-        return provderJobListRepository.getFilteredActiveJobPostings(sortType, page, size, search, categories, days)
+        return provderJobListRepository.getFilteredActiveJobPostings(sortType, page, size, search, categories, days, latitude, longitude, distanceInKm)
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.servly_app.features.authentication.presentation.forgot_password.ForgotPasswordView
 import com.example.servly_app.features.authentication.presentation.login_view.AuthType
 import com.example.servly_app.features.authentication.presentation.login_view.AuthView
 import com.example.servly_app.features.authentication.presentation.login_view.WelcomeScreen
@@ -43,6 +44,9 @@ fun AuthNavGraph(
                     checkUserStatus()
                 }
             )
+        }
+        composable(AuthNavItem.ForgotPassword.route) {
+            ForgotPasswordView(navController)
         }
     }
 }

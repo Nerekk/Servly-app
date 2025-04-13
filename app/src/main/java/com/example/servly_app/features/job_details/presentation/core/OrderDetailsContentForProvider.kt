@@ -19,6 +19,7 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.components.BasicScreenLayout
@@ -151,7 +152,7 @@ fun OrderDetailsContentForProvider(
                             jobRequestState.value.providersJobRequest?.providerReview?.let {
                                 ReviewCard(it)
                             } ?: run {
-                                InfoTextField("Możesz ocenić to zlecenie")
+                                InfoTextField(stringResource(R.string.rate_this_job))
                                 ReviewFormView(
                                     role = Role.PROVIDER,
                                     jobRequestId = jobRequestState.value.providersJobRequest!!.id!!,
@@ -177,7 +178,7 @@ fun OrderDetailsContentForProvider(
                                     .padding(top = 16.dp)
                             ) {
                                 Text(
-                                    text = "Utwórz zapytanie",
+                                    text = stringResource(R.string.create_request),
                                     modifier = Modifier.padding(vertical = 4.dp)
                                 )
                             }

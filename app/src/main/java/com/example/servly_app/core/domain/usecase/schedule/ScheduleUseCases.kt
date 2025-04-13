@@ -6,5 +6,7 @@ data class ScheduleUseCases(
     val createScheduleForJob: CreateScheduleForJob,
     val updateScheduleForJob: UpdateScheduleForJob,
     val approveScheduleAsCustomer: ApproveScheduleAsCustomer,
-    val rejectScheduleAsCustomer: RejectScheduleAsCustomer
+    val rejectScheduleAsCustomer: RejectScheduleAsCustomer,
+    val getSchedulesForDay: GetSchedulesForDay,
+    val getScheduleSummaryForUser: GetScheduleSummaryForUser
 )

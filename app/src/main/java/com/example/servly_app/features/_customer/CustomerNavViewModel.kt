@@ -15,9 +15,7 @@ data class CustomerState(
     val customerId: Long? = null,
     val name: String = "",
     val phoneNumber: String = "",
-    val city: String = "",
-    val street: String = "",
-    val houseNumber: String? = null,
+    val address: String? = null,
     val latitude: Double? = null,
     val longitude: Double? = null,
     val rating: Double? = null,
@@ -30,9 +28,7 @@ data class CustomerState(
             customerId,
             name,
             phoneNumber,
-            city,
-            street,
-            houseNumber,
+            address,
             latitude,
             longitude
         )
@@ -62,9 +58,7 @@ class CustomerNavViewModel @Inject constructor(
                         customerId = customer.customerId,
                         name = customer.name,
                         phoneNumber = customer.phoneNumber,
-                        city = customer.city,
-                        street = customer.street,
-                        houseNumber = customer.houseNumber,
+                        address = customer.address,
                         latitude = customer.latitude,
                         longitude = customer.longitude,
                         rating = customer.rating

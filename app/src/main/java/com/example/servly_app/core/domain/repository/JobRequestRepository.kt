@@ -4,6 +4,7 @@ import com.example.servly_app.core.data.JobRequestService
 import com.example.servly_app.core.data.util.JobRequestStatus
 import com.example.servly_app.core.data.util.PagedResponse
 import com.example.servly_app.core.data.util.SortType
+import com.example.servly_app.core.util.ErrorStore
 import com.example.servly_app.features.job_details.data.JobRequestInfo
 
 class JobRequestRepository(private val jobRequestService: JobRequestService) {
@@ -16,6 +17,7 @@ class JobRequestRepository(private val jobRequestService: JobRequestService) {
                 throw Exception("Error create job request: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -36,6 +38,7 @@ class JobRequestRepository(private val jobRequestService: JobRequestService) {
                 throw Exception("Error fetching job requests: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -50,6 +53,7 @@ class JobRequestRepository(private val jobRequestService: JobRequestService) {
                 throw Exception("Error fetching job requests: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -67,6 +71,7 @@ class JobRequestRepository(private val jobRequestService: JobRequestService) {
                 throw Exception("Error updating request status: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -84,6 +89,7 @@ class JobRequestRepository(private val jobRequestService: JobRequestService) {
                 throw Exception("Error updating request status: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -100,6 +106,7 @@ class JobRequestRepository(private val jobRequestService: JobRequestService) {
                 throw Exception("Error updating request status: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }

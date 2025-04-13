@@ -34,12 +34,12 @@ import com.example.servly_app.features._provider.job_list.presentation.ProviderJ
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 fun BottomSheetCategories(
     state: State<ProviderJobListState>,
-    updateSheetVisibility: (Boolean, Boolean, Boolean) -> Unit,
+    updateSheetVisibility: (Boolean, Boolean, Boolean, Boolean) -> Unit,
     updateSelectedCategories: (List<Long>) -> Unit,
 ) {
     if (state.value.isCategorySheetVisible) {
         ModalBottomSheet(
-            onDismissRequest = { updateSheetVisibility(false, false, false) }
+            onDismissRequest = { updateSheetVisibility(false, false, false, false) }
         ) {
             var selectedCategories by remember { mutableStateOf(emptyList<Long>()) }
 
@@ -62,7 +62,7 @@ fun BottomSheetCategories(
                         imageVector = Icons.Default.Close,
                         contentDescription = "Close",
                         modifier = Modifier
-                            .clickable { updateSheetVisibility(false, false, false) }
+                            .clickable { updateSheetVisibility(false, false, false, false) }
                     )
                 }
 
@@ -98,7 +98,7 @@ fun BottomSheetCategories(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = state.value.selectedCategories != selectedCategories,
                     onClick = {
-                        updateSheetVisibility(false, false, false)
+                        updateSheetVisibility(false, false, false, false)
                         updateSelectedCategories(selectedCategories)
                     }
                 ) {

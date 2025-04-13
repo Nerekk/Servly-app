@@ -104,7 +104,7 @@ private fun ProviderProfileContent(
                 item {
                     ProviderProfileCard(
                         title = stringResource(R.string.profile_provider),
-                        providerAvatar = painterResource(R.drawable.test_square_image_large),
+                        providerAvatar = painterResource(R.drawable.account_circle_24px),
                         providerName = providerState.value.name,
                         providerRating = providerState.value.rating,
                         reviewsVisible = reviewsVisible,
@@ -119,7 +119,7 @@ private fun ProviderProfileContent(
 
                     SectionContactDetails(
                         phoneNumber = providerState.value.phoneNumber,
-                        city = providerState.value.city,
+                        city = providerState.value.address ?: "Unknown",
                         onContactEdit = onContactEdit
                     )
 
@@ -157,7 +157,7 @@ private fun SectionContactDetails(
                 onClick = { onContactEdit() },
                 label = {
                     Text(
-                        text = "Edit",
+                        text = stringResource(R.string.edit),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onBackground,
                     )

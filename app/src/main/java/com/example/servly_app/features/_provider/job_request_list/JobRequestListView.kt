@@ -72,7 +72,7 @@ private fun JobRequestListContent(
                 selectedTabIndex = state.value.selectedTabIndex,
                 modifier = Modifier
                     .padding(vertical = 4.dp)
-                    .clip(RoundedCornerShape(30))
+                    .clip(RoundedCornerShape(50))
                     .background(
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -89,12 +89,12 @@ private fun JobRequestListContent(
                         modifier = if (selected) Modifier
                             .background(
                                 color = MaterialTheme.colorScheme.onPrimary,
-                                shape = RoundedCornerShape(30)
+                                shape = RoundedCornerShape(50)
                             )
                         else Modifier
                             .background(
                                 color = MaterialTheme.colorScheme.primary,
-                                shape = RoundedCornerShape(30)
+                                shape = RoundedCornerShape(50)
                             ),
 
                         text = {
@@ -120,7 +120,7 @@ private fun JobRequestListContent(
                             Order(
                                 id = jobRequest.id!!,
                                 title = jobRequest.jobPostingInfo!!.title,
-                                location = "${jobRequest.jobPostingInfo.city}, ${jobRequest.jobPostingInfo.street}",
+                                location = jobRequest.jobPostingInfo.address ?: "Unknown",
                                 category = state.value.getCategoryName(jobRequest.jobPostingInfo.categoryId),
                                 status = jobRequest.jobPostingInfo.status,
                                 person = jobRequest.jobPostingInfo.customerName,
@@ -141,7 +141,7 @@ private fun JobRequestListContent(
                             Order(
                                 id = jobRequest.id!!,
                                 title = jobRequest.jobPostingInfo!!.title,
-                                location = "${jobRequest.jobPostingInfo.city}, ${jobRequest.jobPostingInfo.street}",
+                                location = jobRequest.jobPostingInfo.address ?: "Unknown",
                                 category = state.value.getCategoryName(jobRequest.jobPostingInfo.categoryId),
                                 status = jobRequest.jobPostingInfo.status,
                                 person = jobRequest.jobPostingInfo.customerName,

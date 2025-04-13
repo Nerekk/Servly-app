@@ -40,19 +40,20 @@ import com.example.servly_app.features._customer.job_create.data.dtos.JobPosting
 import com.example.servly_app.features._customer.job_create.presentation.job_form.JobFormView
 import com.example.servly_app.features._customer.job_create.presentation.main.JobCategoryView
 import com.example.servly_app.features._customer.job_create.presentation.main.components.JobCategory
-import com.example.servly_app.features.job_details.presentation.JobDetailsView
-import com.example.servly_app.features._customer.profile.ProfileView
 import com.example.servly_app.features._customer.job_list.presentation.main_view.OrderListView
-import com.example.servly_app.features._customer.schedule.ScheduleView
+import com.example.servly_app.features._customer.profile.ProfileView
 import com.example.servly_app.features._customer.settings.SettingsView
 import com.example.servly_app.features._provider.profile.ProviderProfileView
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
 import com.example.servly_app.features.chat.presentation.ChatView
+import com.example.servly_app.features.job_details.presentation.JobDetailsView
 import com.example.servly_app.features.role_selection.presentation.user_data.CustomerFormView
 import com.example.servly_app.features.role_selection.presentation.user_data.ProviderFormView
+import com.example.servly_app.features.timetable.presentation.TimetableView
 
 private val topBarExcludedRoutes = listOf(
     AuthNavItem.CustomerData.route,
+    AuthNavItem.ProviderData.route,
     CustomerNavItem.Chat.route + "/{jobRequestId}"
 )
 
@@ -63,7 +64,6 @@ private val bottomBarIncludedRoutes = listOf(
     NavItem.Customer.Schedule.route,
     NavItem.Customer.Settings.route
 )
-
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -139,6 +139,8 @@ fun CustomerNavGraph(
                 )
             }
             composable(CustomerNavItem.JobFormView.route) {
+                val toastMessage = stringResource(R.string.toast_create_job_success)
+
                 val jobCategory: JobCategory? = navController.previousBackStackEntry?.savedStateHandle?.get("serviceCategory")
                 jobCategory?.name?.let { setAppBarTitle(it) }
                 JobFormView(
@@ -146,7 +148,7 @@ fun CustomerNavGraph(
                     customerState,
                     onSuccess = {
                         navController.popBackStack()
-                        Toast.makeText(context, "Create job success", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
                     }
                 )
             }
@@ -217,20 +219,22 @@ fun CustomerNavGraph(
                 }
             }
             composable(AuthNavItem.CustomerData.route) {
+                val toastMessage = stringResource(R.string.toast_profil_update_success)
+
                 CustomerFormView(
                     navController,
                     customerState.value.toCustomerInfo(),
                     onSuccess = {
                         navController.popBackStack()
-                        Toast.makeText(context, "Update profile success", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
                         viewModel.loadCustomer()
                     }
                 )
             }
 
             composable(NavItem.Customer.Schedule.route) {
-                setAppBarTitle(stringResource(R.string.schedule))
-                ScheduleView()
+                setAppBarTitle(stringResource(R.string.timetable))
+                TimetableView(Role.CUSTOMER)
             }
             composable(NavItem.Customer.Settings.route) {
                 setAppBarTitle(stringResource(R.string.settings))

@@ -5,6 +5,7 @@ import com.example.servly_app.core.data.JobPostingService
 import com.example.servly_app.core.data.util.JobStatus
 import com.example.servly_app.core.data.util.PagedResponse
 import com.example.servly_app.core.data.util.SortType
+import com.example.servly_app.core.util.ErrorStore
 
 class JobPostingRepository(private val jobPostingService: JobPostingService) {
     suspend fun createJobPosting(jobPostingInfo: JobPostingInfo): Result<JobPostingInfo> {
@@ -16,6 +17,22 @@ class JobPostingRepository(private val jobPostingService: JobPostingService) {
                 throw Exception("Error create job: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getJobPosting(jobPostingId: Long): Result<JobPostingInfo> {
+        return try {
+            val response = jobPostingService.getJobPosting(jobPostingId)
+
+            if (response.isSuccessful && response.body() != null) {
+                Result.success(response.body()!!)
+            } else {
+                throw Exception("Error fetching jobs: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -35,6 +52,7 @@ class JobPostingRepository(private val jobPostingService: JobPostingService) {
                 throw Exception("Error fetching jobs: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -48,6 +66,7 @@ class JobPostingRepository(private val jobPostingService: JobPostingService) {
                 throw Exception("Error update job status: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }

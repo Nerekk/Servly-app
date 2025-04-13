@@ -1,5 +1,6 @@
 package com.example.servly_app.features.authentication.domain.repository
 
+import com.example.servly_app.core.util.ErrorStore
 import com.example.servly_app.features.authentication.data.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -15,6 +16,7 @@ class AuthRepositoryImpl(
             val authResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
             Result.success(authResult.user)
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -24,6 +26,7 @@ class AuthRepositoryImpl(
             val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             Result.success(authResult.user)
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -34,6 +37,7 @@ class AuthRepositoryImpl(
             val authResult = firebaseAuth.signInWithCredential(credential).await()
             Result.success(authResult.user)
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }

@@ -7,7 +7,7 @@ data class ProviderInfo(
 
     val phoneNumber: String,
 
-    val city: String,
+    val address: String? = null,
 
     val rangeInKm: Double,
 

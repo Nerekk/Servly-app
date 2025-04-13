@@ -19,6 +19,7 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.components.BasicScreenLayout
@@ -142,7 +143,7 @@ fun OrderDetailsContentForCustomer(
                             jobRequestState.value.selectedJobRequest?.customerReview?.let {
                                 ReviewCard(it)
                             } ?: run {
-                                InfoTextField("Możesz ocenić to zlecenie")
+                                InfoTextField(stringResource(R.string.rate_this_job))
                                 ReviewFormView(
                                     role = Role.CUSTOMER,
                                     jobRequestId = jobRequestState.value.selectedJobRequest!!.id!!,
@@ -166,7 +167,7 @@ fun OrderDetailsContentForCustomer(
                                 modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
                             ) {
                                 Text(
-                                    text = "Anuluj zlecenie",
+                                    text = stringResource(R.string.details_button_job_cancel),
                                     color = MaterialTheme.colorScheme.error
                                 )
                             }

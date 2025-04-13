@@ -35,24 +35,24 @@ import com.example.servly_app.core.data.util.Role
 import com.example.servly_app.core.ui.navigation.BottomNavigationBar
 import com.example.servly_app.core.ui.navigation.NavItem
 import com.example.servly_app.core.ui.navigation.PROVIDER_ITEMS
-import com.example.servly_app.features._customer._navigation.CustomerNavItem
 import com.example.servly_app.features._customer.job_create.data.dtos.JobPostingInfo
 import com.example.servly_app.features._customer.profile.ProfileView
+import com.example.servly_app.features._customer.settings.SettingsView
 import com.example.servly_app.features._provider._navigation.ProviderNavItem
-import com.example.servly_app.features.job_details.presentation.JobDetailsView
 import com.example.servly_app.features._provider.job_list.presentation.ProviderJobListView
-import com.example.servly_app.features._provider.profile.ProviderProfileView
 import com.example.servly_app.features._provider.job_request_list.JobRequestListView
-import com.example.servly_app.features._provider.schedule.ProviderScheduleView
+import com.example.servly_app.features._provider.profile.ProviderProfileView
 import com.example.servly_app.features._provider.settings.ProviderSettingsView
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
 import com.example.servly_app.features.chat.presentation.ChatView
+import com.example.servly_app.features.job_details.presentation.JobDetailsView
 import com.example.servly_app.features.role_selection.presentation.user_data.CustomerFormView
 import com.example.servly_app.features.role_selection.presentation.user_data.ProviderFormView
-
+import com.example.servly_app.features.timetable.presentation.TimetableView
 
 private val topBarExcludedRoutes = listOf(
     AuthNavItem.ProviderData.route,
+    AuthNavItem.CustomerData.route,
     ProviderNavItem.Chat.route + "/{jobRequestId}"
 )
 
@@ -138,6 +138,7 @@ fun ProviderNavGraph(
             composable(NavItem.Provider.Jobs.route) {
                 setAppBarTitle(stringResource(R.string.offers_provider))
                 ProviderJobListView(
+                    providerState = providerState,
                     onClickShowDetails = { order ->
                         navController.currentBackStackEntry?.savedStateHandle?.set("orderDetails", order)
                         navController.navigate(ProviderNavItem.JobPostingDetails.route)
@@ -158,7 +159,9 @@ fun ProviderNavGraph(
                         showCustomerProfile = { id ->
                             navController.navigate(ProviderNavItem.ProfilePreview.route + "/$id")
                         },
-                        openChat = { },
+                        openChat = { id ->
+                            navController.navigate(ProviderNavItem.Chat.route + "/$id")
+                        },
                         providerId = providerState.value.providerId
                     )
                 }
@@ -230,29 +233,31 @@ fun ProviderNavGraph(
                 }
             }
             composable(AuthNavItem.ProviderData.route) {
+                val toastMessage = stringResource(R.string.toast_profil_update_success)
+
                 ProviderFormView(
                     navController,
                     providerState.value.toProviderInfo(),
                     onSuccess = {
                         navController.popBackStack()
-                        Toast.makeText(context, "Update profile success", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
                         viewModel.loadProvider()
                     }
                 )
             }
 
             composable(NavItem.Provider.Schedule.route) {
-                setAppBarTitle(stringResource(R.string.schedule))
-                ProviderScheduleView()
+                setAppBarTitle(stringResource(R.string.timetable))
+                TimetableView(Role.PROVIDER)
             }
             composable(NavItem.Provider.Settings.route) {
                 setAppBarTitle(stringResource(R.string.settings))
-                ProviderSettingsView(
+                SettingsView(
                     onSwitchRole = {
                         if (state.value.userRole == Role.BOTH) {
                             checkUserStatus()
                         } else {
-                            navController.navigate(AuthNavItem.ProviderData.route)
+                            navController.navigate(AuthNavItem.CustomerData.route)
                         }
                     },
                     onLogout = { logout() }

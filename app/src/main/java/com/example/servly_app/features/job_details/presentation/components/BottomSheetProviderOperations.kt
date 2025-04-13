@@ -18,7 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.servly_app.R
 import com.example.servly_app.core.data.util.JobRequestStatus
 import com.example.servly_app.features.job_details.data.JobRequestInfo
 import com.example.servly_app.features.job_details.presentation.JobRequestDetailsState
@@ -68,7 +70,7 @@ fun BottomSheetProviderOperations(
                         clearBottomSheetProvider()
                     }
                 ) {
-                    Text("Zobacz profil")
+                    Text(stringResource(R.string.details_show_profile))
                 }
 
                 OutlinedButton(
@@ -78,7 +80,7 @@ fun BottomSheetProviderOperations(
                         clearBottomSheetProvider()
                     }
                 ) {
-                    Text("Otwórz czat")
+                    Text(stringResource(R.string.open_chat))
                 }
 
                 Button(
@@ -90,7 +92,7 @@ fun BottomSheetProviderOperations(
                     enabled = (state.value.bottomSheetJobRequest!!.jobRequestStatus != JobRequestStatus.WAITING_FOR_PROVIDER_APPROVE &&
                             state.value.bottomSheetJobRequest!!.jobRequestStatus != JobRequestStatus.WITHDRAWN)
                 ) {
-                    Text("Wybierz tego usługodawce")
+                    Text(stringResource(R.string.select_provider))
                 }
             }
         }

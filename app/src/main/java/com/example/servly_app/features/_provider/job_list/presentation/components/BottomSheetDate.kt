@@ -32,12 +32,12 @@ import com.example.servly_app.features._provider.job_list.presentation.ProviderJ
 @OptIn(ExperimentalMaterial3Api::class)
 fun BottomSheetDate(
     state: State<ProviderJobListState>,
-    updateSheetVisibility: (Boolean, Boolean, Boolean) -> Unit,
-    updateSelectedDays: (Long) -> Unit,
+    updateSheetVisibility: (Boolean, Boolean, Boolean, Boolean) -> Unit,
+    updateSelectedDays: (Long?) -> Unit,
 ) {
     if (state.value.isDateSheetVisible) {
         ModalBottomSheet(
-            onDismissRequest = { updateSheetVisibility(false, false, false) }
+            onDismissRequest = { updateSheetVisibility(false, false, false, false) }
         ) {
             var selectedOption by remember { mutableStateOf(state.value.selectedDays) }
 
@@ -60,7 +60,7 @@ fun BottomSheetDate(
                         imageVector = Icons.Default.Close,
                         contentDescription = "Close",
                         modifier = Modifier
-                            .clickable { updateSheetVisibility(false, false, false) }
+                            .clickable { updateSheetVisibility(false, false, false, false) }
                     )
                 }
 
@@ -84,7 +84,7 @@ fun BottomSheetDate(
                     modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                     enabled = state.value.selectedDays != selectedOption,
                     onClick = {
-                        updateSheetVisibility(false, false, false)
+                        updateSheetVisibility(false, false, false, false)
                         updateSelectedDays(selectedOption)
                     }
                 ) {

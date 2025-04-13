@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,13 +16,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -36,19 +40,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.servly_app.R
 import com.example.servly_app.core.components.BasicScreenLayout
 import com.example.servly_app.core.data.util.SortType
 import com.example.servly_app.core.ui.theme.AppTheme
 import com.example.servly_app.features._customer.job_create.data.dtos.JobPostingInfo
+import com.example.servly_app.features._customer.job_create.presentation.job_form.PlacePickerScreen
 import com.example.servly_app.features._customer.job_list.presentation.main_view.components.Order
 import com.example.servly_app.features._customer.job_list.presentation.main_view.components.OrderList
+import com.example.servly_app.features._provider.ProviderState
 import com.example.servly_app.features._provider.job_list.presentation.components.BottomSheetCategories
 import com.example.servly_app.features._provider.job_list.presentation.components.BottomSheetDate
+import com.example.servly_app.features._provider.job_list.presentation.components.BottomSheetLocation
 import com.example.servly_app.features._provider.job_list.presentation.components.BottomSheetSort
+import com.google.android.gms.maps.model.LatLng
 
 @Preview(
     showBackground = true,
@@ -66,12 +76,26 @@ import com.example.servly_app.features._provider.job_list.presentation.component
 fun PreviewProviderJobListView() {
     val state = remember { mutableStateOf(ProviderJobListState()) }
     AppTheme {
-        ProviderJobListContent(state, {a, b ->}, {}, {}, {}, {}, {}, {}, { a, b, c -> })
+        ProviderJobListContent(state,
+            { a, b -> },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {it, it2 ->},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { a, b, c, d -> },
+        )
     }
 }
 
 @Composable
-fun ProviderJobListView(onClickShowDetails: (JobPostingInfo) -> Unit) {
+fun ProviderJobListView(providerState: State<ProviderState>, onClickShowDetails: (JobPostingInfo) -> Unit) {
     val viewModel: ProviderJobListViewModel = hiltViewModel()
     val state = viewModel.providerJobListState.collectAsState()
 
@@ -82,6 +106,11 @@ fun ProviderJobListView(onClickShowDetails: (JobPostingInfo) -> Unit) {
         updateSelectedCategories = viewModel::updateSelectedCategories,
         updateSelectedDays = viewModel::updateDays,
         updateSortType = viewModel::updateSortType,
+        updateLocation = viewModel::updateLocation,
+        updateSheetLocation = viewModel::updateSheetLocation,
+        updateSheetDistance = viewModel::updateSheetDistance,
+        updateShowPlacePicker = viewModel::updatePlacePickerVisibility,
+        autofillAddress = { viewModel.autofillAddress(providerState) },
         loadJobs = viewModel::loadJobs,
         onClickShowDetails = onClickShowDetails,
         updateSheetVisibility = viewModel::updateSheetVisibility
@@ -96,11 +125,16 @@ private fun ProviderJobListContent(
     reapplyFiltersAndReload: (Boolean?, Boolean?) -> Unit,
     updateQuery: (String) -> Unit,
     updateSelectedCategories: (List<Long>) -> Unit,
-    updateSelectedDays: (Long) -> Unit,
+    updateSelectedDays: (Long?) -> Unit,
     updateSortType: (SortType) -> Unit,
+    updateLocation: () -> Unit,
+    updateSheetLocation: (String?, LatLng?) -> Unit,
+    updateSheetDistance: (Double) -> Unit,
+    updateShowPlacePicker: (Boolean) -> Unit,
+    autofillAddress: () -> Unit,
     loadJobs: (Boolean) -> Unit,
     onClickShowDetails: (JobPostingInfo) -> Unit,
-    updateSheetVisibility: (Boolean, Boolean, Boolean) -> Unit
+    updateSheetVisibility: (Boolean, Boolean, Boolean, Boolean) -> Unit
 ) {
     val lazyListState = rememberLazyListState()
 
@@ -142,24 +176,40 @@ private fun ProviderJobListContent(
             Column {
                 LazyRow(contentPadding = PaddingValues(4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     item {
+                        val condition = state.value.selectedLocation != null
                         InputChip(
-                            selected = state.value.sortType == SortType.ASCENDING,
+                            selected = condition,
                             onClick = {
-                                if (state.value.sortType == SortType.ASCENDING) {
+                                updateSheetVisibility(false, false, false, true)
+                            },
+                            label = {
+                                Text(stringResource(R.string.location))
+                            },
+                            trailingIcon = {
+                                Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = "down")
+                            }
+                        )
+                    }
+                    item {
+                        val condition = state.value.sortType == SortType.ASCENDING
+                        InputChip(
+                            selected = condition,
+                            onClick = {
+                                if (condition) {
                                     updateSortType(SortType.DESCENDING)
                                 } else {
-                                    updateSheetVisibility(true, false, false)
+                                    updateSheetVisibility(true, false, false, false)
                                 }
                             },
                             label = {
-                                if (state.value.sortType == SortType.ASCENDING) {
+                                if (condition) {
                                     Text(stringResource(R.string.job_list_sort_clear))
                                 } else {
                                     Text(stringResource(R.string.job_list_sort))
                                 }
                             },
                             trailingIcon = {
-                                if (state.value.sortType == SortType.ASCENDING) {
+                                if (condition) {
                                     Icon(imageVector = Icons.Default.Clear, contentDescription = "clear")
                                 } else {
                                     Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = "down")
@@ -168,24 +218,25 @@ private fun ProviderJobListContent(
                         )
                     }
                     item {
+                        val condition = state.value.selectedCategories.isNotEmpty()
                         InputChip(
-                            selected = state.value.selectedCategories.isNotEmpty(),
+                            selected = condition,
                             onClick = {
-                                if (state.value.selectedCategories.isNotEmpty()) {
+                                if (condition) {
                                     updateSelectedCategories(emptyList())
                                 } else {
-                                    updateSheetVisibility(false, true, false)
+                                    updateSheetVisibility(false, true, false, false)
                                 }
                             },
                             label = {
-                                if (state.value.selectedCategories.isNotEmpty()) {
+                                if (condition) {
                                     Text("${state.value.selectedCategories.size} ${stringResource(R.string.job_list_services)}")
                                 } else {
                                     Text(stringResource(R.string.job_list_services))
                                 }
                             },
                             trailingIcon = {
-                                if (state.value.selectedCategories.isNotEmpty()) {
+                                if (condition) {
                                     Icon(imageVector = Icons.Default.Clear, contentDescription = "clear")
                                 } else {
                                     Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = "down")
@@ -195,21 +246,23 @@ private fun ProviderJobListContent(
                     }
 
                     item {
+                        val condition = ProviderJobListState.DATE_OPTIONS.any { it.first == state.value.selectedDays }
                         InputChip(
-                            selected = state.value.selectedDays != ProviderJobListState.DATE_OPTIONS[2].first,
+                            selected = condition,
                             onClick = {
-                                if (state.value.selectedDays != ProviderJobListState.DATE_OPTIONS[2].first) {
-                                    updateSelectedDays(ProviderJobListState.DATE_OPTIONS[2].first)
+                                if (condition) {
+                                    updateSelectedDays(null)
                                 } else {
-                                    updateSheetVisibility(false, false, true)
+                                    updateSheetVisibility(false, false, true, false)
                                 }
                             },
                             label = {
-                                if (state.value.selectedDays != ProviderJobListState.DATE_OPTIONS[2].first) {
+                                if (condition) {
                                     Text(
                                         text = when (state.value.selectedDays) {
                                                 ProviderJobListState.DATE_OPTIONS[0].first -> stringResource(ProviderJobListState.DATE_OPTIONS[0].second)
                                                 ProviderJobListState.DATE_OPTIONS[1].first -> stringResource(ProviderJobListState.DATE_OPTIONS[1].second)
+                                                ProviderJobListState.DATE_OPTIONS[2].first -> stringResource(ProviderJobListState.DATE_OPTIONS[2].second)
                                                 ProviderJobListState.DATE_OPTIONS[3].first -> stringResource(ProviderJobListState.DATE_OPTIONS[3].second)
                                             else -> {""}
                                         }
@@ -219,7 +272,7 @@ private fun ProviderJobListContent(
                                 }
                             },
                             trailingIcon = {
-                                if (state.value.selectedDays != ProviderJobListState.DATE_OPTIONS[2].first) {
+                                if (condition) {
                                     Icon(imageVector = Icons.Default.Clear, contentDescription = "clear")
                                 } else {
                                     Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = "down")
@@ -234,7 +287,7 @@ private fun ProviderJobListContent(
                         Order(
                             id = job.id!!,
                             title = job.title,
-                            location = "${job.city}, ${job.street}",
+                            location = job.address ?: "Unknown",
                             category = state.value.getCategoryName(job.categoryId),
                             status = job.status,
                             person = job.customerName,
@@ -275,6 +328,55 @@ private fun ProviderJobListContent(
                 BottomSheetSort(state, updateSheetVisibility, updateSortType)
                 BottomSheetCategories(state, updateSheetVisibility, updateSelectedCategories)
                 BottomSheetDate(state, updateSheetVisibility, updateSelectedDays)
+                BottomSheetLocation(state, updateSheetVisibility, updateShowPlacePicker, updateSheetLocation, updateSheetDistance, updateLocation, autofillAddress)
+
+
+                if (state.value.showPlacePicker) {
+                    Dialog(onDismissRequest = { updateShowPlacePicker(false) }) {
+                        Column(
+                            modifier = Modifier
+                                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(10))
+                                .padding(16.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.find_location),
+                                    style = MaterialTheme.typography.titleLarge,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                                IconButton(
+                                    onClick = { updateShowPlacePicker(false) }
+                                ) {
+                                    Icon(imageVector = Icons.Default.Close, contentDescription = null)
+                                }
+                            }
+
+                            PlacePickerScreen(
+                                onPlaceSelected = { address, latLng ->
+                                    updateSheetLocation(address, latLng)
+                                    Log.d("MainScreen", "Wybrano: $address, LatLng: $latLng")
+                                },
+                                onDismiss = { updateShowPlacePicker(false) }
+                            )
+                            Text(
+                                text = AnnotatedString(stringResource(R.string.job_form_autofill)),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier
+                                    .align(Alignment.End)
+                                    .padding(top = 16.dp)
+                                    .clickable {
+                                        autofillAddress()
+                                        updateShowPlacePicker(false)
+                                    }
+                            )
+                        }
+                    }
+                }
             }
         }
     }

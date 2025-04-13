@@ -77,13 +77,13 @@ fun ScheduleCard(schedule: ScheduleInfo) {
             )
 
             Text(
-                text = "${stringResource(R.string.schedule_updatedat)}: ${schedule.updatedAt}",
+                text = "${stringResource(R.string.schedule_updatedat)}: ${LanguageUtils.formatScheduleDateTime(schedule.updatedAt)}",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
 
             Text(
-                text = "Status: ${EnumUtils.getStatusString(schedule.scheduleStatus)}",
+                text = "Status: ${stringResource(EnumUtils.getStatusString(schedule.scheduleStatus))}",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )

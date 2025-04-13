@@ -103,13 +103,9 @@ private fun ProfileContent(
         ) {
             ProfileCard(
                 title = stringResource(R.string.profile_customer),
-                customerAvatar = painterResource(R.drawable.test_square_image_large),
+                customerAvatar = painterResource(R.drawable.account_circle_24px),
                 customerName = customerState.value.name,
-                customerAddress = if (customerState.value.houseNumber != null) {
-                    "${customerState.value.city}, ${customerState.value.street}, ${customerState.value.houseNumber}"
-                } else {
-                    "${customerState.value.city}, ${customerState.value.street}"
-                },
+                customerAddress = customerState.value.address,
                 customerPhoneNumber = customerState.value.phoneNumber,
                 rating = customerState.value.rating,
                 reviewsVisible = reviewsVisible,

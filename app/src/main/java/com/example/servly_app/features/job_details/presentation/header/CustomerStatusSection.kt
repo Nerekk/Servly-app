@@ -58,8 +58,7 @@ fun PreviewCustomerStatusSection() {
             customerName = "Roman",
             title = "Praca",
             categoryId = 0,
-            city = "",
-            street = "",
+            address = "",
             answers = emptyList(),
             status = JobStatus.ACTIVE
         )
@@ -67,7 +66,7 @@ fun PreviewCustomerStatusSection() {
         val provider = ProviderInfo(
             name = "Tomasz",
             phoneNumber = "+48234123456",
-            city = "Warszawa",
+            address = "Warszawa",
             rangeInKm = 30.0
         )
 

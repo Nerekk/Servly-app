@@ -45,8 +45,7 @@ fun PreviewRequestDetailsView() {
         customerName = "Roman",
         title = "Praca",
         categoryId = 0,
-        city = "",
-        street = "",
+        address = "",
         answers = emptyList(),
         status = JobStatus.ACTIVE
     )
@@ -54,7 +53,7 @@ fun PreviewRequestDetailsView() {
     val provider = ProviderInfo(
         name = "Tomasz",
         phoneNumber = "+48234123456",
-        city = "Warszawa",
+        address = "Warszawa",
         rangeInKm = 30.0
     )
 
@@ -73,8 +72,7 @@ fun PreviewRequestDetailsView() {
         JobDetailsState(jobPosting = JobPostingInfo(
         title = "Asd",
         categoryId = 1,
-        city = "asd",
-        street = "asd",
+        address = "asd",
         answers = emptyList()
     )
     )
@@ -98,7 +96,6 @@ fun JobDetailsView(
     openChat: (Long) -> Unit,
     providerId: Long? = null
 ) {
-    Log.i("Recomposition", ":|")
     val jobViewModel: JobDetailsViewModel = hiltViewModel<JobDetailsViewModel, JobDetailsViewModel.OrderDetailsViewModelFactory> { factory ->
         factory.create(order)
     }

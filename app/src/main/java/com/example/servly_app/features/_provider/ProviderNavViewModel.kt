@@ -15,7 +15,7 @@ data class ProviderState(
     val providerId: Long? = null,
     val name: String = "",
     val phoneNumber: String = "",
-    val city: String = "",
+    val address: String? = null,
     val rangeInKm: Double = 0.0,
     val latitude: Double? = null,
     val longitude: Double? = null,
@@ -26,7 +26,7 @@ data class ProviderState(
     val errorMessage: String? = null
 ) {
     fun toProviderInfo() : ProviderInfo {
-        return ProviderInfo(providerId, name, phoneNumber, city, rangeInKm, latitude, longitude, aboutMe = aboutMe)
+        return ProviderInfo(providerId, name, phoneNumber, address, rangeInKm, latitude, longitude, aboutMe = aboutMe)
     }
 }
 
@@ -53,7 +53,7 @@ class ProviderNavViewModel @Inject constructor(
                         providerId = provider.providerId,
                         name = provider.name,
                         phoneNumber = provider.phoneNumber,
-                        city = provider.city,
+                        address = provider.address,
                         rangeInKm = provider.rangeInKm,
                         latitude = provider.latitude,
                         longitude = provider.longitude,

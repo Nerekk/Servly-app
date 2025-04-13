@@ -49,7 +49,7 @@ class ProviderProfileViewModel @AssistedInject constructor(
                         providerId = provider.providerId,
                         name = provider.name,
                         phoneNumber = provider.phoneNumber,
-                        city = provider.city,
+                        address = provider.address,
                         rangeInKm = provider.rangeInKm,
                         latitude = provider.latitude,
                         longitude = provider.longitude,

@@ -1,5 +1,6 @@
 package com.example.servly_app.features._customer.job_create.domain.repository
 
+import com.example.servly_app.core.util.ErrorStore
 import com.example.servly_app.core.util.LanguageUtils
 import com.example.servly_app.features._customer.job_create.data.dtos.CategoryInfo
 import com.example.servly_app.features._customer.job_create.data.dtos.QuestionInfo
@@ -15,6 +16,7 @@ class CategoryRepository(private val categoryService: CategoryService) {
                 throw Exception("Error fetching categories: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -28,6 +30,7 @@ class CategoryRepository(private val categoryService: CategoryService) {
                 throw Exception("Error fetching categories: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }

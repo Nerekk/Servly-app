@@ -27,11 +27,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.core.data.util.JobStatus
 import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.core.util.EnumUtils
 import com.example.servly_app.features.job_details.data.JobRequestInfo
 
 @Preview(
@@ -96,7 +98,7 @@ fun OrderCard(
                             modifier = Modifier
                                 .background(MaterialTheme.colorScheme.primaryContainer, shape = RoundedCornerShape(30))
                                 .padding(horizontal = 4.dp, vertical = 2.dp),
-                            text = order.jobRequestInfo.jobRequestStatus.toString(),
+                            text = stringResource(EnumUtils.getStatusString(order.jobRequestInfo.jobRequestStatus)),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onTertiaryContainer
                         )

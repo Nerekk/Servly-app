@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -47,7 +48,7 @@ fun PreviewProviderProfileCard() {
     AppTheme {
         ProviderProfileCard(
             title = "Customer",
-            providerAvatar = painterResource(R.drawable.test_square_image_large),
+            providerAvatar = painterResource(R.drawable.account_circle_24px),
             providerName = "Jan Kowalski",
             providerRating = 4.9,
             false, {}
@@ -82,10 +83,11 @@ fun ProviderProfileCard(
             if (!reviewsVisible) {
                 Image(
                     modifier = Modifier
-                        .size(150.dp)
+                        .size(160.dp)
                         .padding(16.dp),
                     painter = providerAvatar,
-                    contentDescription = "avatar"
+                    contentDescription = "avatar",
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                 )
             }
 
@@ -138,7 +140,7 @@ fun ProviderProfileCard(
                 }
             } ?: run {
                 Text(
-                    text = "No reviews yet",
+                    text = stringResource(R.string.no_reviews),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )

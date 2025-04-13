@@ -28,8 +28,7 @@ data class JobDetailsState(
     fun toJobDetails(): JobDetails {
         return JobDetails(
             title = jobPosting.title,
-            city = jobPosting.city,
-            street = jobPosting.street,
+            address = jobPosting.address ?: "Unknown",
             status = jobPosting.status,
             questions = questions,
             answers = jobPosting.answers
@@ -52,7 +51,7 @@ class JobDetailsViewModel @AssistedInject constructor(
     val orderDetailsState = _jobDetailsState.asStateFlow()
 
     init {
-        initQuestions(order.categoryId)
+        initQuestions(order.categoryId, onSuccess = { refreshJob(order.id!!) })
     }
 
     fun cancelJobPosting() {
@@ -69,7 +68,7 @@ class JobDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private fun initQuestions(categoryId: Long) {
+    private fun initQuestions(categoryId: Long, onSuccess: () -> Unit) {
         viewModelScope.launch {
             _jobDetailsState.update { it.copy(isLoading = true) }
 
@@ -77,6 +76,25 @@ class JobDetailsViewModel @AssistedInject constructor(
             result.fold(
                 onSuccess = { list ->
                     _jobDetailsState.update { it.copy(questions = list) }
+                    onSuccess()
+                },
+                onFailure = { e ->
+                    _jobDetailsState.update { it.copy(errorMessage = "Error: ${e.message}") }
+                }
+            )
+
+//            _jobDetailsState.update { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun refreshJob(jobPostingId: Long) {
+        viewModelScope.launch {
+//            _jobDetailsState.update { it.copy(isLoading = true) }
+
+            val result = jobPostingUseCases.getJobPosting(jobPostingId)
+            result.fold(
+                onSuccess = { job ->
+                    _jobDetailsState.update { it.copy(jobPosting = job) }
                 },
                 onFailure = { e ->
                     _jobDetailsState.update { it.copy(errorMessage = "Error: ${e.message}") }

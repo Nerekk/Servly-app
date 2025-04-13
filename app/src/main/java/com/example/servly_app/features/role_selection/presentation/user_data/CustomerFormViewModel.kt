@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.servly_app.features.role_selection.data.CustomerInfo
 import com.example.servly_app.features.role_selection.domain.usecase.CustomerFormUseCases
 import com.example.servly_app.features.role_selection.presentation.components.RegexConstants
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,15 +21,15 @@ data class CustomerState(
     val name: String = "",
     val phoneNumber: String = "",
 
-    val city: String = "",
-    val street: String = "",
-    val houseNumber: String = "",
+    val selectedAddress: String? = null,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
 
     val isValid: Boolean = true,
     val nameError: String? = null,
     val phoneError: String? = null,
-    val cityError: String? = null,
-    val streetError: String? = null,
+
+    val addressError: String? = null,
 
     val isLoading: Boolean = false,
 
@@ -40,18 +41,18 @@ data class CustomerState(
             customerId,
             name,
             phoneNumber,
-            city,
-            street,
-            houseNumber = houseNumber.ifEmpty { null }
+            selectedAddress,
+            latitude,
+            longitude
         )
     }
 
     fun isEqualToCustomerInfo(customerInfo: CustomerInfo): Boolean {
         return name == customerInfo.name &&
                 phoneNumber == customerInfo.phoneNumber &&
-                city == customerInfo.city &&
-                street == customerInfo.street &&
-                houseNumber == customerInfo.houseNumber
+                selectedAddress == customerInfo.address &&
+                latitude == customerInfo.latitude &&
+                longitude == customerInfo.longitude
     }
 }
 
@@ -74,20 +75,15 @@ class CustomerFormViewModel @Inject constructor(
         compareInputs()
     }
 
-    fun updateCity(city: String) {
-        _customerState.update { it.copy(city = city) }
+    fun updateAddress(address: String, latLng: LatLng) {
+        _customerState.update { it.copy(
+            selectedAddress = address,
+            longitude = latLng.longitude,
+            latitude = latLng.latitude
+        ) }
         compareInputs()
     }
 
-    fun updateStreet(street: String) {
-        _customerState.update { it.copy(street = street) }
-        compareInputs()
-    }
-
-    fun updateHouseNumber(houseNumber: String) {
-        _customerState.update { it.copy(houseNumber = houseNumber) }
-        compareInputs()
-    }
 
     fun setEditData(customerInfo: CustomerInfo) {
         _customerState.update {
@@ -95,9 +91,9 @@ class CustomerFormViewModel @Inject constructor(
                 customerId = customerInfo.customerId,
                 name = customerInfo.name,
                 phoneNumber = customerInfo.phoneNumber,
-                city = customerInfo.city,
-                street = customerInfo.street,
-                houseNumber = customerInfo.houseNumber ?: "",
+                selectedAddress = customerInfo.address,
+                latitude = customerInfo.latitude,
+                longitude = customerInfo.longitude,
                 isEditForm = true,
                 isButtonEnabled = false
             )
@@ -131,16 +127,9 @@ class CustomerFormViewModel @Inject constructor(
             !RegexConstants.PHONE.matches(state.phoneNumber) -> "Incorrect phone number format"
             else -> null
         }
-        val cityError = when {
-            state.city.isEmpty() -> "City cannot be empty"
-            else -> null
-        }
-        val streetError = when {
-            state.street.isEmpty() -> "Street cannot be empty"
-            else -> null
-        }
+        val addressError = if (state.selectedAddress == null) { "Address is required" } else null
 
-        if (nameError != null || phoneError != null || cityError != null || streetError != null) {
+        if (nameError != null || phoneError != null || addressError != null) {
             isValid = false
         }
 
@@ -148,8 +137,7 @@ class CustomerFormViewModel @Inject constructor(
             it.copy(
                 nameError = nameError,
                 phoneError = phoneError,
-                cityError = cityError,
-                streetError = streetError
+                addressError = addressError
             )
         }
         Log.i("customerValidate", "$isValid")

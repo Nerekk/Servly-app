@@ -25,6 +25,9 @@ interface JobPostingService {
         @Query("size") size: Int = 10
     ): Response<PagedResponse<JobPostingInfo>>
 
+    @GET("api/${ControllerMappings.JOB_POSTING}/user/{id}")
+    suspend fun getJobPosting(@Path("id") jobPostingId: Long): Response<JobPostingInfo>
+
     @GET("api/${ControllerMappings.JOB_POSTING}/user/ended")
     suspend fun getJobPostingsEnded(
         @Query("sortType") sortType: SortType = SortType.DESCENDING,
@@ -39,7 +42,10 @@ interface JobPostingService {
         @Query("size") size: Int = 10,
         @Query("search") search: String? = null,
         @Query("categories") categories: List<Long>? = null,
-        @Query("days") days: Long? = null
+        @Query("days") days: Long? = null,
+        @Query("latitude") latitude: Double? = null,
+        @Query("longitude") longitude: Double? = null,
+        @Query("distanceInKm") distanceInKm: Double? = null
     ): Response<PagedResponse<JobPostingInfo>>
 
     @PUT("api/${ControllerMappings.JOB_POSTING}/{jobPostingId}/status")

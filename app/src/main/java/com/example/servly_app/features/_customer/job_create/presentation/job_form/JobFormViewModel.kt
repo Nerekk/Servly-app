@@ -15,6 +15,7 @@ import com.example.servly_app.core.domain.usecase.job_posting.JobPostingUseCases
 import com.example.servly_app.features._customer.job_create.presentation.job_form.JobFormState.Companion.MAX_ANSWER_SIZE
 import com.example.servly_app.features._customer.job_create.presentation.job_form.JobFormState.Companion.MAX_TITLE_SIZE
 import com.example.servly_app.features._customer.job_create.presentation.main.components.JobCategory
+import com.google.android.gms.maps.model.LatLng
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -32,10 +33,9 @@ data class JobFormState(
     val categoryId: Long = -1,
 
     val title: String = "",
-    val city: String = "",
-    val street: String = "",
-    val houseNumber: String = "",
 
+
+    val selectedAddress: String? = null,
     val latitude: Double? = null,
     val longitude: Double? = null,
 
@@ -46,16 +46,13 @@ data class JobFormState(
     val errorMessage: String? = null,
 
     val titleError: String? = null,
-    val cityError: String? = null,
-    val streetError: String? = null
+    val addressError: String? = null,
 ) {
     fun toJobPostingInfo(categoryId: Long): JobPostingInfo {
         return JobPostingInfo(
             title = title,
             categoryId = categoryId,
-            city = city,
-            street = street,
-            houseNumber = houseNumber.ifEmpty { null },
+            address = selectedAddress,
             latitude = latitude,
             longitude = longitude,
             answers = answers.map { it.toQuestionAnswer() },
@@ -96,19 +93,12 @@ class JobFormViewModel @AssistedInject constructor(
         initQuestions(jobCategory)
     }
 
-    fun updateCity(city: String) {
-        if (city.contains("\n")) return
-        _jobFormState.update { it.copy(city = city) }
-    }
-
-    fun updateStreet(street: String) {
-        if (street.contains("\n")) return
-        _jobFormState.update { it.copy(street = street) }
-    }
-
-    fun updateHouseNumber(houseNumber: String) {
-        if (houseNumber.contains("\n")) return
-        _jobFormState.update { it.copy(houseNumber = houseNumber) }
+    fun updateAddress(address: String, latLng: LatLng) {
+        _jobFormState.update { it.copy(
+            selectedAddress = address,
+            longitude = latLng.longitude,
+            latitude = latLng.latitude
+        ) }
     }
 
     fun updateTitle(title: String) {
@@ -128,9 +118,7 @@ class JobFormViewModel @AssistedInject constructor(
 
     fun autofillAddress(customerState: State<CustomerState>) {
         _jobFormState.update { it.copy(
-            city = customerState.value.city,
-            street = customerState.value.street,
-            houseNumber = customerState.value.houseNumber ?: "",
+            selectedAddress = customerState.value.address,
             longitude = customerState.value.longitude,
             latitude = customerState.value.latitude
         ) }
@@ -165,12 +153,8 @@ class JobFormViewModel @AssistedInject constructor(
             else -> null
         }
 
-        val cityError = when {
-            state.city.isBlank() -> "City cannot be empty"
-            else -> null
-        }
-        val streetError = when {
-            state.street.isBlank() -> "Street cannot be empty"
+        val addressError = when {
+            state.selectedAddress == null -> "Address cannot be empty"
             else -> null
         }
 
@@ -184,7 +168,7 @@ class JobFormViewModel @AssistedInject constructor(
 
         val hasEmptyAnswers = state.answers.any { it.answer.isBlank() }
 
-        if (titleError != null || hasEmptyAnswers || cityError != null || streetError != null) {
+        if (titleError != null || hasEmptyAnswers || addressError != null) {
             isValid = false
         }
 
@@ -192,8 +176,7 @@ class JobFormViewModel @AssistedInject constructor(
             it.copy(
                 titleError = titleError,
                 answers = updatedAnswers,
-                cityError = cityError,
-                streetError = streetError
+                addressError = addressError
             )
         }
         Log.i("jobFormValidate", "$isValid")

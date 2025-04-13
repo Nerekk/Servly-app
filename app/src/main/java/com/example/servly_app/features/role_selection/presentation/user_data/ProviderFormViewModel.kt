@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.servly_app.features.role_selection.data.ProviderInfo
 import com.example.servly_app.features.role_selection.domain.usecase.ProviderFormUseCases
 import com.example.servly_app.features.role_selection.presentation.components.RegexConstants
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +21,10 @@ data class ProviderState(
     val name: String = "",
     val phoneNumber: String = "",
 
-    val city: String = "",
+    val selectedAddress: String? = null,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
+
     val rangeInKm: Double = 30.0,
 
     val aboutMe: String = "",
@@ -28,7 +32,7 @@ data class ProviderState(
     val isValid: Boolean = true,
     val nameError: String? = null,
     val phoneError: String? = null,
-    val cityError: String? = null,
+    val addressError: String? = null,
 
     val isLoading: Boolean = false,
 
@@ -40,8 +44,10 @@ data class ProviderState(
             providerId,
             name,
             phoneNumber,
-            city,
+            selectedAddress,
             rangeInKm,
+            latitude,
+            longitude,
             aboutMe = aboutMe
         )
     }
@@ -49,7 +55,7 @@ data class ProviderState(
     fun isEqualToCustomerInfo(providerInfo: ProviderInfo): Boolean {
         return name == providerInfo.name &&
                 phoneNumber == providerInfo.phoneNumber &&
-                city == providerInfo.city &&
+                selectedAddress == providerInfo.address &&
                 rangeInKm == providerInfo.rangeInKm &&
                 aboutMe == providerInfo.aboutMe
     }
@@ -74,8 +80,12 @@ class ProviderFormViewModel @Inject constructor(
         compareInputs()
     }
 
-    fun updateCity(city: String) {
-        _providerState.update { it.copy(city = city) }
+    fun updateAddress(address: String, latLng: LatLng) {
+        _providerState.update { it.copy(
+            selectedAddress = address,
+            longitude = latLng.longitude,
+            latitude = latLng.latitude
+        ) }
         compareInputs()
     }
 
@@ -96,9 +106,11 @@ class ProviderFormViewModel @Inject constructor(
                 providerId = providerInfo.providerId,
                 name = providerInfo.name,
                 phoneNumber = providerInfo.phoneNumber,
-                city = providerInfo.city,
+                selectedAddress = providerInfo.address,
                 rangeInKm = providerInfo.rangeInKm,
                 aboutMe = providerInfo.aboutMe,
+                latitude = providerInfo.latitude,
+                longitude = providerInfo.longitude,
                 isEditForm = true,
                 isButtonEnabled = false
             )
@@ -131,13 +143,11 @@ class ProviderFormViewModel @Inject constructor(
             !RegexConstants.PHONE.matches(state.phoneNumber) -> "Incorrect phone number format"
             else -> null
         }
-        val cityError = when {
-            state.city.isEmpty() -> "City cannot be empty"
-            else -> null
-        }
+
+        val addressError = if (state.selectedAddress == null) { "Address is required" } else null
 
 
-        if (nameError != null || phoneError != null || cityError != null) {
+        if (nameError != null || phoneError != null || addressError != null) {
             isValid = false
         }
 
@@ -145,7 +155,7 @@ class ProviderFormViewModel @Inject constructor(
             it.copy(
                 nameError = nameError,
                 phoneError = phoneError,
-                cityError = cityError
+                addressError = addressError
             )
         }
         Log.i("customerValidate", "$isValid")

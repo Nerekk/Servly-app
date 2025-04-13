@@ -3,6 +3,7 @@ package com.example.servly_app.core.domain.repository
 import com.example.servly_app.core.data.ReviewService
 import com.example.servly_app.core.data.util.PagedResponse
 import com.example.servly_app.core.data.util.SortType
+import com.example.servly_app.core.util.ErrorStore
 import com.example.servly_app.features.reviews.data.ReviewInfo
 
 class ReviewRepository(private val reviewService: ReviewService) {
@@ -16,6 +17,7 @@ class ReviewRepository(private val reviewService: ReviewService) {
                 throw Exception("Error: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -30,6 +32,7 @@ class ReviewRepository(private val reviewService: ReviewService) {
                 throw Exception("Error: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -49,6 +52,7 @@ class ReviewRepository(private val reviewService: ReviewService) {
                 throw Exception("Error: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -68,6 +72,7 @@ class ReviewRepository(private val reviewService: ReviewService) {
                 throw Exception("Error: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }

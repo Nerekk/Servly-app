@@ -3,6 +3,7 @@ package com.example.servly_app.features.chat.domain
 import com.example.servly_app.core.data.ChatService
 import com.example.servly_app.core.data.util.PagedResponse
 import com.example.servly_app.core.data.util.SortType
+import com.example.servly_app.core.util.ErrorStore
 import com.example.servly_app.features.chat.data.ChatInfo
 import com.example.servly_app.features.chat.data.ChatMessageInfo
 import java.time.LocalDateTime
@@ -18,6 +19,7 @@ class ChatRepository(private val chatService: ChatService) {
                 throw Exception("Error: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -31,6 +33,7 @@ class ChatRepository(private val chatService: ChatService) {
                 throw Exception("Error: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }

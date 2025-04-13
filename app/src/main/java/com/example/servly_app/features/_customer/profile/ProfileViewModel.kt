@@ -51,9 +51,7 @@ class ProfileViewModel @AssistedInject constructor(
                         customerId = customer.customerId,
                         name = customer.name,
                         phoneNumber = customer.phoneNumber,
-                        city = customer.city,
-                        street = customer.street,
-                        houseNumber = customer.houseNumber,
+                        address = customer.address,
                         latitude = customer.latitude,
                         longitude = customer.longitude,
                         rating = customer.rating

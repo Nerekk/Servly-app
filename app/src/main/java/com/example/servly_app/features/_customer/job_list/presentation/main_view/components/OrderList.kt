@@ -18,7 +18,9 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.servly_app.R
 import com.example.servly_app.core.components.LoadingScreen
 import com.example.servly_app.core.data.util.JobRequestStatus
 import com.example.servly_app.core.ui.theme.AppTheme
@@ -112,7 +114,7 @@ fun NoOrders() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "No orders found",
+            text = stringResource(R.string.no_orders),
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray
         )

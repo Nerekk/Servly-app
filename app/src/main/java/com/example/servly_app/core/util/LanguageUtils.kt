@@ -30,4 +30,17 @@ object LanguageUtils {
             return "null"
         }
     }
+
+    fun formatScheduleDateTime(dateTime: LocalDateTime?): String {
+        val locale = if (Locale.getDefault().language == "pl") Locale("pl", "PL") else Locale.ENGLISH
+        val pattern = "d MMMM HH:mm:ss"
+
+        val formatter = DateTimeFormatter.ofPattern(pattern, locale)
+
+        if (dateTime != null) {
+            return dateTime.format(formatter)
+        } else {
+            return "null"
+        }
+    }
 }

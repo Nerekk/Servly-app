@@ -1,8 +1,10 @@
 [versions]
 agp = "8.7.0"
+appcompat = "1.7.0"
 converterGson = "2.11.0"
 credentials = "1.5.0-beta01"
 firebaseBom = "33.7.0"
+googlePlaces = "4.2.0"
 gson = "2.11.0"
 hiltAndroid = "2.51.1"
 hiltAndroidCompiler = "2.40.5"
@@ -20,11 +22,13 @@ composeBom = "2024.04.01"
 material = "1.7.6"
 navigationCompose = "2.8.5"
 okhttp = "4.10.0"
+places = "4.1.0"
 playServicesAuth = "21.3.0"
 googleid = "1.1.1"
 retrofit = "2.11.0"
 
 [libraries]
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
@@ -36,6 +40,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 converter-gson = { module = "com.squareup.retrofit2:converter-gson" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
@@ -55,6 +60,8 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+places = { module = "com.google.android.libraries.places:places", version.ref = "googlePlaces" }
+places-v410 = { module = "com.google.android.libraries.places:places", version.ref = "places" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }

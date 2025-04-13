@@ -18,7 +18,7 @@
     <string name="google_error2">Nie znaleziono konta Google</string>
 
     <string name="role_question">Kim jestes?</string>
-    <string name="role_description">Opis klienta i usługodawcy pomagający wybrać rolę</string>
+    <string name="role_description">Wybierz swoją rolę. Rola określa, czy chcesz zlecać usługi, czy je wykonywać. Możesz ją zmienić w dowolnym momencie.</string>
     <string name="role_customer">Klient</string>
     <string name="role_service">Usługodawca</string>
 
@@ -108,7 +108,8 @@
 
 
 
-    <string name="schedule">Terminarz</string>
+    <string name="schedule">Harmonogram</string>
+    <string name="timetable">Terminarz</string>
 
     <string name="settings">Ustawienia</string>
 
@@ -171,5 +172,41 @@
     <string name="message">Wiadomość</string>
 
     <string name="unknown">Nieznane</string>
+
+    <string name="timetable_planned">Zaplanowana praca</string>
+    <string name="timetable_plannedmonth">zaplanowanych prac na ten miesiąc</string>
+    <string name="timetable_reminder">Ustaw przypomnienie</string>
+    <string name="timetable_noplans">Brak planów tego dnia</string>
+
+    <string name="settings_nightmode">Tryb ciemny</string>
+    <string name="settings_language">Zmień język</string>
+    <string name="settings_notifications">Powiadomienia</string>
+    <string name="settings_changerole">Zmień role</string>
+    <string name="settings_changepassword">Zmień hasło</string>
+    <string name="settings_logout">Wyloguj</string>
+
+    <string name="set_location">Ustaw lokalizacje</string>
+    <string name="find_location">Znajdź lokalizacje</string>
+    <string name="write_address">Wpisz adres</string>
+    <string name="location">Lokalizacja</string>
+    <string name="create_request">Utwórz zapytanie</string>
+    <string name="rate_this_job">Możesz ocenić to zlecenie</string>
+    <string name="forgot_password">Zapomniałem hasła</string>
+    <string name="send_link">Wyślij link</string>
+    <string name="open_chat">Otwórz czat</string>
+    <string name="select_provider">Wybierz tego usługodawce</string>
+
+    <string name="toast_profil_update_success">Aktualizacja profilu powiodła się</string>
+    <string name="toast_profil_update_failed">Aktualizacja profilu nie powiodła się</string>
+    <string name="toast_reset_link_success">Link resetowania wysłany do</string>
+    <string name="toast_reset_link_failed">Wysyłanie linku nie powiodło się</string>
+    <string name="toast_create_job_success">Tworzenie zlecenia powiodło się</string>
+    <string name="toast_create_job_failed">Tworzenie zlecenia nie powiodło się</string>
+    <string name="toast_email_not_found">Email nieznaleziony</string>
+    <string name="change">Zmień</string>
+    <string name="clear">Wyczyść</string>
+    <string name="autofill">Autouzupełnij</string>
+    <string name="no_reviews">Brak opinii</string>
+    <string name="no_orders">Nie znaleziono zleceń</string>
 
 </resources>

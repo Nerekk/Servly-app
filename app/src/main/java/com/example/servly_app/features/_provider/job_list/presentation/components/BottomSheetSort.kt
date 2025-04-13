@@ -33,12 +33,12 @@ import com.example.servly_app.features._provider.job_list.presentation.ProviderJ
 @OptIn(ExperimentalMaterial3Api::class)
 fun BottomSheetSort(
     state: State<ProviderJobListState>,
-    updateSheetVisibility: (Boolean, Boolean, Boolean) -> Unit,
+    updateSheetVisibility: (Boolean, Boolean, Boolean, Boolean) -> Unit,
     updateSortType: (SortType) -> Unit
 ) {
     if (state.value.isSortSheetVisible) {
         ModalBottomSheet(
-            onDismissRequest = { updateSheetVisibility(false, false, false) }
+            onDismissRequest = { updateSheetVisibility(false, false, false, false) }
         ) {
             var selectedOption by remember { mutableStateOf(state.value.sortType) }
 
@@ -61,7 +61,7 @@ fun BottomSheetSort(
                         imageVector = Icons.Default.Close,
                         contentDescription = "Close",
                         modifier = Modifier
-                            .clickable { updateSheetVisibility(false, false, false) }
+                            .clickable { updateSheetVisibility(false, false, false, false) }
                     )
                 }
 
@@ -99,7 +99,7 @@ fun BottomSheetSort(
                     modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                     enabled = state.value.sortType != selectedOption,
                     onClick = {
-                        updateSheetVisibility(false, false, false)
+                        updateSheetVisibility(false, false, false, false)
                         updateSortType(selectedOption)
                     }
                 ) {

@@ -9,6 +9,7 @@ sealed class AuthNavItem(
     object RoleSelection: AuthNavItem("auth_role")
     object CustomerData: AuthNavItem("auth_customer")
     object ProviderData: AuthNavItem("auth_provider")
+    object ForgotPassword: AuthNavItem("auth_forgot_password")
     object CustomerMain: AuthNavItem("auth_customer_main")
     object ProviderMain: AuthNavItem("auth_provider_main")
 }

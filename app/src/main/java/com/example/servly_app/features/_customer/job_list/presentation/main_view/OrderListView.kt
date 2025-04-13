@@ -95,7 +95,7 @@ private fun OrderListContent(
                 selectedTabIndex = state.value.selectedTabIndex,
                 modifier = Modifier
                     .padding(vertical = 4.dp)
-                    .clip(RoundedCornerShape(30))
+                    .clip(RoundedCornerShape(50))
                     .background(
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -112,12 +112,12 @@ private fun OrderListContent(
                         modifier = if (selected) Modifier
                             .background(
                                 color = MaterialTheme.colorScheme.onPrimary,
-                                shape = RoundedCornerShape(30)
+                                shape = RoundedCornerShape(50)
                             )
                         else Modifier
                             .background(
                                 color = MaterialTheme.colorScheme.primary,
-                                shape = RoundedCornerShape(30)
+                                shape = RoundedCornerShape(50)
                             ),
 
                         text = {
@@ -143,7 +143,7 @@ private fun OrderListContent(
                             Order(
                                 id = jobPosting.id!!,
                                 title = jobPosting.title,
-                                location = "${jobPosting.city}, ${jobPosting.street}",
+                                location = jobPosting.address ?: "Unknown",
                                 category = state.value.getCategoryName(jobPosting.categoryId),
                                 status = jobPosting.status,
                             )
@@ -162,7 +162,7 @@ private fun OrderListContent(
                             Order(
                                 id = order.id!!,
                                 title = order.title,
-                                location = "${order.city}, ${order.street}",
+                                location = order.address ?: "Unknown",
                                 category = state.value.getCategoryName(order.categoryId),
                                 status = order.status,
                             )

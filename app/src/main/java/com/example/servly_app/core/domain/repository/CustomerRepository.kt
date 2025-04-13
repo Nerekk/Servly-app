@@ -1,6 +1,7 @@
 package com.example.servly_app.core.domain.repository
 
 import com.example.servly_app.core.data.RoleService
+import com.example.servly_app.core.util.ErrorStore
 import com.example.servly_app.features.role_selection.data.CustomerInfo
 
 class CustomerRepository(private val roleService: RoleService) {
@@ -13,6 +14,7 @@ class CustomerRepository(private val roleService: RoleService) {
                 throw Exception("Error fetching customer info: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
@@ -26,6 +28,7 @@ class CustomerRepository(private val roleService: RoleService) {
                 throw Exception("Error fetching customer info: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            ErrorStore.addError(e.message.toString())
             Result.failure(e)
         }
     }
