@@ -21,6 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.components.BasicScreenLayout
+import com.example.servly_app.core.components.ConfirmableButton
+import com.example.servly_app.core.components.ConfirmableOutlinedButton
 import com.example.servly_app.core.components.LoadingScreen
 import com.example.servly_app.core.data.util.Role
 import com.example.servly_app.core.data.util.ScheduleStatus
@@ -85,8 +87,7 @@ private fun JobScheduleContent(
         LazyColumn {
             item {
                 Column {
-                    if (state.value.schedule!!.scheduleStatus == ScheduleStatus.WAITING_FOR_CUSTOMER_APPROVAL ||
-                        state.value.schedule!!.scheduleStatus == ScheduleStatus.UPDATED_WAITING_FOR_CUSTOMER_APPROVAL) {
+                    if (state.value.schedule!!.scheduleStatus == ScheduleStatus.UPDATED_WAITING_FOR_CUSTOMER_APPROVAL) {
                         Text(
                             text = stringResource(R.string.schedule_old),
                             style = MaterialTheme.typography.headlineSmall,
@@ -124,8 +125,8 @@ private fun JobScheduleContent(
                             .padding(top = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        OutlinedButton(
-                            onClick = onReject,
+                        ConfirmableOutlinedButton(
+                            onConfirmed = onReject,
                             modifier = Modifier.weight(1f)
                         ) {
                             Text(
@@ -134,18 +135,35 @@ private fun JobScheduleContent(
                             )
                         }
 
-                        Button(
-                            onClick = onApprove,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                            ),
+//                        OutlinedButton(
+//                            onClick = onReject,
+//                            modifier = Modifier.weight(1f)
+//                        ) {
+//                            Text(
+//                                text = stringResource(R.string.details_button_reject),
+//                                color = MaterialTheme.colorScheme.error
+//                            )
+//                        }
+
+                        ConfirmableButton(
+                            onConfirmed = onApprove,
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text(
-                                text = stringResource(R.string.schedule_approve),
-                                color = Color.White
-                            )
+                            Text(text = stringResource(R.string.schedule_approve))
                         }
+
+//                        Button(
+//                            onClick = onApprove,
+//                            colors = ButtonDefaults.buttonColors(
+//                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+//                            ),
+//                            modifier = Modifier.weight(1f)
+//                        ) {
+//                            Text(
+//                                text = stringResource(R.string.schedule_approve),
+//                                color = Color.White
+//                            )
+//                        }
                     }
                 } else if (state.value.schedule!!.scheduleStatus != ScheduleStatus.WAITING_FOR_CUSTOMER_APPROVAL &&
                     state.value.schedule!!.scheduleStatus != ScheduleStatus.UPDATED_WAITING_FOR_CUSTOMER_APPROVAL && role == Role.PROVIDER) {

@@ -28,6 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
+import com.example.servly_app.core.components.ConfirmableButton
+import com.example.servly_app.core.components.ConfirmableOutlinedButton
 import com.example.servly_app.core.data.util.JobRequestStatus
 import com.example.servly_app.core.data.util.JobStatus
 import com.example.servly_app.core.data.util.ScheduleStatus
@@ -152,17 +154,24 @@ fun CustomerStatusSection(
                     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
                     sendFinishRequest?.let {
-                        Button(
-                            onClick = { sendFinishRequest() },
+                        ConfirmableButton(
+                            onConfirmed = { sendFinishRequest() },
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(stringResource(R.string.details_button_job_finish_request))
                         }
+
+//                        Button(
+//                            onClick = { sendFinishRequest() },
+//                            modifier = Modifier.fillMaxWidth()
+//                        ) {
+//                            Text(stringResource(R.string.details_button_job_finish_request))
+//                        }
                     }
 
                     cancelJob?.let {
-                        OutlinedButton(
-                            onClick = { cancelJob() },
+                        ConfirmableOutlinedButton(
+                            onConfirmed = { cancelJob() },
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
@@ -170,6 +179,16 @@ fun CustomerStatusSection(
                                 color = MaterialTheme.colorScheme.error
                             )
                         }
+
+//                        OutlinedButton(
+//                            onClick = { cancelJob() },
+//                            modifier = Modifier.fillMaxWidth()
+//                        ) {
+//                            Text(
+//                                text = stringResource(R.string.details_button_job_cancel),
+//                                color = MaterialTheme.colorScheme.error
+//                            )
+//                        }
                     }
                 }
             }
@@ -186,8 +205,8 @@ fun CustomerStatusSection(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     rejectFinishRequest?.let {
-                        OutlinedButton(
-                            onClick = { rejectFinishRequest() },
+                        ConfirmableOutlinedButton(
+                            onConfirmed = { rejectFinishRequest() },
                             modifier = Modifier.weight(1f)
                         ) {
                             Text(
@@ -195,15 +214,32 @@ fun CustomerStatusSection(
                                 color = MaterialTheme.colorScheme.error
                             )
                         }
+
+//                        OutlinedButton(
+//                            onClick = { rejectFinishRequest() },
+//                            modifier = Modifier.weight(1f)
+//                        ) {
+//                            Text(
+//                                text = stringResource(R.string.details_button_reject),
+//                                color = MaterialTheme.colorScheme.error
+//                            )
+//                        }
                     }
 
                     finishJob?.let {
-                        Button(
-                            onClick = { finishJob() },
+                        ConfirmableButton(
+                            onConfirmed = { finishJob() },
                             modifier = Modifier.weight(1f)
                         ) {
                             Text(stringResource(R.string.details_button_finish))
                         }
+
+//                        Button(
+//                            onClick = { finishJob() },
+//                            modifier = Modifier.weight(1f)
+//                        ) {
+//                            Text(stringResource(R.string.details_button_finish))
+//                        }
                     }
                 }
             }

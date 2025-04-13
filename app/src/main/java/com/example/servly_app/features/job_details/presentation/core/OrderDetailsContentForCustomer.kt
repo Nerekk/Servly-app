@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.components.BasicScreenLayout
+import com.example.servly_app.core.components.ConfirmableOutlinedButton
 import com.example.servly_app.core.components.LoadingScreen
 import com.example.servly_app.core.data.util.JobRequestStatus
 import com.example.servly_app.core.data.util.JobStatus
@@ -159,11 +160,8 @@ fun OrderDetailsContentForCustomer(
                             details = jobState.value.toJobDetails()
                         )
                         if (jobState.value.jobPosting.status == JobStatus.ACTIVE) {
-                            OutlinedButton(
-                                onClick = {
-                                    // dialog potwierdzajacy
-                                    cancelJobPosting()
-                                },
+                            ConfirmableOutlinedButton(
+                                onConfirmed = { cancelJobPosting() },
                                 modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
                             ) {
                                 Text(
@@ -171,6 +169,18 @@ fun OrderDetailsContentForCustomer(
                                     color = MaterialTheme.colorScheme.error
                                 )
                             }
+
+//                            OutlinedButton(
+//                                onClick = {
+//                                    cancelJobPosting()
+//                                },
+//                                modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
+//                            ) {
+//                                Text(
+//                                    text = stringResource(R.string.details_button_job_cancel),
+//                                    color = MaterialTheme.colorScheme.error
+//                                )
+//                            }
                         }
                     }
                 }

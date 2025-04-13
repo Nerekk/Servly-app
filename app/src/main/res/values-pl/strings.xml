@@ -209,4 +209,9 @@
     <string name="no_reviews">Brak opinii</string>
     <string name="no_orders">Nie znaleziono zleceń</string>
 
+    <string name="confirm_title">Potwierdzenie</string>
+    <string name="dialog_text">Czy na pewno chcesz wykonać tę operację?</string>
+    <string name="confirm_text">Potwierdź</string>
+    <string name="dismiss_text">Odrzuć</string>
+
 </resources>

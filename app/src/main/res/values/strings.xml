@@ -207,4 +207,9 @@
     <string name="no_reviews">No reviews yet</string>
     <string name="no_orders">No orders found</string>
 
+    <string name="confirm_title">Confirmation</string>
+    <string name="dialog_text">Are you sure you want to perform this operation?</string>
+    <string name="confirm_text">Confirm</string>
+    <string name="dismiss_text">Dismiss</string>
+
 </resources>
