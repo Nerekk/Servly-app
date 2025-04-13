@@ -1,15 +1,24 @@
 package com.example.servly_app.core
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.servly_app.core.components.LoadingScreen
 import com.example.servly_app.core.data.util.Role
 import com.example.servly_app.core.ui.navigation.NavItem
 import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.core.util.ErrorStore
 import com.example.servly_app.features._customer.CustomerNavGraph
 import com.example.servly_app.features._provider.ProviderNavGraph
 import com.example.servly_app.features.authentication.presentation.AuthNavGraph
@@ -40,8 +49,31 @@ fun MainNavGraph(mainViewModel: MainViewModel = hiltViewModel()) {
     val navController = rememberNavController()
     val state = mainViewModel.mainState.collectAsState()
 
+    val errors by ErrorStore.errors.collectAsState()
+
+    if (errors.isNotEmpty()) {
+        AlertDialog(
+            onDismissRequest = { ErrorStore.clearErrors() },
+            title = { Text("Dev API Error") },
+            text = {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    errors.forEach { error ->
+                        Text("• $error")
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { ErrorStore.clearErrors() }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
+
     if (state.value.isLoading) {
-        CircularProgressIndicator()
+        LoadingScreen()
     } else {
         when (state.value.startDestination) {
             AuthNavItem.Welcome.route -> AuthNavGraph(

@@ -1,7 +1,7 @@
 package com.example.servly_app.features._provider.job_list.presentation
 
 import android.util.Log
-import androidx.compose.ui.res.stringResource
+import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.servly_app.R
@@ -9,7 +9,9 @@ import com.example.servly_app.core.data.util.SortType
 import com.example.servly_app.features._customer.job_create.data.dtos.CategoryInfo
 import com.example.servly_app.features._customer.job_create.data.dtos.JobPostingInfo
 import com.example.servly_app.features._customer.job_create.domain.usecase.CategoryUseCases
+import com.example.servly_app.features._provider.ProviderState
 import com.example.servly_app.features._provider.job_list.domain.usecase.ProviderJobListUseCases
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +28,12 @@ data class ProviderJobListState(
     val sortType: SortType = SortType.DESCENDING,
     val searchQuery: String = "",
     val selectedCategories: List<Long> = emptyList(),
-    val selectedDays: Long = 7,
+    val selectedDays: Long? = null,
+
+    val selectedLocation: String? = null,
+    val selectedLatitude: Double? = null,
+    val selectedLongitude: Double? = null,
+    val selectedDistanceInKm: Double? = null,
 
     val hasMorePages: Boolean = true,
     val page: Int = 0,
@@ -37,6 +44,16 @@ data class ProviderJobListState(
     val isSortSheetVisible: Boolean = false,
     val isCategorySheetVisible: Boolean = false,
     val isDateSheetVisible: Boolean = false,
+
+    val isLocationSheetVisible: Boolean = false,
+    val sheetLocation: String? = null,
+    val sheetLatitude: Double? = null,
+    val sheetLongitude: Double? = null,
+    val sheetDistanceInKm: Double = 30.0,
+
+    val showPlacePicker: Boolean = false,
+
+
     val isSearched: Boolean = false,
 
     val errorMessage: String? = null
@@ -86,22 +103,61 @@ class ProviderJobListViewModel @Inject constructor(
         reapplyFiltersAndReloadJobs()
     }
 
-    fun updateDays(days: Long) {
+    fun updateDays(days: Long?) {
         _providerJobListState.update { it.copy(selectedDays = days) }
 
         reapplyFiltersAndReloadJobs()
+    }
+
+    fun updateLocation() {
+        _providerJobListState.update { it.copy(
+            selectedLocation = it.sheetLocation,
+            selectedLongitude = it.sheetLongitude,
+            selectedLatitude = it.sheetLatitude,
+            selectedDistanceInKm = it.sheetDistanceInKm
+        ) }
+
+        reapplyFiltersAndReloadJobs()
+    }
+
+    fun updateSheetLocation(address: String?, latLng: LatLng?) {
+        _providerJobListState.update { it.copy(
+            sheetLocation = address,
+            sheetLongitude = latLng?.longitude,
+            sheetLatitude = latLng?.latitude
+        ) }
+    }
+
+    fun updateSheetDistance(distanceInKm: Double) {
+        _providerJobListState.update { it.copy(
+            sheetDistanceInKm = distanceInKm
+        ) }
+    }
+
+    fun updatePlacePickerVisibility(isVisible: Boolean) {
+        _providerJobListState.update { it.copy(showPlacePicker = isVisible) }
+    }
+
+    fun autofillAddress(providerState: State<ProviderState>) {
+        _providerJobListState.update { it.copy(
+            sheetLocation = providerState.value.address,
+            sheetLongitude = providerState.value.longitude,
+            sheetLatitude = providerState.value.latitude,
+            sheetDistanceInKm = providerState.value.rangeInKm
+        ) }
     }
 
     fun updateSearchQuery(query: String) {
         _providerJobListState.update { it.copy(searchQuery = query) }
     }
 
-    fun updateSheetVisibility(isSortVisible: Boolean, isCategoryVisible: Boolean, isDateVisible: Boolean) {
+    fun updateSheetVisibility(isSortVisible: Boolean, isCategoryVisible: Boolean, isDateVisible: Boolean, isLocationVisible: Boolean) {
         _providerJobListState.update {
             it.copy(
                 isSortSheetVisible = isSortVisible,
                 isCategorySheetVisible = isCategoryVisible,
-                isDateSheetVisible = isDateVisible
+                isDateSheetVisible = isDateVisible,
+                isLocationSheetVisible = isLocationVisible
             )
         }
     }
@@ -165,7 +221,10 @@ class ProviderJobListViewModel @Inject constructor(
                 size = ProviderJobListState.PAGE_SIZE,
                 search = _providerJobListState.value.searchQuery.ifEmpty { null },
                 categories = _providerJobListState.value.selectedCategories.ifEmpty { null },
-                days = _providerJobListState.value.selectedDays
+                days = _providerJobListState.value.selectedDays,
+                latitude = _providerJobListState.value.selectedLatitude,
+                longitude = _providerJobListState.value.selectedLongitude,
+                distanceInKm = _providerJobListState.value.selectedDistanceInKm
             )
 
             result.fold(

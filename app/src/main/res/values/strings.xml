@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Servly</string>
-    <string name="app_description">There will be a short description of my application and its functionalities</string>
+    <string name="app_description">Quick Help, Reliable Solutions</string>
     <string name="app_login_google">Sign in with Google</string>
     <string name="app_login">Sign in with Email</string>
     <string name="app_or">or</string>
@@ -17,7 +17,7 @@
     <string name="google_error2">No Google account found</string>
 
     <string name="role_question">Who are you?</string>
-    <string name="role_description">Customer and service provider description to help in role selection</string>
+    <string name="role_description">Choose your role. Your role defines whether you want to request services or offer them. You can change it at any time.</string>
     <string name="role_customer">Customer</string>
     <string name="role_service">Service provider</string>
 
@@ -31,10 +31,13 @@
     <string name="customer_field_house_number">House number (optional)</string>
     <string name="provider_field_address">Work city</string>
     <string name="provider_field_area">Work area: up to </string>
+    <string name="provider_aboutme_section">About me section</string>
+    <string name="provider_field_aboutme">About me (optional)</string>
     <string name="field_error_empty">Fill this field</string>
     <string name="field_error_format">Incorrect format</string>
 
-    <string name="role_save">Save</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
 
 
     <string name="offers_customer">Services</string>
@@ -81,7 +84,7 @@
 
     <string name="tab_active">Active</string>
     <string name="tab_ended">Ended</string>
-    <string name="providers">Interested service providers</string>
+    <string name="providers">Service provider requests</string>
     <string name="no_providers">No interested providers yet</string>
 
     <string name="order_details">Details</string>
@@ -103,7 +106,110 @@
 
 
     <string name="schedule">Schedule</string>
+    <string name="timetable">Timetable</string>
 
     <string name="settings">Settings</string>
+
+
+    <string name="enum_schedule_approved">Approved</string>
+    <string name="enum_schedule_rejected">Rejected</string>
+    <string name="enum_schedule_waiting">Action required</string>
+
+    <string name="enum_job_active">Active</string>
+    <string name="enum_job_inprogress">In progress</string>
+    <string name="enum_job_canceled">Canceled</string>
+    <string name="enum_job_completed">Completed</string>
+
+    <string name="enum_job_request_waiting">Action required</string>
+    <string name="enum_job_request_withdrawn">Withdrawn</string>
+    <string name="enum_job_request_rejected">Rejected</string>
+    <string name="enum_job_request_canceledby_provider">Canceled by provider</string>
+    <string name="enum_job_request_canceledby_customer">Canceled by customer</string>
+
+    <string name="info_job_provider_await_selection">Waiting for customer decision</string>
+    <string name="info_job_provider_selected">Customer has chosen you as a service provider!</string>
+    <string name="info_job_schedule_action">The schedule is pending approval</string>
+
+    <string name="info_job_customer_finish">The customer wants to finish the job</string>
+    <string name="info_job_provider_finish">The provider wants to finish the job</string>
+
+    <string name="details_show_profile">Show profile</string>
+    <string name="details_job_status">Job status</string>
+    <string name="details_schedule">Schedule</string>
+    <string name="details_schedule_none">None</string>
+    <string name="details_job_request_status">Job request status</string>
+
+    <string name="details_button_finish">Finish</string>
+    <string name="details_button_reject">Reject</string>
+    <string name="details_button_schedule_show">Show schedule</string>
+    <string name="details_button_schedule_create">Create schedule</string>
+    <string name="details_button_job_cancel">Cancel the job</string>
+    <string name="details_button_job_finish_request">Request a job finish</string>
+    <string name="details_button_job_withdrawn">Withdraw a job request</string>
+    <string name="details_button_job_accept">Accept the job</string>
+
+
+    <string name="schedule_old">Old</string>
+    <string name="schedule_new">New</string>
+    <string name="schedule_updatedat">Last update</string>
+    <string name="schedule_date_start">Start</string>
+    <string name="schedule_date_end">End</string>
+    <string name="schedule_title">Task title</string>
+    <string name="schedule_description">Task description</string>
+    <string name="schedule_description_placeholder">Description (optional)</string>
+    <string name="schedule_price">Price for service (optional)</string>
+    <string name="schedule_approve">Approve</string>
+
+
+    <string name="review_job">Job</string>
+    <string name="review_rating">Rating</string>
+    <string name="review_opinion">Opinion (optional)</string>
+    <string name="review_opinion_field">Your personal experience</string>
+    <string name="review_send">Send opinion</string>
+
+    <string name="message">Message</string>
+
+    <string name="unknown">Unknown</string>
+
+    <string name="timetable_planned">Planned work</string>
+    <string name="timetable_plannedmonth">planned tasks in this month</string>
+    <string name="timetable_reminder">Set reminder</string>
+    <string name="timetable_noplans">No plans on this day</string>
+
+    <string name="settings_nightmode">Night mode</string>
+    <string name="settings_language">Change language</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_changerole">Change role</string>
+    <string name="settings_changepassword">Change password</string>
+    <string name="settings_logout">Logout</string>
+
+    <string name="set_location">Set location</string>
+    <string name="find_location">Find location</string>
+    <string name="write_address">Write address</string>
+    <string name="location">Location</string>
+    <string name="create_request">Create request</string>
+    <string name="rate_this_job">You can rate this job</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="send_link">Send link</string>
+    <string name="open_chat">Open chat</string>
+    <string name="select_provider">Select this provider</string>
+
+    <string name="toast_profil_update_success">Profile update success</string>
+    <string name="toast_profil_update_failed">Profile update failed</string>
+    <string name="toast_reset_link_success">Reset link sent to</string>
+    <string name="toast_reset_link_failed">Reset link sending failed</string>
+    <string name="toast_create_job_success">Create job success</string>
+    <string name="toast_create_job_failed">Create job failed</string>
+    <string name="toast_email_not_found">Email not found</string>
+    <string name="change">Change</string>
+    <string name="clear">Clear</string>
+    <string name="autofill">Autofill</string>
+    <string name="no_reviews">No reviews yet</string>
+    <string name="no_orders">No orders found</string>
+
+    <string name="confirm_title">Confirmation</string>
+    <string name="dialog_text">Are you sure you want to perform this operation?</string>
+    <string name="confirm_text">Confirm</string>
+    <string name="dismiss_text">Dismiss</string>
 
 </resources>

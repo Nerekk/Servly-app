@@ -5,4 +5,6 @@ sealed class CustomerNavItem(
 ) {
     object JobFormView: CustomerNavItem("jobformview")
     object OrderDetailsView: CustomerNavItem("orderdetailsview")
+    object ProfilePreview: CustomerNavItem("profile_preview")
+    object Chat: CustomerNavItem("chat")
 }

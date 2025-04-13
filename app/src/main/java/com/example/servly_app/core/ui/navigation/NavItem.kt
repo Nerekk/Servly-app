@@ -30,7 +30,7 @@ sealed class NavItem(
             is Customer.Requests -> context.getString(R.string.requests_customer)
             is Provider.Requests -> context.getString(R.string.requests_provider)
             is Customer.Profile, Provider.Profile -> context.getString(R.string.profile)
-            is Customer.Schedule, Provider.Schedule -> context.getString(R.string.schedule)
+            is Customer.Schedule, Provider.Schedule -> context.getString(R.string.timetable)
             is Customer.Settings, Provider.Settings -> context.getString(R.string.settings)
         }
     }

@@ -9,6 +9,8 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface JobPostingService {
@@ -17,11 +19,14 @@ interface JobPostingService {
 
     @GET("api/${ControllerMappings.JOB_POSTING}/user")
     suspend fun getJobPostings(
-        @Query("status") status: JobStatus? = null,
+        @Query("statuses") statuses: List<String>? = null,
         @Query("sortType") sortType: SortType = SortType.DESCENDING,
         @Query("page") page: Int = 0,
         @Query("size") size: Int = 10
     ): Response<PagedResponse<JobPostingInfo>>
+
+    @GET("api/${ControllerMappings.JOB_POSTING}/user/{id}")
+    suspend fun getJobPosting(@Path("id") jobPostingId: Long): Response<JobPostingInfo>
 
     @GET("api/${ControllerMappings.JOB_POSTING}/user/ended")
     suspend fun getJobPostingsEnded(
@@ -37,6 +42,15 @@ interface JobPostingService {
         @Query("size") size: Int = 10,
         @Query("search") search: String? = null,
         @Query("categories") categories: List<Long>? = null,
-        @Query("days") days: Long? = null
+        @Query("days") days: Long? = null,
+        @Query("latitude") latitude: Double? = null,
+        @Query("longitude") longitude: Double? = null,
+        @Query("distanceInKm") distanceInKm: Double? = null
     ): Response<PagedResponse<JobPostingInfo>>
+
+    @PUT("api/${ControllerMappings.JOB_POSTING}/{jobPostingId}/status")
+    suspend fun updateJobStatus(
+        @Path("jobPostingId") jobPostingId: Long,
+        @Query("status") status: JobStatus
+    ): Response<JobPostingInfo>
 }

@@ -14,12 +14,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
 import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.core.util.formatRating
 
 @Preview(
     showBackground = true,
@@ -45,9 +48,10 @@ fun PreviewProviderProfileCard() {
     AppTheme {
         ProviderProfileCard(
             title = "Customer",
-            providerAvatar = painterResource(R.drawable.test_square_image_large),
+            providerAvatar = painterResource(R.drawable.account_circle_24px),
             providerName = "Jan Kowalski",
-            providerRating = 4.9
+            providerRating = 4.9,
+            false, {}
         )
     }
 }
@@ -58,6 +62,8 @@ fun ProviderProfileCard(
     providerAvatar: Painter,
     providerName: String,
     providerRating: Double? = null,
+    reviewsVisible: Boolean,
+    updateVisibility: (Boolean) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -74,21 +80,22 @@ fun ProviderProfileCard(
                 color = MaterialTheme.colorScheme.onBackground
             )
 
-
-            Image(
-                modifier = Modifier
-                    .size(150.dp)
-                    .padding(16.dp),
-                painter = providerAvatar,
-                contentDescription = "avatar"
-            )
+            if (!reviewsVisible) {
+                Image(
+                    modifier = Modifier
+                        .size(160.dp)
+                        .padding(16.dp),
+                    painter = providerAvatar,
+                    contentDescription = "avatar",
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                )
+            }
 
             Text(
                 text = providerName,
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
-
 
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -98,7 +105,7 @@ fun ProviderProfileCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "$providerRating",
+                        text = formatRating(it),
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onBackground
                     )
@@ -109,20 +116,31 @@ fun ProviderProfileCard(
                         modifier = Modifier.padding(end = 8.dp).size(24.dp)
                     )
 
-                    AssistChip(
-                        onClick = {},
+                    InputChip(
+                        selected = reviewsVisible,
+                        onClick = {
+                            if (reviewsVisible) {
+                                updateVisibility(false)
+                            } else {
+                                updateVisibility(true)
+                            }
+                        },
                         label = {
                             Text(
                                 text = stringResource(R.string.profile_reviews),
                                 style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onBackground,
+                                color = if (!reviewsVisible) {
+                                    MaterialTheme.colorScheme.onBackground
+                                } else {
+                                    MaterialTheme.colorScheme.onPrimary
+                                },
                             )
                         }
                     )
                 }
             } ?: run {
                 Text(
-                    text = "No reviews yet",
+                    text = stringResource(R.string.no_reviews),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )

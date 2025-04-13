@@ -1,7 +1,8 @@
 package com.example.servly_app.features._customer.job_list.presentation.main_view.components
 
 import com.example.servly_app.core.data.util.JobStatus
-import com.example.servly_app.core.data.util.JobStatus.DONE
+import com.example.servly_app.core.data.util.JobStatus.COMPLETED
+import com.example.servly_app.features.job_details.data.JobRequestInfo
 
 data class Order(
     val id: Long,
@@ -9,7 +10,8 @@ data class Order(
     val location: String,
     val category: String,
     val status: JobStatus,
-    val person: String? = null
+    val person: String? = null,
+    val jobRequestInfo: JobRequestInfo? = null
 )
 
 fun getInProgressRequests() = listOf(
@@ -18,6 +20,6 @@ fun getInProgressRequests() = listOf(
 )
 
 fun getFinishedRequests() = listOf(
-    Order(8, "Zapytanie 8", "Opis zapytania zakończonego", "Zrobione", DONE),
-    Order(9, "Zapytanie 9", "Opis zapytania zakończonego", "Zrobione", DONE),
+    Order(8, "Zapytanie 8", "Opis zapytania zakończonego", "Zrobione", COMPLETED),
+    Order(9, "Zapytanie 9", "Opis zapytania zakończonego", "Zrobione", COMPLETED),
 )

@@ -26,8 +26,8 @@ fun FormHeader(
                 contentDescription = "icon",
                 tint = MaterialTheme.colorScheme.onBackground
             )
+            Spacer(modifier = Modifier.width(4.dp))
         }
-        Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = text,
             color = MaterialTheme.colorScheme.onBackground

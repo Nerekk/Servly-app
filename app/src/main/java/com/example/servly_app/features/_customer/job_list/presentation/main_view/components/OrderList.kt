@@ -1,6 +1,7 @@
 package com.example.servly_app.features._customer.job_list.presentation.main_view.components
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,9 +18,13 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.servly_app.R
 import com.example.servly_app.core.components.LoadingScreen
+import com.example.servly_app.core.data.util.JobRequestStatus
 import com.example.servly_app.core.ui.theme.AppTheme
+import com.example.servly_app.features.job_details.data.JobRequestInfo
 
 @Preview(
     showBackground = true,
@@ -54,8 +59,9 @@ fun OrderList(
     isActive: Boolean,
     header: @Composable (() -> Unit)? = null,
     myListState: LazyListState? = null,
-    topbarPadding: PaddingValues? = null
+    topbarPadding: PaddingValues? = null,
 ) {
+
     val listState = myListState ?: rememberLazyListState()
 
     LaunchedEffect(listState, orders, isActive) {
@@ -88,7 +94,7 @@ fun OrderList(
         items(orders) { order ->
             OrderCard(
                 order,
-                onClick = { onClickCard(order) },
+                onClick = { onClickCard(order) }
             )
         }
 
@@ -108,7 +114,7 @@ fun NoOrders() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "No orders found",
+            text = stringResource(R.string.no_orders),
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray
         )

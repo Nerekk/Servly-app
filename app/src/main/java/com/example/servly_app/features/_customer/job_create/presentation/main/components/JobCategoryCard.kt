@@ -19,7 +19,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.servly_app.R
@@ -42,8 +44,8 @@ import com.example.servly_app.core.ui.theme.Typography
 fun PreviewServiceCard() {
     AppTheme {
         JobCategoryCard(
-            categoryImage = painterResource(R.drawable.test_square_image),
-            categoryName = "Category",
+            categoryImage = painterResource(R.drawable.mechanic),
+            categoryName = "Category category",
             onClick = { }
         )
     }
@@ -55,11 +57,11 @@ fun JobCategoryCard(categoryImage: Painter, categoryName: String, onClick: () ->
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(1f / 1.1f)
-            .clickable { onClick() }
             .background(
                 color = MaterialTheme.colorScheme.surfaceContainer,
                 shape = RoundedCornerShape(32.dp)
-            ),
+            )
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -70,17 +72,16 @@ fun JobCategoryCard(categoryImage: Painter, categoryName: String, onClick: () ->
             Image(
                 painter = categoryImage,
                 contentDescription = "category",
-//                contentScale = ContentScale.FillHeight
-            )
-
-            Spacer(
-                modifier = Modifier.height(16.dp)
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.padding(8.dp).weight(1f)
             )
 
             Text(
                 text = categoryName,
                 color = MaterialTheme.colorScheme.onSurface,
-                style = Typography.titleMedium
+                style = Typography.titleMedium,
+                modifier = Modifier.padding(top = 16.dp),
+                textAlign = TextAlign.Center
             )
         }
     }

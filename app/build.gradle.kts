@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.servly_app"
-        minSdk = 30
+        minSdk = 33
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -29,6 +29,8 @@ android {
         
         buildConfigField(type = "String", name = "DEFAULT_WEB_CLIENT_ID", value = "\"${properties.getProperty("DEFAULT_WEB_CLIENT_ID")}\"")
         buildConfigField(type = "String", name = "SERVER_URL", value = "\"${properties.getProperty("SERVER_URL")}\"")
+        buildConfigField(type = "String", name = "PLACES_API_KEY", value = "\"${properties.getProperty("PLACES_API_KEY")}\"")
+
     }
 
     buildTypes {
@@ -70,12 +72,14 @@ dependencies {
 //    GSON CONVERTER
     implementation(libs.gson)
     implementation(libs.retrofit2.converter.gson)
+    implementation(libs.okhttp)
 
 //    NAVIGATION
     implementation(libs.androidx.navigation.compose)
 
 //    FIREBASE
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging.ktx)
 
 //    AUTH AND CREDENTIALS
     implementation(libs.firebase.auth)
@@ -83,6 +87,9 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
+
+//    GOOGLE
+    implementation(libs.places.v410)
 
 //    DAGGER HILT
     implementation(libs.hilt.android)

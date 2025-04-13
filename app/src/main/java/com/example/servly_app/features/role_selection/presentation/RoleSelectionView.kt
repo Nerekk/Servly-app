@@ -5,8 +5,10 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -16,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +33,7 @@ import com.example.servly_app.features.role_selection.presentation.components.He
 import com.example.servly_app.core.components.ScaffoldAuthNavBar
 import com.example.servly_app.core.components.ArrangedColumn
 import com.example.servly_app.core.components.BasicScreenLayout
+import com.example.servly_app.core.components.LoadingScreen
 import com.example.servly_app.core.data.util.Role
 
 
@@ -69,7 +73,7 @@ fun RoleSelectionView(
     Log.i("Navigation", "RoleSelectionView")
 
     if (state.value.role == null) {
-        CircularProgressIndicator()
+        LoadingScreen()
     } else {
         when (state.value.role) {
             Role.BOTH, Role.NONE -> {
@@ -105,11 +109,13 @@ private fun RoleSelectionContent(
                     HeaderTitle(stringResource(R.string.role_question))
 
                     Image(
-                        painter = painterResource(R.drawable.test_square_image_large),
+                        painter = painterResource(R.drawable.groups_24px),
                         contentDescription = "some image",
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
-                            .padding(top = 16.dp)
+                            .size(160.dp)
+                            .padding(top = 16.dp),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                     )
 
                     Text(

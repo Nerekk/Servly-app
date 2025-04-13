@@ -8,11 +8,13 @@ import com.example.servly_app.core.ui.navigation.NavItem
 import com.example.servly_app.features.authentication.domain.usecase.AuthUseCases
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
 import com.example.servly_app.core.domain.usecase.GetUserRoles
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 data class MainState(
@@ -54,8 +56,9 @@ class MainViewModel @Inject constructor(
             _mainState.update { it.copy(isUserLoggedIn = isLoggedIn) }
 
             if (isLoggedIn) {
-                val result = getUserRoles()
-                Log.i("USER_STATUS", "ROLE = $result")
+                val fcmToken = getFcmToken()
+                val result = getUserRoles(fcmToken ?: "")
+                Log.i("USER_STATUS", "ROLE = $result, FCM: $fcmToken")
 
                 result.fold(
                     onSuccess = { role ->
@@ -71,7 +74,8 @@ class MainViewModel @Inject constructor(
                         }
                     },
                     onFailure = {
-                        _mainState.update { it.copy(startDestination = AuthNavItem.Welcome.route) }
+//                        _mainState.update { it.copy(startDestination = AuthNavItem.Welcome.route) }
+                        logout()
                         Log.i("USER_STATUS", "USER ROLE FAILURE")
                     }
                 )
@@ -83,13 +87,6 @@ class MainViewModel @Inject constructor(
             _mainState.update { it.copy(isLoading = false) }
         }
     }
-
-//    fun navigateToMain(navController: NavHostController) {
-//        _mainState.update { it.copy(isUserLoggedIn = true, startDestination = NavItem.Offers.route) }
-//        navController.navigate(NavItem.Offers.route) {
-//            popUpTo(0)
-//        }
-//    }
 
     fun setDestinationAuth() {
         _mainState.update { it.copy(startDestination = AuthNavItem.Welcome.route) }
@@ -111,9 +108,15 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             authUseCases.logout()
             _mainState.update { it.copy(isUserLoggedIn = false, userRole = null, startDestination = AuthNavItem.Welcome.route) }
-//            navController.navigate(AuthNavItem.Welcome.route) {
-//                popUpTo(0) { inclusive = true }
-//            }
         }
+    }
+}
+
+
+suspend fun getFcmToken(): String? {
+    return try {
+        FirebaseMessaging.getInstance().token.await()
+    } catch (e: Exception) {
+        null
     }
 }

@@ -3,6 +3,7 @@ package com.example.servly_app.features.authentication.presentation.login_view
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +39,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.servly_app.R
 import com.example.servly_app.core.components.ArrangedColumn
 import com.example.servly_app.core.components.BasicScreenLayout
+import com.example.servly_app.core.components.LoadingScreen
 import com.example.servly_app.core.ui.theme.AppTheme
 import com.example.servly_app.features.authentication.presentation.AuthViewModel
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
@@ -58,7 +60,8 @@ import com.example.servly_app.features.authentication.presentation.navigation.Au
 fun PreviewWelcomeScreen() {
     val navController = rememberNavController()
     AppTheme {
-        WelcomeScreen(navController, {})
+        WelcomeHeader()
+//        WelcomeScreen(navController, {})
     }
 }
 
@@ -87,7 +90,7 @@ fun WelcomeScreen(navController: NavHostController, onSuccess: () -> Unit) {
             WelcomeHeader()
 
             if (authState.value.isLoading) {
-                CircularProgressIndicator()
+                LoadingScreen()
             } else {
                 WelcomeButtons(
                     navController = navController,
@@ -199,6 +202,8 @@ private fun ButtonsDivider() {
 
 @Composable
 private fun WelcomeHeader() {
+    val darkTheme = isSystemInDarkTheme()
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -208,17 +213,17 @@ private fun WelcomeHeader() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(R.drawable.test_square_image_large),
+                painter = if (darkTheme) painterResource(R.drawable.logo_blackbg) else painterResource(R.drawable.logo),
                 contentDescription = "logo"
             )
 
-            Text(
-                text = stringResource(R.string.app_name),
-                style = MaterialTheme.typography.displayLarge,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .padding(start = 16.dp)
-            )
+//            Text(
+//                text = stringResource(R.string.app_name),
+//                style = MaterialTheme.typography.displayLarge,
+//                color = MaterialTheme.colorScheme.primary,
+//                modifier = Modifier
+//                    .padding(start = 16.dp)
+//            )
         }
 
         Text(

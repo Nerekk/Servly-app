@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Servly</string>
-    <string name="app_description">Tu bedzie krotki opis mojej aplikacji oraz jej funkcjonalnosci</string>
+    <string name="app_description">Szybka pomoc, pewne rozwiązania</string>
     <string name="app_login_google">Zaloguj się za pomocą Google</string>
     <string name="app_login">Zaloguj się przez Email</string>
     <string name="app_or">lub</string>
@@ -18,7 +18,7 @@
     <string name="google_error2">Nie znaleziono konta Google</string>
 
     <string name="role_question">Kim jestes?</string>
-    <string name="role_description">Opis klienta i usługodawcy pomagający wybrać rolę</string>
+    <string name="role_description">Wybierz swoją rolę. Rola określa, czy chcesz zlecać usługi, czy je wykonywać. Możesz ją zmienić w dowolnym momencie.</string>
     <string name="role_customer">Klient</string>
     <string name="role_service">Usługodawca</string>
 
@@ -32,10 +32,13 @@
     <string name="customer_field_house_number">Numer mieszkania (opcjonalnie)</string>
     <string name="provider_field_address">Miasto pracy</string>
     <string name="provider_field_area">Obszar działania: do </string>
+    <string name="provider_aboutme_section">Sekcja o mnie</string>
+    <string name="provider_field_aboutme">O mnie (opcjonalne)</string>
     <string name="field_error_empty">Wypełnij to pole</string>
     <string name="field_error_format">Nieprawidłowy format</string>
 
-    <string name="role_save">Zapisz</string>
+    <string name="save">Zapisz</string>
+    <string name="edit">Edytuj</string>
 
 
     <string name="offers_customer">Usługi</string>
@@ -83,7 +86,7 @@
 
     <string name="tab_active">Aktywne</string>
     <string name="tab_ended">Zakończone</string>
-    <string name="providers">Zainteresowani usługodawcy</string>
+    <string name="providers">Zapytania usługodawców</string>
     <string name="no_providers">Brak zainteresowanych usługodawców</string>
 
     <string name="order_details">Szczegóły</string>
@@ -105,8 +108,110 @@
 
 
 
-    <string name="schedule">Terminarz</string>
+    <string name="schedule">Harmonogram</string>
+    <string name="timetable">Terminarz</string>
 
     <string name="settings">Ustawienia</string>
+
+    <string name="enum_schedule_approved">Zaakceptowany</string>
+    <string name="enum_schedule_rejected">Odrzucony</string>
+    <string name="enum_schedule_waiting">Wymagana akcja</string>
+
+    <string name="enum_job_active">Aktywne</string>
+    <string name="enum_job_inprogress">W trakcie</string>
+    <string name="enum_job_canceled">Anulowane</string>
+    <string name="enum_job_completed">Ukończone</string>
+
+    <string name="enum_job_request_waiting">Wymagana akcja</string>
+    <string name="enum_job_request_withdrawn">Wycofane</string>
+    <string name="enum_job_request_rejected">Odrzucone</string>
+    <string name="enum_job_request_canceledby_provider">Anulowane przez wykonawce</string>
+    <string name="enum_job_request_canceledby_customer">Anulowane przez zlecającego</string>
+
+    <string name="info_job_provider_await_selection">Oczekiwanie na wybór przez zleceniodawce</string>
+    <string name="info_job_provider_selected">Zleceniodawca wybrał cię na wykonawcę!</string>
+    <string name="info_job_schedule_action">Harmonogram oczekuje na akceptację</string>
+
+    <string name="info_job_customer_finish">Klient chce zakończyć zlecenie</string>
+    <string name="info_job_provider_finish">Wykonawca chce zakończyć zlecenie</string>
+
+    <string name="details_show_profile">Profil</string>
+    <string name="details_job_status">Status ogłoszenia</string>
+    <string name="details_schedule">Harmonogram</string>
+    <string name="details_schedule_none">Brak</string>
+    <string name="details_job_request_status">Status zlecenia</string>
+
+    <string name="details_button_finish">Ukończ</string>
+    <string name="details_button_reject">Odrzuć</string>
+    <string name="details_button_schedule_show">Pokaż harmonogram</string>
+    <string name="details_button_schedule_create">Utwórz harmonogram</string>
+    <string name="details_button_job_cancel">Anuluj zlecenie</string>
+    <string name="details_button_job_finish_request">Poproś o ukończenie</string>
+    <string name="details_button_job_withdrawn">Wycofaj zapytanie</string>
+    <string name="details_button_job_accept">Zaakceptuj zlecenie</string>
+
+
+    <string name="schedule_old">Stary</string>
+    <string name="schedule_new">Nowy</string>
+    <string name="schedule_updatedat">Data aktualizacji</string>
+    <string name="schedule_date_start">Początek</string>
+    <string name="schedule_date_end">Koniec</string>
+    <string name="schedule_title">Tytuł zadania</string>
+    <string name="schedule_description">Opis zadania</string>
+    <string name="schedule_description_placeholder">Opis (opcjonalny)</string>
+    <string name="schedule_price">Cena za usługę (opcjonalna)</string>
+    <string name="schedule_approve">Zatwierdź</string>
+
+
+    <string name="review_job">Zlecenie</string>
+    <string name="review_rating">Ocena</string>
+    <string name="review_opinion">Opinia (opcjonalna)</string>
+    <string name="review_opinion_field">Twoje osobiste doświadczenie</string>
+    <string name="review_send">Wystaw opinię</string>
+
+    <string name="message">Wiadomość</string>
+
+    <string name="unknown">Nieznane</string>
+
+    <string name="timetable_planned">Zaplanowana praca</string>
+    <string name="timetable_plannedmonth">zaplanowanych prac na ten miesiąc</string>
+    <string name="timetable_reminder">Ustaw przypomnienie</string>
+    <string name="timetable_noplans">Brak planów tego dnia</string>
+
+    <string name="settings_nightmode">Tryb ciemny</string>
+    <string name="settings_language">Zmień język</string>
+    <string name="settings_notifications">Powiadomienia</string>
+    <string name="settings_changerole">Zmień role</string>
+    <string name="settings_changepassword">Zmień hasło</string>
+    <string name="settings_logout">Wyloguj</string>
+
+    <string name="set_location">Ustaw lokalizacje</string>
+    <string name="find_location">Znajdź lokalizacje</string>
+    <string name="write_address">Wpisz adres</string>
+    <string name="location">Lokalizacja</string>
+    <string name="create_request">Utwórz zapytanie</string>
+    <string name="rate_this_job">Możesz ocenić to zlecenie</string>
+    <string name="forgot_password">Zapomniałem hasła</string>
+    <string name="send_link">Wyślij link</string>
+    <string name="open_chat">Otwórz czat</string>
+    <string name="select_provider">Wybierz tego usługodawce</string>
+
+    <string name="toast_profil_update_success">Aktualizacja profilu powiodła się</string>
+    <string name="toast_profil_update_failed">Aktualizacja profilu nie powiodła się</string>
+    <string name="toast_reset_link_success">Link resetowania wysłany do</string>
+    <string name="toast_reset_link_failed">Wysyłanie linku nie powiodło się</string>
+    <string name="toast_create_job_success">Tworzenie zlecenia powiodło się</string>
+    <string name="toast_create_job_failed">Tworzenie zlecenia nie powiodło się</string>
+    <string name="toast_email_not_found">Email nieznaleziony</string>
+    <string name="change">Zmień</string>
+    <string name="clear">Wyczyść</string>
+    <string name="autofill">Autouzupełnij</string>
+    <string name="no_reviews">Brak opinii</string>
+    <string name="no_orders">Nie znaleziono zleceń</string>
+
+    <string name="confirm_title">Potwierdzenie</string>
+    <string name="dialog_text">Czy na pewno chcesz wykonać tę operację?</string>
+    <string name="confirm_text">Potwierdź</string>
+    <string name="dismiss_text">Odrzuć</string>
 
 </resources>

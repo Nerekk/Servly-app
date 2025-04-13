@@ -3,25 +3,35 @@ package com.example.servly_app.features._customer.job_create.presentation.job_fo
 import android.content.res.Configuration
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.servly_app.R
 import com.example.servly_app.core.components.BasicScreenLayout
@@ -38,6 +49,7 @@ import com.example.servly_app.core.ui.theme.AppTheme
 import com.example.servly_app.features._customer.CustomerState
 import com.example.servly_app.features._customer.job_create.presentation.main.components.JobCategory
 import com.example.servly_app.features.role_selection.presentation.components.FormHeader
+import com.google.android.gms.maps.model.LatLng
 
 @Preview(
     showBackground = true,
@@ -59,10 +71,8 @@ fun PreviewOffersView() {
             state,
             updateTitle = {},
             onClick = {},
-            updateCity = {},
-            updateStreet = {},
-            updateHouseNumber = {},
             autofillAddress = {},
+            updateAddress = {it1, it2 ->},
             updateAnswer = { it1, it2 ->
 
             }
@@ -79,23 +89,23 @@ fun JobFormView(jobCategory: JobCategory?, customerState: State<CustomerState>, 
         val state = viewModel.jobFormState.collectAsState()
         val context = LocalContext.current
 
+        val toastMessage = stringResource(R.string.toast_create_job_failed)
+
         JobFormContent(
             state,
             updateTitle = viewModel::updateTitle,
-            updateCity = viewModel::updateCity,
-            updateStreet = viewModel::updateStreet,
-            updateHouseNumber = viewModel::updateHouseNumber,
             autofillAddress = {
                 viewModel.autofillAddress(customerState)
             },
             updateAnswer = viewModel::updateAnswer,
+            updateAddress = viewModel::updateAddress,
             onClick = {
                 viewModel.createJob(
                     onSuccess = {
                         onSuccess()
                     },
                     onFailure = {
-                        Toast.makeText(context, "Create job posting failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
                     }
                 )
             }
@@ -109,15 +119,15 @@ fun JobFormView(jobCategory: JobCategory?, customerState: State<CustomerState>, 
 private fun JobFormContent(
     state: State<JobFormState>,
     updateTitle: (String) -> Unit,
-    updateCity: (String) -> Unit,
-    updateStreet: (String) -> Unit,
-    updateHouseNumber: (String) -> Unit,
+    updateAddress: (String, LatLng) -> Unit,
     autofillAddress: () -> Unit,
     updateAnswer: (Long, String) -> Unit,
     onClick: () -> Unit
 ) {
     Log.d("LazyColumnDebug", "Answers: ${state.value.answers}")
     Log.d("LazyColumnDebug", "Questions: ${state.value.questions}")
+
+    var showPlacePicker by remember { mutableStateOf(false) }
 
 
     BasicScreenLayout {
@@ -128,6 +138,7 @@ private fun JobFormContent(
                 LoadingScreen()
                 return@Column
             }
+
 
             Column {
                 if (state.value.errorMessage != null) {
@@ -140,7 +151,8 @@ private fun JobFormContent(
                         Column {
                             Text(
                                 text = stringResource(R.string.job_form_header),
-                                style = MaterialTheme.typography.titleLarge
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             OutlinedTextField(
                                 value = state.value.title,
@@ -173,64 +185,40 @@ private fun JobFormContent(
                                 text = stringResource(R.string.job_form_location),
                                 modifier = Modifier.padding(top = 16.dp)
                             )
-                            OutlinedTextField(
-                                value = state.value.city,
-                                onValueChange = { updateCity(it) },
-                                label = { Text(stringResource(R.string.customer_field_city)) },
-                                placeholder = { Text(stringResource(R.string.customer_field_city)) },
-                                isError = state.value.cityError != null,
-                                maxLines = 1,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                supportingText = {
-                                    state.value.cityError?.let { errorMessage ->
-                                        Text(
-                                            text = errorMessage,
-                                            color = MaterialTheme.colorScheme.error,
-                                            style = MaterialTheme.typography.bodySmall
-                                        )
-                                    }
-                                }
-                            )
 
-                            OutlinedTextField(
-                                value = state.value.street,
-                                onValueChange = { updateStreet(it) },
-                                label = { Text(stringResource(R.string.customer_field_street)) },
-                                placeholder = { Text(stringResource(R.string.customer_field_street)) },
-                                isError = state.value.streetError != null,
-                                maxLines = 1,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                supportingText = {
-                                    state.value.streetError?.let { errorMessage ->
-                                        Text(
-                                            text = errorMessage,
-                                            color = MaterialTheme.colorScheme.error,
-                                            style = MaterialTheme.typography.bodySmall
-                                        )
-                                    }
+                            state.value.selectedAddress?.let {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Text(it)
+                                    Text(
+                                        text = AnnotatedString(stringResource(R.string.change)),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier
+                                            .clickable { showPlacePicker = true }
+                                    )
                                 }
-                            )
+                            } ?: run {
+                                OutlinedButton(
+                                    onClick = {
+                                        showPlacePicker = true
+                                    },
+                                    modifier = Modifier.fillMaxWidth().padding(top = 4.dp)
+                                ) {
+                                    Text(stringResource(R.string.set_location))
+                                }
+                            }
+                            state.value.addressError?.let { errorMessage ->
+                                Text(
+                                    text = errorMessage,
+                                    color = MaterialTheme.colorScheme.error,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
 
-                            OutlinedTextField(
-                                value = state.value.houseNumber,
-                                onValueChange = { updateHouseNumber(it) },
-                                label = { Text(stringResource(R.string.customer_field_house_number)) },
-                                placeholder = { Text(stringResource(R.string.customer_field_house_number)) },
-                                maxLines = 1,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                            )
-                            Text(
-                                text = AnnotatedString(stringResource(R.string.job_form_autofill)),
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier
-                                    .align(Alignment.End)
-                                    .padding(top = 8.dp)
-                                    .clickable { autofillAddress() }
-                            )
                         }
                     }
 
@@ -279,6 +267,52 @@ private fun JobFormContent(
                         JobFormButton(onClick, state)
                     }
                 }
+            }
+        }
+    }
+    if (showPlacePicker) {
+        Dialog(onDismissRequest = { showPlacePicker = false }) {
+            Column(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(10))
+                    .padding(16.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(R.string.find_location),
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                    IconButton(
+                        onClick = { showPlacePicker = false }
+                    ) {
+                        Icon(imageVector = Icons.Default.Close, contentDescription = null)
+                    }
+                }
+
+                PlacePickerScreen(
+                    onPlaceSelected = { address, latLng ->
+                        updateAddress(address, latLng)
+                        Log.d("MainScreen", "Wybrano: $address, LatLng: $latLng")
+                    },
+                    onDismiss = { showPlacePicker = false }
+                )
+                Text(
+                    text = AnnotatedString(stringResource(R.string.job_form_autofill)),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .padding(top = 16.dp)
+                        .clickable {
+                            autofillAddress()
+                            showPlacePicker = false
+                        }
+                )
             }
         }
     }

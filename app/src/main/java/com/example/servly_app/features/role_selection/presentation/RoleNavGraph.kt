@@ -43,7 +43,7 @@ fun RoleNavGraph(
                         }
 
                         Role.NONE -> {
-                            navController.navigate(AuthNavItem.CustomerData.route)
+                            navController.navigate(AuthNavItem.ProviderData.route)
                         }
 
                         else -> {}

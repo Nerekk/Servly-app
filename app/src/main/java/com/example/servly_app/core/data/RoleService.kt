@@ -8,10 +8,14 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface RoleService {
     @GET("api/" + ControllerMappings.CUSTOMER)
     suspend fun getCustomer(): Response<CustomerInfo>
+
+    @GET("api/" + ControllerMappings.CUSTOMER + "/{id}")
+    suspend fun getCustomerById(@Path("id") id: Long): Response<CustomerInfo>
 
     @POST("api/" + ControllerMappings.CUSTOMER)
     suspend fun createCustomer(@Body customerInfo: CustomerInfo): Response<Unit>
@@ -22,6 +26,9 @@ interface RoleService {
 
     @GET("api/" + ControllerMappings.PROVIDER)
     suspend fun getProvider(): Response<ProviderInfo>
+
+    @GET("api/" + ControllerMappings.PROVIDER + "/{id}")
+    suspend fun getProviderById(@Path("id") id: Long): Response<ProviderInfo>
 
     @POST("api/" + ControllerMappings.PROVIDER)
     suspend fun createProvider(@Body providerInfo: ProviderInfo): Response<Unit>

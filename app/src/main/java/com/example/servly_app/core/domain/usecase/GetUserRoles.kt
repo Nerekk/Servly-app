@@ -5,7 +5,7 @@ import com.example.servly_app.core.domain.repository.RoleRepository
 
 
 class GetUserRoles(private val repository: RoleRepository) {
-    suspend operator fun invoke(): Result<Role> {
-        return repository.getUserRoles()
+    suspend operator fun invoke(fcmToken: String): Result<Role> {
+        return repository.getUserRoles(fcmToken)
     }
 }
