@@ -99,7 +99,7 @@ private fun ProfileContent(
     ) {
         Column(
             modifier = Modifier.fillMaxHeight(),
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = if (reviewsVisible) Arrangement.Top else Arrangement.SpaceBetween
         ) {
             ProfileCard(
                 title = stringResource(R.string.profile_customer),

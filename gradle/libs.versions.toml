@@ -26,6 +26,9 @@ places = "4.1.0"
 playServicesAuth = "21.3.0"
 googleid = "1.1.1"
 retrofit = "2.11.0"
+stripeAndroid = "21.10.0"
+stripeterminalCore = "4.3.1"
+stripeterminalTaptopay = "4.3.1"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -66,6 +69,9 @@ play-services-auth = { module = "com.google.android.gms:play-services-auth", ver
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit2-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+stripe-android = { module = "com.stripe:stripe-android", version.ref = "stripeAndroid" }
+stripeterminal-core = { module = "com.stripe:stripeterminal-core", version.ref = "stripeterminalCore" }
+stripeterminal-taptopay = { module = "com.stripe:stripeterminal-taptopay", version.ref = "stripeterminalTaptopay" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

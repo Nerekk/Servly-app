@@ -46,6 +46,7 @@ import com.example.servly_app.features._provider.settings.ProviderSettingsView
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
 import com.example.servly_app.features.chat.presentation.ChatView
 import com.example.servly_app.features.job_details.presentation.JobDetailsView
+import com.example.servly_app.features.payments.presentation.PaymentView
 import com.example.servly_app.features.role_selection.presentation.user_data.CustomerFormView
 import com.example.servly_app.features.role_selection.presentation.user_data.ProviderFormView
 import com.example.servly_app.features.timetable.presentation.TimetableView
@@ -162,7 +163,13 @@ fun ProviderNavGraph(
                         openChat = { id ->
                             navController.navigate(ProviderNavItem.Chat.route + "/$id")
                         },
-                        providerId = providerState.value.providerId
+                        providerId = providerState.value.providerId,
+                        onPaymentClick = { jobRequestId, jobTitle, paymentId ->
+                            navController.currentBackStackEntry?.savedStateHandle?.set("jrid", jobRequestId)
+                            navController.currentBackStackEntry?.savedStateHandle?.set("jt", jobTitle)
+                            navController.currentBackStackEntry?.savedStateHandle?.set("pid", paymentId)
+                            navController.navigate("payments")
+                        }
                     )
                 }
             }
@@ -193,10 +200,30 @@ fun ProviderNavGraph(
                         openChat = { id ->
                             navController.navigate(ProviderNavItem.Chat.route + "/$id")
                         },
-                        providerId = providerState.value.providerId
+                        providerId = providerState.value.providerId,
+                        onPaymentClick = { jobRequestId, jobTitle, paymentId ->
+                            navController.currentBackStackEntry?.savedStateHandle?.set("jrid", jobRequestId)
+                            navController.currentBackStackEntry?.savedStateHandle?.set("jt", jobTitle)
+                            navController.currentBackStackEntry?.savedStateHandle?.set("pid", paymentId)
+                            navController.navigate("payments")
+                        }
                     )
                 }
             }
+
+            composable("payments") {
+                val jobRequestId: Long? = navController.previousBackStackEntry?.savedStateHandle?.get("jrid")
+                val jobTitle: String? = navController.previousBackStackEntry?.savedStateHandle?.get("jt")
+                val paymentId: Long? = navController.previousBackStackEntry?.savedStateHandle?.get("pid")
+                Log.d("PAYMENT_VIEW", "JRID: $jobRequestId JT: $jobTitle")
+
+                if (jobRequestId == null || jobTitle == null) {
+                    return@composable
+                }
+
+                PaymentView(Role.PROVIDER, jobRequestId, jobTitle, paymentId)
+            }
+
             composable(
                 ProviderNavItem.ProfilePreview.route + "/{customerId}",
                 arguments = listOf(navArgument("customerId") { type = NavType.LongType })

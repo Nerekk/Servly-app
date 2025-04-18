@@ -3,7 +3,9 @@ package com.example.servly_app.features._customer.job_create.presentation.main
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -36,30 +38,36 @@ import com.example.servly_app.features._customer.job_create.presentation.main.co
 fun PreviewOffersView() {
     val state = remember { mutableStateOf(JobCategoryState()) }
     AppTheme {
-        JobCategoryContent(state, onCategorySelect = {})
+        JobCategoryContent(state, onCategorySelect = {}, {})
     }
 }
 
 @Composable
 fun JobCategoryView(
-    onCategorySelect: (JobCategory) -> Unit
+    onCategorySelect: (JobCategory) -> Unit,
+    onc: () -> Unit
 ) {
     val viewModel: OffersViewModel = hiltViewModel()
     val state = viewModel.jobCategoryState.collectAsState()
 
     JobCategoryContent(
         state,
-        onCategorySelect = { onCategorySelect(it) }
+        onCategorySelect = { onCategorySelect(it) },
+        onc = onc
     )
 }
 
 @Composable
 private fun JobCategoryContent(
     state: State<JobCategoryState>,
-    onCategorySelect: (JobCategory) -> Unit
+    onCategorySelect: (JobCategory) -> Unit,
+    onc: () -> Unit
 ) {
     BasicScreenLayout {
         Column {
+//            Button(onClick = onc) {
+//                Text("Stripe")
+//            }
             JobCreateInfoCard()
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))

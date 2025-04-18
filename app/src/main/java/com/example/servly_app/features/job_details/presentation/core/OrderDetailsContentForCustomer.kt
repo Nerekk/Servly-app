@@ -58,7 +58,8 @@ fun OrderDetailsContentForCustomer(
     selectJobProvider: (JobRequestInfo) -> Unit,
 
     showSchedule: () -> Unit,
-    onCreatedReview: (ReviewInfo) -> Unit
+    onCreatedReview: (ReviewInfo) -> Unit,
+    onPaymentClick: (Long, String, Long?) -> Unit
 ) {
 
     Scaffold(
@@ -104,7 +105,8 @@ fun OrderDetailsContentForCustomer(
                                         showProfile = { showProfile(jobRequestState.value.selectedJobRequest!!.provider!!.providerId!!) },
                                         schedule = jobRequestState.value.schedule,
                                         showSchedule = showSchedule,
-                                        openChat = {  }
+                                        openChat = {  },
+                                        onPaymentClick = onPaymentClick
                                     )
                                 }
                             }
@@ -116,7 +118,8 @@ fun OrderDetailsContentForCustomer(
                                         showProfile = { showProfile(jobRequestState.value.selectedJobRequest!!.provider!!.providerId!!) },
                                         schedule = jobRequestState.value.schedule,
                                         showSchedule = showSchedule,
-                                        openChat = {  }
+                                        openChat = {  },
+                                        onPaymentClick = onPaymentClick
                                     )
                                 }
                             }
@@ -129,6 +132,7 @@ fun OrderDetailsContentForCustomer(
                                         schedule = jobRequestState.value.schedule,
                                         showSchedule = showSchedule,
                                         openChat = {  },
+                                        onPaymentClick = onPaymentClick,
                                         sendFinishRequest = sendFinishRequest,
                                         rejectFinishRequest = rejectFinishRequest,
                                         finishJob = finishJob,

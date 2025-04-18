@@ -83,7 +83,7 @@ fun PreviewRequestDetailsView() {
         schedule = schedule
     )) }
     AppTheme {
-        OrderDetailsContentForProvider(state, customerState, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})
+        OrderDetailsContentForProvider(state, customerState, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {i1, i2, i3 ->})
     }
 }
 
@@ -94,7 +94,8 @@ fun JobDetailsView(
     showProviderProfile: (Long) -> Unit,
     showCustomerProfile: (Long) -> Unit,
     openChat: (Long) -> Unit,
-    providerId: Long? = null
+    providerId: Long? = null,
+    onPaymentClick: (Long, String, Long?) -> Unit
 ) {
     val jobViewModel: JobDetailsViewModel = hiltViewModel<JobDetailsViewModel, JobDetailsViewModel.OrderDetailsViewModelFactory> { factory ->
         factory.create(order)
@@ -132,7 +133,8 @@ fun JobDetailsView(
                 jobRequestViewModel.selectProvider(jobRequest.id!!)
             },
             showSchedule = { jobRequestViewModel.updateShowDialog(true) },
-            onCreatedReview = jobRequestViewModel::updateCustomerReview
+            onCreatedReview = jobRequestViewModel::updateCustomerReview,
+            onPaymentClick = onPaymentClick
         )
 
         ScheduleDialog(
@@ -171,7 +173,8 @@ fun JobDetailsView(
                 jobRequestViewModel.updateShowDialogEdit(true)
             },
             showSchedule = { jobRequestViewModel.updateShowDialog(true) },
-            onCreatedReview = jobRequestViewModel::updateProviderReview
+            onCreatedReview = jobRequestViewModel::updateProviderReview,
+            onPaymentClick = onPaymentClick
         )
 
         ScheduleDialog(

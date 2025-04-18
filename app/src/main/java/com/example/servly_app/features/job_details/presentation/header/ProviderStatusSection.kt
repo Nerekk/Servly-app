@@ -76,7 +76,7 @@ fun PreviewChosenProvider() {
 
         ProviderStatusSection(
             jobPostingInfo = jobPosting,
-            jobRequestInfo = job, schedule, {} ,{}, {} ,{}
+            jobRequestInfo = job, schedule, {} ,{}, {} ,{}, {i1, i2, i3 ->}
         )
     }
 }
@@ -90,6 +90,7 @@ fun ProviderStatusSection(
     createSchedule: () -> Unit,
     showProfile: () -> Unit,
     openChat: () -> Unit,
+    onPaymentClick: (Long, String, Long?) -> Unit,
     sendFinishRequest: (() -> Unit)? = null,
     rejectFinishRequest: (() -> Unit)? = null,
     finishJob: (() -> Unit)? = null,
@@ -225,6 +226,22 @@ fun ProviderStatusSection(
                     ) {
                         Text(stringResource(R.string.details_button_schedule_create))
                     }
+                }
+
+
+                Spacer(modifier = Modifier.height(16.dp))
+                InfoTextField(
+                    text = if (jobRequestInfo.jobPayment == null) {
+                        stringResource(R.string.payments)
+                    } else {
+                        stringResource(EnumUtils.getStatusString(jobRequestInfo.jobPayment.paymentStatus))
+                    }
+                )
+                Button(
+                    onClick = { onPaymentClick(jobRequestInfo.id!!, jobRequestInfo.jobPostingInfo!!.title, jobRequestInfo.jobPayment?.id) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(stringResource(R.string.payments))
                 }
             }
 

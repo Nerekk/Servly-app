@@ -30,6 +30,7 @@ android {
         buildConfigField(type = "String", name = "DEFAULT_WEB_CLIENT_ID", value = "\"${properties.getProperty("DEFAULT_WEB_CLIENT_ID")}\"")
         buildConfigField(type = "String", name = "SERVER_URL", value = "\"${properties.getProperty("SERVER_URL")}\"")
         buildConfigField(type = "String", name = "PLACES_API_KEY", value = "\"${properties.getProperty("PLACES_API_KEY")}\"")
+        buildConfigField(type = "String", name = "STRIPE_PUBLIC_KEY", value = "\"${properties.getProperty("STRIPE_PUBLIC_KEY")}\"")
 
     }
 
@@ -40,6 +41,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            isDebuggable = true
         }
     }
     compileOptions {
@@ -90,6 +94,9 @@ dependencies {
 
 //    GOOGLE
     implementation(libs.places.v410)
+
+//    PAYMENTS
+    implementation(libs.stripe.android)
 
 //    DAGGER HILT
     implementation(libs.hilt.android)

@@ -214,4 +214,19 @@
     <string name="confirm_text">Potwierdź</string>
     <string name="dismiss_text">Odrzuć</string>
 
+    <string name="total_amount">Całkowita kwota</string>
+    <string name="deposit">Zaliczka</string>
+    <string name="remaining_balance">Pozostało do zapłaty</string>
+    <string name="pay_deposit">Opłać zaliczkę</string>
+    <string name="pay_in_full">Opłać całość</string>
+    <string name="service_payment">Płatność za usługę</string>
+    <string name="mark_as_paid">Zaznacz jako zapłacone</string>
+    <string name="deposit_paid">Zaliczka opłacona</string>
+    <string name="paid_in_full">Opłacone</string>
+    <string name="payment_pending">Oczekuje na zapłatę</string>
+    <string name="create_payment">Utwórz płatność</string>
+    <string name="no_payments">Brak istniejących płatności</string>
+    <string name="payments">Płatności</string>
+    <string name="optional_deposit">Zaliczka (opcjonalna)</string>
+
 </resources>

@@ -4,6 +4,7 @@ import com.example.servly_app.R
 import com.example.servly_app.core.data.util.JobRequestStatus
 import com.example.servly_app.core.data.util.JobStatus
 import com.example.servly_app.core.data.util.ScheduleStatus
+import com.example.servly_app.features.payments.data.PaymentStatus
 
 object EnumUtils {
     fun getStatusString(status: ScheduleStatus): Int {
@@ -35,6 +36,15 @@ object EnumUtils {
             JobStatus.IN_PROGRESS -> R.string.enum_job_inprogress
             JobStatus.COMPLETED -> R.string.enum_job_completed
             JobStatus.CANCELED -> R.string.enum_job_canceled
+        }
+    }
+
+    fun getStatusString(status: PaymentStatus): Int {
+        return when (status) {
+            PaymentStatus.PENDING -> R.string.payment_pending
+            PaymentStatus.DEPOSIT_PAID -> R.string.deposit_paid
+            PaymentStatus.FULLY_PAID -> R.string.paid_in_full
+            PaymentStatus.CANCELLED -> R.string.enum_job_canceled
         }
     }
 

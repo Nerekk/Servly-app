@@ -8,6 +8,7 @@ import com.example.servly_app.core.data.RetrofitInstance
 import com.example.servly_app.core.data.ReviewService
 import com.example.servly_app.core.data.RoleService
 import com.example.servly_app.core.data.ScheduleService
+import com.example.servly_app.core.data.PaymentService
 import com.example.servly_app.core.domain.repository.CustomerRepository
 import com.example.servly_app.core.domain.repository.JobPostingRepository
 import com.example.servly_app.core.domain.repository.JobRequestRepository
@@ -68,6 +69,12 @@ import com.example.servly_app.features.chat.domain.ChatRepository
 import com.example.servly_app.features.chat.domain.usecase.ChatUseCases
 import com.example.servly_app.features.chat.domain.usecase.GetChatDetails
 import com.example.servly_app.features.chat.domain.usecase.GetChatHistory
+import com.example.servly_app.features.payments.domain.CreateIntent
+import com.example.servly_app.features.payments.domain.CreatePayment
+import com.example.servly_app.features.payments.domain.GetPayment
+import com.example.servly_app.features.payments.domain.PaymentRepository
+import com.example.servly_app.features.payments.domain.PaymentUseCases
+import com.example.servly_app.features.payments.domain.UpdatePayment
 import com.example.servly_app.features.role_selection.domain.repository.UserFormRepository
 import com.example.servly_app.features.role_selection.domain.usecase.CreateCustomer
 import com.example.servly_app.features.role_selection.domain.usecase.CreateProvider
@@ -336,6 +343,30 @@ object AppModule {
             createProviderReview = CreateProviderReview(reviewRepository),
             getCustomerReviews = GetCustomerReviews(reviewRepository),
             getProviderReviews = GetProviderReviews(reviewRepository)
+        )
+    }
+
+
+    @Provides
+    @Singleton
+    fun providePaymentService(): PaymentService {
+        return RetrofitInstance.createService(PaymentService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePaymentRepository(paymentService: PaymentService): PaymentRepository {
+        return PaymentRepository(paymentService)
+    }
+
+    @Provides
+    @Singleton
+    fun providePaymentUseCases(paymentRepository: PaymentRepository): PaymentUseCases {
+        return PaymentUseCases(
+            createIntent = CreateIntent(paymentRepository),
+            createPayment = CreatePayment(paymentRepository),
+            updatePayment = UpdatePayment(paymentRepository),
+            getPayment = GetPayment(paymentRepository)
         )
     }
 }

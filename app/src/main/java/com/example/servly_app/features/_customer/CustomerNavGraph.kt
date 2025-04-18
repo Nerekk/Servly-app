@@ -47,6 +47,7 @@ import com.example.servly_app.features._provider.profile.ProviderProfileView
 import com.example.servly_app.features.authentication.presentation.navigation.AuthNavItem
 import com.example.servly_app.features.chat.presentation.ChatView
 import com.example.servly_app.features.job_details.presentation.JobDetailsView
+import com.example.servly_app.features.payments.presentation.PaymentView
 import com.example.servly_app.features.role_selection.presentation.user_data.CustomerFormView
 import com.example.servly_app.features.role_selection.presentation.user_data.ProviderFormView
 import com.example.servly_app.features.timetable.presentation.TimetableView
@@ -135,9 +136,15 @@ fun CustomerNavGraph(
                     onCategorySelect = { category ->
                         navController.currentBackStackEntry?.savedStateHandle?.set("serviceCategory", category)
                         navController.navigate(CustomerNavItem.JobFormView.route)
-                    }
+                    },
+                    onc = {navController.navigate("stripe")}
                 )
             }
+
+            composable("stripe") {
+
+            }
+
             composable(CustomerNavItem.JobFormView.route) {
                 val toastMessage = stringResource(R.string.toast_create_job_success)
 
@@ -178,10 +185,29 @@ fun CustomerNavGraph(
                         showCustomerProfile = {},
                         openChat = { id ->
                             navController.navigate(CustomerNavItem.Chat.route + "/$id")
+                        },
+                        onPaymentClick = { jobRequestId, jobTitle, paymentId ->
+                            navController.currentBackStackEntry?.savedStateHandle?.set("jrid", jobRequestId)
+                            navController.currentBackStackEntry?.savedStateHandle?.set("jt", jobTitle)
+                            navController.currentBackStackEntry?.savedStateHandle?.set("pid", paymentId)
+                            navController.navigate("payments")
                         }
                     )
                 }
             }
+
+            composable("payments") {
+                val jobRequestId: Long? = navController.previousBackStackEntry?.savedStateHandle?.get("jrid")
+                val jobTitle: String? = navController.previousBackStackEntry?.savedStateHandle?.get("jt")
+                val paymentId: Long? = navController.previousBackStackEntry?.savedStateHandle?.get("pid")
+                Log.d("PAYMENT_VIEW", "JRID: $jobRequestId JT: $jobTitle")
+
+                if (jobRequestId == null || jobTitle == null) {
+                    return@composable
+                }
+                PaymentView(Role.CUSTOMER, jobRequestId, jobTitle, paymentId)
+            }
+
             composable(
                 CustomerNavItem.ProfilePreview.route + "/{providerId}",
                 arguments = listOf(navArgument("providerId") { type = NavType.LongType })

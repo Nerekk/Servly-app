@@ -212,4 +212,19 @@
     <string name="confirm_text">Confirm</string>
     <string name="dismiss_text">Dismiss</string>
 
+    <string name="total_amount">Total amount</string>
+    <string name="deposit">Deposit</string>
+    <string name="remaining_balance">Remaining balance</string>
+    <string name="pay_deposit">Pay deposit</string>
+    <string name="pay_in_full">Pay in full</string>
+    <string name="service_payment">Service payment</string>
+    <string name="mark_as_paid">Mark as paid</string>
+    <string name="deposit_paid">Deposit paid</string>
+    <string name="paid_in_full">Fully paid</string>
+    <string name="payment_pending">Pending</string>
+    <string name="create_payment">Create payment</string>
+    <string name="no_payments">No existing payments</string>
+    <string name="payments">Payments</string>
+    <string name="optional_deposit">Deposit (optional)</string>
+
 </resources>

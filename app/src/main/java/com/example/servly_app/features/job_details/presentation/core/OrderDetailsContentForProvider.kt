@@ -53,7 +53,8 @@ fun OrderDetailsContentForProvider(
     createSchedule: () -> Unit,
     showSchedule: () -> Unit,
 
-    onCreatedReview: (ReviewInfo) -> Unit
+    onCreatedReview: (ReviewInfo) -> Unit,
+    onPaymentClick: (Long, String, Long?) -> Unit
 ) {
     Scaffold(
         floatingActionButton = {
@@ -96,6 +97,7 @@ fun OrderDetailsContentForProvider(
                                     createSchedule = createSchedule,
                                     showProfile = { showProfile(jobState.value.jobPosting.customerId!!) },
                                     openChat = {  },
+                                    onPaymentClick = onPaymentClick,
                                     acceptJob = { acceptJob(jobRequestState.value.providersJobRequest!!.id!!) },
                                     withdrawnJob = { withdrawnJobRequest(jobRequestState.value.providersJobRequest!!.id!!) }
                                 )
@@ -111,6 +113,7 @@ fun OrderDetailsContentForProvider(
                                     createSchedule = createSchedule,
                                     showProfile = { showProfile(jobState.value.jobPosting.customerId!!) },
                                     openChat = {  },
+                                    onPaymentClick = onPaymentClick
                                 )
                             }
 
@@ -124,6 +127,7 @@ fun OrderDetailsContentForProvider(
                                     createSchedule = createSchedule,
                                     showProfile = { showProfile(jobState.value.jobPosting.customerId!!) },
                                     openChat = {  },
+                                    onPaymentClick = onPaymentClick
                                 )
                             }
 
@@ -137,6 +141,7 @@ fun OrderDetailsContentForProvider(
                                     createSchedule = createSchedule,
                                     showProfile = { showProfile(jobState.value.jobPosting.customerId!!) },
                                     openChat = {  },
+                                    onPaymentClick = onPaymentClick,
                                     sendFinishRequest = sendFinishRequest,
                                     rejectFinishRequest = rejectFinishRequest,
                                     finishJob = finishJob,

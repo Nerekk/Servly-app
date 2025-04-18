@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
         checkAndRequestNotificationPermission()
         createNotificationChannel()
 
+
         enableEdgeToEdge()
         setContent {
             AppTheme {
@@ -44,6 +45,27 @@ class MainActivity : ComponentActivity() {
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+
+    private fun checkAndRequestLocationPermission() {
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
+
+    private fun checkAndRequestBluetoothPermission() {
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.BLUETOOTH
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissionLauncher.launch(Manifest.permission.BLUETOOTH)
+            requestPermissionLauncher.launch(Manifest.permission.BLUETOOTH_SCAN)
+            requestPermissionLauncher.launch(Manifest.permission.BLUETOOTH_ADMIN)
+            requestPermissionLauncher.launch(Manifest.permission.BLUETOOTH_CONNECT)
         }
     }
 

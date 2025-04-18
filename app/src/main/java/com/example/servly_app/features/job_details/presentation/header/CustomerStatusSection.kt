@@ -82,7 +82,7 @@ fun PreviewCustomerStatusSection() {
             schedule = schedule
         )
         CustomerStatusSection(
-            jobRequestInfo = job, null, {} ,{}, {}
+            jobRequestInfo = job, null, {} ,{}, {}, {i1, i2, i3 ->}
         )
     }
 }
@@ -94,6 +94,7 @@ fun CustomerStatusSection(
     showSchedule: () -> Unit,
     showProfile: () -> Unit,
     openChat: () -> Unit,
+    onPaymentClick: (Long, String, Long?) -> Unit,
     sendFinishRequest: (() -> Unit)? = null,
     rejectFinishRequest: (() -> Unit)? = null,
     finishJob: (() -> Unit)? = null,
@@ -143,6 +144,19 @@ fun CustomerStatusSection(
                     ) {
                         Text(stringResource(R.string.details_button_schedule_show))
                     }
+                }
+            }
+
+            if (jobRequestInfo.jobPayment != null) {
+                Spacer(modifier = Modifier.height(16.dp))
+                InfoTextField(
+                    text = stringResource(EnumUtils.getStatusString(jobRequestInfo.jobPayment.paymentStatus))
+                )
+                Button(
+                    onClick = { onPaymentClick(jobRequestInfo.id!!, jobRequestInfo.jobPostingInfo!!.title, jobRequestInfo.jobPayment.id!!) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(stringResource(R.string.payments))
                 }
             }
 
