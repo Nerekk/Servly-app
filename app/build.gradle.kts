@@ -29,6 +29,7 @@ android {
         
         buildConfigField(type = "String", name = "DEFAULT_WEB_CLIENT_ID", value = "\"${properties.getProperty("DEFAULT_WEB_CLIENT_ID")}\"")
         buildConfigField(type = "String", name = "SERVER_URL", value = "\"${properties.getProperty("SERVER_URL")}\"")
+        buildConfigField(type = "String", name = "WEBSOCKET_URL", value = "\"${properties.getProperty("WEBSOCKET_URL")}\"")
         buildConfigField(type = "String", name = "PLACES_API_KEY", value = "\"${properties.getProperty("PLACES_API_KEY")}\"")
         buildConfigField(type = "String", name = "STRIPE_PUBLIC_KEY", value = "\"${properties.getProperty("STRIPE_PUBLIC_KEY")}\"")
 

@@ -87,7 +87,7 @@ fun LoginContent(
                     )
 
                     Text(
-                        text = AnnotatedString("Forgot password"),
+                        text = AnnotatedString(stringResource(R.string.forgot_password)),
                         color = MaterialTheme.colorScheme.secondary,
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier

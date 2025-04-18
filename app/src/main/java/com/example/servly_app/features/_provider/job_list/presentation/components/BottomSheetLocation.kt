@@ -74,7 +74,10 @@ fun BottomSheetLocation(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text(it)
+                        Text(
+                            text = it,
+                            modifier = Modifier.weight(1f)
+                        )
                         Text(
                             text = AnnotatedString(stringResource(R.string.change)),
                             style = MaterialTheme.typography.bodyMedium,

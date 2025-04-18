@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -35,7 +36,9 @@ fun BottomNavigationBar(navController: NavController, items: List<NavItem>) {
                 label = {
                     Text(
                         text = item.getTitle(context),
-                        style = MaterialTheme.typography.labelSmall
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            fontSize = 10.sp
+                        ),
                     )
                 },
                 icon = {

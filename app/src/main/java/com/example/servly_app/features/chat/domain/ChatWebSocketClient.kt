@@ -1,5 +1,6 @@
 package com.example.servly_app.features.chat.domain
 
+import com.example.servly_app.BuildConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import okhttp3.OkHttpClient
@@ -15,9 +16,11 @@ class ChatWebSocketClient(
     private val _incomingMessages = MutableStateFlow<String?>(null)
     val incomingMessages = _incomingMessages.asStateFlow()
 
+    private val url = BuildConfig.WEBSOCKET_URL
+
     fun connect() {
         val request = Request.Builder()
-            .url("ws://10.0.2.2:8080/ws/chat?jobRequestId=$jobRequestId")
+            .url("${url}ws/chat?jobRequestId=$jobRequestId")
             .addHeader("Authorization", "Bearer $token")
             .build()
 

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -195,7 +196,10 @@ private fun ProviderFormContent(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-                                Text(it)
+                                Text(
+                                    text = it,
+                                    modifier = Modifier.weight(1f)
+                                )
                                 Text(
                                     text = AnnotatedString(stringResource(R.string.change)),
                                     style = MaterialTheme.typography.bodyMedium,

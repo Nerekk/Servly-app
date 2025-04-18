@@ -169,7 +169,7 @@ fun ProfileCard(
                                 color = if (!reviewsVisible) {
                                     MaterialTheme.colorScheme.onBackground
                                 } else {
-                                    MaterialTheme.colorScheme.onPrimary
+                                    MaterialTheme.colorScheme.onSecondaryContainer
                                 },
                             )
                         }
